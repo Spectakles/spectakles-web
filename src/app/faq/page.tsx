@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 
 import { useDemo } from "@/components/Layout";
-import ScrollPortalLayout from "@/components/ScrollPortalLayout";
 import { trackClick, trackEvent } from "@/lib/firebase";
 
 const categories = [
@@ -135,10 +134,10 @@ export default function FAQ() {
   };
 
   return (
-    <ScrollPortalLayout>
+    <div className="faq-page">
       {/* FAQ Hero Section */}
-      <section className="portal-scene page-hero section-wrap">
-        <div className="page-hero-copy">
+      <section className="faq-hero section-wrap">
+        <div className="faq-hero-copy">
           <div className="announcement">
             <Sparkles size={15} />
             Questions, answered
@@ -159,7 +158,7 @@ export default function FAQ() {
       </section>
 
       {/* FAQ Content Section */}
-      <section className="portal-scene faq-section section-wrap">
+      <section className="faq-section section-wrap">
         <div className="faq-layout">
           <aside className="faq-sidebar">
             {categories.map((category, index) => (
@@ -243,7 +242,7 @@ export default function FAQ() {
       </section>
 
       {/* CTA Section */}
-      <section className="portal-scene cta-section section-wrap">
+      <section className="cta-section section-wrap">
         <div className="cta-inner">
           <div className="cta-sun">
             <Sparkles size={34} />
@@ -275,6 +274,6 @@ export default function FAQ() {
           </div>
         </div>
       </section>
-    </ScrollPortalLayout>
+    </div>
   );
 }

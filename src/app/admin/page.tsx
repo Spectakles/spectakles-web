@@ -136,7 +136,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-[85vh] py-10 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div className="min-h-[85vh] py-10 section-wrap">
       <div className="flex items-center justify-between pb-6 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <SpectaklesLogo height={30} className="h-7 w-auto" />

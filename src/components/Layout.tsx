@@ -19,7 +19,7 @@ const navLinks = [
   { label: "For institutions", href: "/#institutions" },
   { label: "Student experience", href: "/#experience" },
   { label: "Impact", href: "/impact" },
-  { label: "Pricing", href: "/pricing" },
+  // { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "FAQ", href: "/faq" },
   { label: "Blog", href: "/blog" },
@@ -141,13 +141,13 @@ export default function Layout({ children }: { children: ReactNode }) {
             >
               About
             </Link>
-            <Link
+            {/* <Link
               className="hover:text-brand-dark transition-colors cursor-pointer"
               href="/pricing"
               onClick={(e) => handleNavClick(e, "/pricing", "nav_pricing")}
             >
               Pricing
-            </Link>
+            </Link> */}
             <Link
               className="hover:text-brand-dark transition-colors cursor-pointer"
               href="/impact"
@@ -221,12 +221,12 @@ export default function Layout({ children }: { children: ReactNode }) {
               >
                 About
               </Link>
-              <Link
+              {/* <Link
                 href="/pricing"
                 onClick={(e) => handleMobileNavClick(e, "/pricing", "nav_pricing")}
               >
                 Pricing
-              </Link>
+              </Link> */}
               <Link
                 href="/impact"
                 onClick={(e) => handleMobileNavClick(e, "/impact", "nav_impact")}

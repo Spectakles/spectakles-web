@@ -1,3 +1,11 @@
+import { notFound } from "next/navigation";
+
+// Route commented out and hidden per user request
+export default function Pricing() {
+  notFound();
+}
+
+/*
 "use client";
 
 import { useState } from 'react';
@@ -65,7 +73,7 @@ const faqSnippets = [
   { q: 'Can we switch plans later?', a: 'Absolutely. You can upgrade or adjust your plan at any point in the semester.' },
 ];
 
-export default function Pricing() {
+export function PricingPageContent() {
   const openDemo = useDemo();
   const [billing, setBilling] = useState<'semester' | 'annual'>('semester');
 
@@ -145,4 +153,4 @@ export default function Pricing() {
     </>
   );
 }
-
+*/

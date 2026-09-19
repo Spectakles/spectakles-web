@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 
 import { useDemo } from "@/components/Layout";
-import ScrollPortalLayout from "@/components/ScrollPortalLayout";
 import { trackClick } from "@/lib/firebase";
 
 const values = [
@@ -63,9 +62,9 @@ export default function About() {
   const openDemo = useDemo();
 
   return (
-    <ScrollPortalLayout>
+    <div className="about-page">
       {/* Hero Section */}
-      <section className="portal-scene page-hero section-wrap">
+      <section className="page-hero section-wrap">
         <div className="page-hero-copy">
           <div className="announcement">
             <Sparkles size={15} />
@@ -106,7 +105,7 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="portal-scene values-section section-wrap">
+      <section className="values-section section-wrap">
         <div className="section-intro centered">
           <p className="eyebrow">What we believe</p>
 
@@ -134,7 +133,7 @@ export default function About() {
       </section>
 
       {/* Timeline Section */}
-      <section className="portal-scene timeline-section">
+      <section className="timeline-section">
         <div className="section-wrap">
           <div className="section-intro centered">
             <p className="eyebrow">Our Story</p>
@@ -172,7 +171,7 @@ export default function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="portal-scene about-cta section-wrap">
+      <section className="about-cta section-wrap">
         <div className="about-cta-inner">
           <div className="about-cta-sun">
             <Users size={34} />
@@ -201,6 +200,6 @@ export default function About() {
           </button>
         </div>
       </section>
-    </ScrollPortalLayout>
+    </div>
   );
 }
