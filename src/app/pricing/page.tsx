@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from 'react';
 import { ArrowRight, Check, Sparkles, Users, Zap } from 'lucide-react';
-import { useDemo } from '../components/Layout';
+import { useDemo } from '@/components/Layout';
 
 const plans = [
   {
@@ -143,3 +145,4 @@ export default function Pricing() {
     </>
   );
 }
+

@@ -1,8 +1,10 @@
+"use client";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, List, Share2 } from "lucide-react";
-import { Link, Navigate, useParams } from "react-router-dom";
-import { articles, getArticle, type ArticleBlock } from "../data/blog";
-import "./blog.css";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { articles, getArticle, type ArticleBlock } from "@/data/blog";
 
 function ArticleBlockView({ block }: { block: ArticleBlock }) {
   if (block.type === "paragraph") return <p>{block.text}</p>;
@@ -27,7 +29,13 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
 }
 
 export default function BlogArticle() {
-  const { slug } = useParams();
+  const params = useParams();
+  const slug =
+    typeof params?.slug === "string"
+      ? params.slug
+      : Array.isArray(params?.slug)
+      ? params.slug[0]
+      : "";
   const article = slug ? getArticle(slug) : undefined;
   const bodyRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
@@ -96,7 +104,19 @@ export default function BlogArticle() {
     };
   }, [article]);
 
-  if (!article) return <Navigate to="/blog" replace />;
+  if (!article) {
+    return (
+      <div className="section-wrap py-24 text-center">
+        <h1 className="text-2xl font-bold mb-4">Article not found</h1>
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-brand-green font-semibold hover:underline"
+        >
+          <ArrowLeft size={16} /> Back to insights
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="blog-article-page">
@@ -104,7 +124,7 @@ export default function BlogArticle() {
         <span style={{ width: `${progress}%` }} />
       </div>
       <header className="article-header section-wrap">
-        <Link className="article-back" to="/blog">
+        <Link className="article-back" href="/blog">
           <ArrowLeft size={16} /> Back to insights
         </Link>
         <div className="article-header-grid">
@@ -180,7 +200,11 @@ export default function BlogArticle() {
             type="button"
             aria-label="Share article"
             title="Share article"
-            onClick={() => navigator.clipboard?.writeText(window.location.href)}
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                navigator.clipboard?.writeText(window.location.href);
+              }
+            }}
           >
             <Share2 size={16} />
           </button>
@@ -206,7 +230,7 @@ export default function BlogArticle() {
         aria-label="Article navigation"
       >
         {previous ? (
-          <Link to={`/blog/${previous.slug}`}>
+          <Link href={`/blog/${previous.slug}`}>
             <span>
               <ArrowLeft size={16} /> Previous article
             </span>
@@ -216,7 +240,7 @@ export default function BlogArticle() {
           <span />
         )}
         {next ? (
-          <Link className="article-next" to={`/blog/${next.slug}`}>
+          <Link className="article-next" href={`/blog/${next.slug}`}>
             <span>
               Next article <ArrowRight size={16} />
             </span>
@@ -240,13 +264,13 @@ export default function BlogArticle() {
               key={item.slug}
               className="blog-article-card blog-related-card"
             >
-              <Link className="blog-card-image" to={`/blog/${item.slug}`}>
+              <Link className="blog-card-image" href={`/blog/${item.slug}`}>
                 <img src={item.image} alt={item.imageAlt} loading="lazy" />
               </Link>
               <div className="blog-card-content">
                 <span className="blog-kicker">{item.category}</span>
                 <h3>
-                  <Link to={`/blog/${item.slug}`}>{item.title}</Link>
+                  <Link href={`/blog/${item.slug}`}>{item.title}</Link>
                 </h3>
                 <div className="blog-card-meta">
                   <span>{item.author}</span>

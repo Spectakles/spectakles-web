@@ -1,8 +1,10 @@
+"use client";
+
 import { FormEvent, useState } from "react";
 import { ArrowRight, ArrowUpRight, Mail, Search } from "lucide-react";
-import { Link } from "react-router-dom";
-import { articles, blogCategories } from "../data/blog";
-import "./blog.css";
+import Link from "next/link";
+import { articles, blogCategories } from "@/data/blog";
+
 
 function ArticleCard({
   slug,
@@ -19,7 +21,7 @@ function ArticleCard({
     <article className="blog-article-card">
       <Link
         className="blog-card-image"
-        to={`/blog/${slug}`}
+        href={`/blog/${slug}`}
         aria-label={`Read ${title}`}
       >
         <img src={image} alt={imageAlt} loading="lazy" />
@@ -30,7 +32,7 @@ function ArticleCard({
       <div className="blog-card-content">
         <span className="blog-kicker">{category}</span>
         <h3>
-          <Link to={`/blog/${slug}`}>{title}</Link>
+          <Link href={`/blog/${slug}`}>{title}</Link>
         </h3>
         <p>{excerpt}</p>
         <div className="blog-card-meta">
@@ -151,7 +153,7 @@ export default function Blog() {
             <article className="blog-featured-story">
               <Link
                 className="blog-featured-image"
-                to={`/blog/${featured.slug}`}
+                href={`/blog/${featured.slug}`}
                 aria-label={`Read ${featured.title}`}
               >
                 <img src={featured.image} alt={featured.imageAlt} />
@@ -161,7 +163,7 @@ export default function Blog() {
                   Featured · {featured.category}
                 </span>
                 <h2 id="featured-heading">
-                  <Link to={`/blog/${featured.slug}`}>{featured.title}</Link>
+                  <Link href={`/blog/${featured.slug}`}>{featured.title}</Link>
                 </h2>
                 <p>{featured.excerpt}</p>
                 <div className="blog-featured-byline">
@@ -178,7 +180,7 @@ export default function Blog() {
                     </span>
                   </div>
                 </div>
-                <Link className="blog-text-link" to={`/blog/${featured.slug}`}>
+                <Link className="blog-text-link" href={`/blog/${featured.slug}`}>
                   Read the story <ArrowRight size={17} />
                 </Link>
               </div>
@@ -256,3 +258,4 @@ export default function Blog() {
     </div>
   );
 }
+
