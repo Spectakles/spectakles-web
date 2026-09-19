@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect, useRef } from "react";
-import "./WebGLWaveHero.css";
 
 const vertexShader = `
   attribute vec2 position;
