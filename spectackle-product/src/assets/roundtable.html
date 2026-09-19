@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Roundtable • Live In-Session</title>
+<!-- Tailwind CSS CDN with forms and container plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-theme">
+    body {
+      background-color: #262432;
+      color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Custom Squircle / Smooth Corners */
+    .squircle {
+      border-radius: 28px;
+    }
+
+    /* Custom Circular Table Shadow & Border */
+    .round-table-disc {
+      background: radial-gradient(circle, #2d2b3a 0%, #1f1d2b 100%);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none">
+<!-- BEGIN: TopBar -->
+<header class="w-full h-16 px-6 flex items-center justify-between border-b border-white/5 z-20" data-purpose="top-navigation-bar">
+<!-- Left: Branding & Session Status -->
+<div class="flex items-center space-x-3">
+<div class="w-9 h-9 rounded-full bg-[#3FB950] flex items-center justify-center font-bold text-white shadow-sm">
+        R
+      </div>
+<span class="text-base font-semibold tracking-wide text-white">Roundtable • Live</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#EA4335] text-white shadow-sm">
+<span class="w-1.5 h-1.5 mr-1.5 bg-white rounded-full animate-pulse"></span>
+        REC
+      </span>
+</div>
+<!-- Center: Captions Switcher -->
+<div>
+<button aria-label="Toggle Captions" class="inline-flex items-center space-x-2 bg-[#333041] hover:bg-[#3d3a4d] text-white/90 text-sm font-medium px-4 py-2 rounded-xl transition border border-white/10 shadow-sm" type="button">
+<svg class="w-4 h-4 text-white/70" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Captions: On</span>
+<svg class="w-3.5 h-3.5 text-white/60 ml-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Right: End Session Button -->
+<div>
+<button class="bg-[#F06543] hover:bg-[#de5534] text-white font-medium text-sm px-6 py-2 rounded-full transition shadow-md font-medium" type="button">
+        End session
+      </button>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainContentArea -->
+<div class="flex-1 flex flex-row overflow-hidden relative" data-purpose="main-layout-container">
+<!-- BEGIN: SpatialRoundtableRoom -->
+<main class="flex-1 relative flex flex-col items-center justify-center p-4 min-h-[720px]" data-purpose="discussion-spatial-canvas">
+<!-- Central Spatial Circle Container -->
+<div class="relative w-[600px] h-[580px] flex items-center justify-center">
+<!-- Center Virtual Table Disc -->
+<div class="round-table-disc w-[280px] h-[280px] rounded-full flex flex-col items-center justify-center text-center p-4 z-10">
+<span class="text-[10px] font-bold tracking-widest uppercase text-white/40 mb-1">TOPIC</span>
+<h2 class="text-sm font-semibold text-white/95 leading-snug px-3 max-w-[210px] mb-3">
+            Should AI replace freshers in IT?
+          </h2>
+<div class="text-3xl font-extrabold tracking-tight text-white mb-0.5">
+            05:32
+          </div>
+<span class="text-[11px] text-white/45 font-medium mb-3">left of 8:00</span>
+<!-- 4-Segment Progress Bar -->
+<div class="flex items-center space-x-1.5" data-purpose="progress-segmented-indicator">
+<span class="w-6 h-1.5 rounded-full bg-[#E59838]"></span>
+<span class="w-6 h-1.5 rounded-full bg-[#EF6545]"></span>
+<span class="w-6 h-1.5 rounded-full bg-[#3FB950]"></span>
+<span class="w-6 h-1.5 rounded-full bg-white/20"></span>
+</div>
+</div>
+<!-- AI Persona 1: Ira (Top Center) -->
+<div class="absolute -top-3 flex flex-col items-center z-10" data-purpose="persona-ira">
+<div class="squircle w-[88px] h-[88px] bg-[#FCE588] text-[#1F1D2B] font-bold text-3xl flex items-center justify-center shadow-lg border-2 border-[#FCE588]">
+            I
+          </div>
+<span class="text-sm font-bold text-white mt-2">Ira</span>
+<span class="text-xs text-white/50">The Questioner</span>
+</div>
+<!-- AI Persona 2: Kabir (Top Right - Currently Speaking) -->
+<div class="absolute top-[82px] -right-16 flex flex-col items-center z-20" data-purpose="persona-kabir">
+<div class="relative">
+<!-- Active speaking squircle avatar with border -->
+<div class="squircle w-[92px] h-[92px] bg-[#BFE5FD] text-[#1E293B] font-bold text-3xl flex items-center justify-center shadow-xl ring-4 ring-[#E69D43]">
+              K
+            </div>
+<!-- Speaking status pill badge -->
+<div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#E69D43] text-black font-extrabold text-[10px] px-2 py-0.5 rounded-full tracking-wider flex items-center space-x-1 shadow-md uppercase whitespace-nowrap">
+<svg class="w-2.5 h-2.5" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" fill-rule="evenodd"></path>
+</svg>
+<span>SPEAKING</span>
+</div>
+</div>
+<span class="text-sm font-bold text-white mt-4">Kabir</span>
+<span class="text-xs text-white/50">The Challenger</span>
+</div>
+<!-- AI Persona 3: Dev (Bottom Right) -->
+<div class="absolute bottom-[20px] -right-10 flex flex-col items-center z-10" data-purpose="persona-dev">
+<div class="squircle w-[88px] h-[88px] bg-[#D7D5FC] text-[#1E293B] font-bold text-3xl flex items-center justify-center shadow-lg border border-white/10">
+            D
+          </div>
+<span class="text-sm font-bold text-white mt-2">Dev</span>
+<span class="text-xs text-white/50">The Peacemaker</span>
+</div>
+<!-- AI Persona 4: Zara (Bottom Left) -->
+<div class="absolute bottom-[20px] -left-10 flex flex-col items-center z-10" data-purpose="persona-zara">
+<div class="squircle w-[88px] h-[88px] bg-[#D1F2D9] text-[#1E293B] font-bold text-3xl flex items-center justify-center shadow-lg border border-white/10">
+            Z
+          </div>
+<span class="text-sm font-bold text-white mt-2">Zara</span>
+<span class="text-xs text-white/50">The Analyst</span>
+</div>
+<!-- AI Persona 5: Maya (Mid Left) -->
+<div class="absolute top-[82px] -left-16 flex flex-col items-center z-10" data-purpose="persona-maya">
+<div class="squircle w-[88px] h-[88px] bg-[#FDD9CD] text-[#1E293B] font-bold text-3xl flex items-center justify-center shadow-lg border border-white/10">
+            M
+          </div>
+<span class="text-sm font-bold text-white mt-2">Maya</span>
+<span class="text-xs text-white/50">The Optimist</span>
+</div>
+</div>
+<!-- User Seat & Self Controls (Bottom-center overlay) -->
+<div class="relative -mt-6 flex flex-col items-center z-20" data-purpose="user-seat-controls">
+<!-- Self Avatar (A) -->
+<div class="squircle w-20 h-20 bg-[#EF6545] text-white font-bold text-2xl flex items-center justify-center shadow-xl border-2 border-white/20">
+          A
+        </div>
+<!-- Tap to unmute status bar -->
+<button class="mt-2 bg-white text-[#1F1D2B] text-xs font-bold px-4 py-1.5 rounded-full shadow-md hover:bg-slate-100 transition flex items-center space-x-1" type="button">
+<span>You • Tap to unmute</span>
+</button>
+<!-- User Quick Mic/Cam Control Pills -->
+<div class="flex items-center space-x-2 mt-2.5">
+<button aria-label="Microphone muted" class="w-9 h-9 rounded-full bg-[#393649] hover:bg-[#48445c] text-white/80 flex items-center justify-center transition border border-white/10" type="button">
+<!-- Mute Icon -->
+<svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M19 19L5 5m14 0l-3.5 3.5M9.88 9.88A3 3 0 1014.12 14.12M12 17v4m-4 0h8M19 10v1a7 7 0 01-11.95 4.95" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<button aria-label="Raise hand" class="w-9 h-9 rounded-full bg-[#393649] hover:bg-[#48445c] text-white/80 flex items-center justify-center transition border border-white/10" type="button">
+<!-- Hand Icon -->
+<svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V4a1.5 1.5 0 013 0v4m0 0v-1a1.5 1.5 0 013 0v3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<button aria-label="Chat and comments" class="w-9 h-9 rounded-full bg-[#393649] hover:bg-[#48445c] text-white/80 flex items-center justify-center transition border border-white/10" type="button">
+<!-- Chat Icon -->
+<svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Live Speech Caption Pill Card -->
+<div class="w-full max-w-4xl mt-6 z-20" data-purpose="live-caption-transcript">
+<div class="bg-[#FFFDF4] rounded-2xl px-5 py-3.5 text-[#1F1D2B] flex items-center space-x-3 shadow-xl border border-black/5">
+<div class="w-7 h-7 rounded-lg bg-[#DCEFFA] text-[#1E293B] font-bold text-xs flex items-center justify-center flex-shrink-0">
+            K
+          </div>
+<p class="text-sm font-medium tracking-tight text-[#222129]">
+<strong class="font-bold">Kabir:</strong> “But if AI writes the boilerplate, freshers can focus on design thinking — isn't that an upgrade?”
+          </p>
+</div>
+</div>
+</main>
+<!-- END: SpatialRoundtableRoom -->
+<!-- BEGIN: CoachingTelemetrySidebar -->
+<aside class="w-[340px] bg-[#FFFBF0] text-[#1E1C26] p-6 flex flex-col justify-between border-l border-black/5 shadow-2xl flex-shrink-0" data-purpose="live-coaching-sidebar">
+<!-- Top Section: Metrics and Nudge -->
+<div class="space-y-6">
+<!-- Section: Talk-time arc -->
+<section data-purpose="talk-time-distribution">
+<h3 class="text-base font-bold text-[#1E1C26] mb-4">Talk-time arc</h3>
+<!-- Bar Chart Visualization -->
+<div class="h-20 flex items-end justify-between px-2 pb-1 border-b border-black/5">
+<!-- Persona Maya -->
+<div class="w-5 bg-[#E8DEC8] rounded-md h-[40%]"></div>
+<!-- Persona Ira -->
+<div class="w-5 bg-[#E8DEC8] rounded-md h-[65%]"></div>
+<!-- Persona Dev -->
+<div class="w-5 bg-[#E8DEC8] rounded-md h-[50%]"></div>
+<!-- Persona Kabir (Active - High) -->
+<div class="w-5 bg-[#EF6545] rounded-md h-[95%]"></div>
+<!-- Persona Zara -->
+<div class="w-5 bg-[#E8DEC8] rounded-md h-[30%]"></div>
+<!-- User (You) - Goal target achieved -->
+<div class="w-5 bg-[#3FB950] rounded-md h-[80%]"></div>
+<!-- Benchmark 1 -->
+<div class="w-5 bg-[#E8DEC8] rounded-md h-[48%]"></div>
+<!-- Benchmark 2 -->
+<div class="w-5 bg-[#E8DEC8] rounded-md h-[35%]"></div>
+</div>
+<!-- Talk time metrics and prompt -->
+<div class="flex justify-between items-center text-xs mt-2 font-medium">
+<span class="text-[#3B3A42]">You 18% • <span class="text-[#2F855A] font-semibold">jump in!</span></span>
+<span class="text-gray-500 font-semibold">Goal 20%+</span>
+</div>
+</section>
+<!-- Section: Coach Nudge Alert Box -->
+<section class="bg-[#D8F3DC] rounded-2xl p-4 border border-[#B7E4C7]" data-purpose="coach-feedback-card">
+<div class="flex items-center space-x-1.5 text-xs font-black uppercase text-[#1B4332] tracking-wider mb-1.5">
+<!-- Lightbulb icon -->
+<svg class="w-4 h-4 text-[#1B4332]" fill="currentColor" viewbox="0 0 20 20">
+<path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14H8a4 4 0 01-.8-7.92 4.004 4.004 0 017.6 0A4 4 0 0112 14z"></path>
+</svg>
+<span>COACH NUDGE</span>
+</div>
+<p class="text-xs text-[#2D3748] leading-relaxed font-medium">
+            Great listening! Now disagree politely: “I see it differently because...”
+          </p>
+</section>
+<!-- Section: Quick Actions Grid -->
+<section data-purpose="quick-session-actions">
+<h4 class="text-sm font-bold text-[#1E1C26] mb-3">Quick actions</h4>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Action 1: Raise Hand -->
+<button class="bg-[#2D2A38] hover:bg-[#3D3A4B] text-white text-xs font-semibold py-2.5 px-3 rounded-xl transition shadow-sm flex items-center justify-center" type="button">
+              Raise hand
+            </button>
+<!-- Action 2: Ask for cue -->
+<button class="bg-transparent hover:bg-black/5 text-[#2D2A38] border border-[#DDD5C7] text-xs font-semibold py-2.5 px-3 rounded-xl transition flex items-center justify-center" type="button">
+              Ask for cue
+            </button>
+<!-- Action 3: Pause AI -->
+<button class="bg-transparent hover:bg-black/5 text-[#2D2A38] border border-[#DDD5C7] text-xs font-semibold py-2.5 px-3 rounded-xl transition flex items-center justify-center space-x-1" type="button">
+<span class="text-[10px]">⏸</span>
+<span>Pause AI</span>
+</button>
+<!-- Action 4: My notes -->
+<button class="bg-transparent hover:bg-black/5 text-[#2D2A38] border border-[#DDD5C7] text-xs font-semibold py-2.5 px-3 rounded-xl transition flex items-center justify-center" type="button">
+              My notes
+            </button>
+</div>
+</section>
+</div>
+<!-- Bottom Advisory Tip -->
+<footer class="bg-[#FDECEF] rounded-2xl p-3.5 text-center border border-[#F9D0D8]" data-purpose="camera-etiquette-tip">
+<p class="text-xs font-medium text-[#7A404F] leading-snug">
+          Tip: look at the camera, smile, and name someone to invite them in.
+        </p>
+</footer>
+</aside>
+<!-- END: CoachingTelemetrySidebar -->
+</div>
+<!-- END: MainContentArea -->
+</body></html>

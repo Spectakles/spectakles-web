@@ -1,0 +1,15 @@
+.cursor-wave-background {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: block;
+
+  pointer-events: none;
+
+  z-index: 0;
+
+  overflow: hidden;
+}

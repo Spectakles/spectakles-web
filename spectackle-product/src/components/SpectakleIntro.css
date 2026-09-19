@@ -1,0 +1,377 @@
+/* =====================================================
+   Spectakles INTRO
+===================================================== */
+
+.Spectakles-intro {
+  position: relative;
+  height: 300vh;
+  min-height: 320svh;
+
+  /* Light theme background */
+  background: #f5f1e8;
+
+  color: #20202c;
+}
+
+
+/* =====================================================
+   STICKY STAGE
+===================================================== */
+
+.Spectakles-intro-stage {
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+  min-height: 100svh;
+
+  overflow: hidden;
+
+  /* Spectakles cream */
+  background: #f5f1e8;
+
+  color: #20202c;
+}
+
+
+/* =====================================================
+   PARTICLE CANVAS
+===================================================== */
+
+.Spectakles-intro-stage canvas {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   BRAND + SCROLL
+===================================================== */
+
+.Spectakles-intro-brand,
+.Spectakles-intro-scroll {
+  position: absolute;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  font-family: "DM Mono", monospace;
+  letter-spacing: 0.16em;
+}
+
+
+.Spectakles-intro-brand {
+  top: 30px;
+  left: 34px;
+
+  font-size: 11px;
+
+  color: #20202c;
+
+  opacity: 0.68;
+}
+
+
+/* =====================================================
+   STORY TEXT CONTAINER
+===================================================== */
+
+.Spectakles-story {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 10;
+
+  pointer-events: none;
+
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   STORY ITEM
+===================================================== */
+
+.Spectakles-story-item {
+  position: absolute;
+
+  top: 50%;
+
+  width: 50%;
+
+  opacity: 0;
+
+  will-change:
+    transform,
+    opacity,
+    scale;
+}
+
+
+/* =====================================================
+   LEFT TEXT
+===================================================== */
+
+.Spectakles-story-item.story-left {
+  left: 6vw;
+
+  transform:
+    translate3d(
+      -60px,
+      -50%,
+      0
+    );
+}
+
+
+/* =====================================================
+   RIGHT TEXT
+===================================================== */
+
+.Spectakles-story-item.story-right {
+  right: 6vw;
+
+  transform:
+    translate3d(
+      60px,
+      -50%,
+      0
+    );
+}
+
+
+/* =====================================================
+   TEXT CONTENT
+===================================================== */
+
+.Spectakles-story-inner {
+  max-width: 470px;
+}
+
+
+/* =====================================================
+   EYEBROW
+===================================================== */
+
+.Spectakles-story-eyebrow {
+  display: block;
+
+  margin-bottom: 18px;
+
+  font-size: 0.62rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+
+  /* Dark ink */
+  color: rgba(32, 32, 44, 0.45);
+}
+
+
+/* =====================================================
+   HEADLINE
+===================================================== */
+
+.Spectakles-story-item h2 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      3rem,
+      5.5vw,
+      6.5rem
+    );
+
+  line-height: 0.9;
+
+  font-weight: 600;
+
+  letter-spacing: -0.065em;
+
+  /* Main Spectakles ink */
+  color: #20202c;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.Spectakles-story-item p {
+  max-width: 390px;
+
+  margin: 22px 0 0;
+
+  font-size:
+    clamp(
+      0.9rem,
+      1.2vw,
+      1.05rem
+    );
+
+  line-height: 1.6;
+
+  /* Dark text instead of white */
+  color: rgba(32, 32, 44, 0.58);
+}
+
+
+/* =====================================================
+   GREEN ACCENT
+===================================================== */
+
+.Spectakles-story-item p::first-line {
+  color: rgba(60, 155, 90, 0.9);
+}
+
+
+/* =====================================================
+   SCROLL INDICATOR
+===================================================== */
+
+.Spectakles-intro-scroll {
+  position: absolute;
+
+  left: 50%;
+  bottom: 30px;
+
+  z-index: 20;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 0.58rem;
+
+  font-weight: 500;
+
+  letter-spacing: 0.18em;
+
+  color: rgba(32, 32, 44, 0.38);
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  transition:
+    opacity 0.4s ease;
+}
+
+
+/* Show after logo formation */
+
+.Spectakles-intro.is-formed
+  .Spectakles-intro-scroll {
+  opacity: 0.55;
+}
+
+
+.Spectakles-intro-arrow {
+  font-size: 1rem;
+
+  line-height: 1;
+
+  color: #3c9b5a;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 720px) {
+
+  .Spectakles-story-item {
+    width: 78%;
+  }
+
+  .Spectakles-story-item.story-left {
+    left: 6vw;
+  }
+
+  .Spectakles-story-item.story-right {
+    right: 6vw;
+  }
+
+  .Spectakles-story-item h2 {
+    font-size:
+      clamp(
+        2.5rem,
+        11vw,
+        4.5rem
+      );
+  }
+
+  .Spectakles-story-item p {
+    font-size: 0.85rem;
+
+    max-width: 290px;
+  }
+
+  .Spectakles-intro-brand {
+    top: 22px;
+    left: 20px;
+  }
+
+  .Spectakles-intro-scroll {
+    bottom: 23px;
+  }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .Spectakles-story-item {
+    width: 88%;
+  }
+
+  .Spectakles-story-item.story-left {
+    left: 6vw;
+  }
+
+  .Spectakles-story-item.story-right {
+    right: 6vw;
+  }
+
+  .Spectakles-story-eyebrow {
+    font-size: 0.55rem;
+  }
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .Spectakles-intro-scroll {
+    transition: none;
+  }
+
+  .Spectakles-story-item {
+    will-change: auto;
+  }
+}

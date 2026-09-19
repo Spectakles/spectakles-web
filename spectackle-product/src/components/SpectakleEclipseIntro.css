@@ -1,0 +1,2230 @@
+/* =========================================================
+   Spectakles ECLIPSE INTRO
+   =========================================================
+
+   Theme
+   ---------------------------------------------------------
+   Background : #f5f1e8
+   Ink        : #20202c
+   Green      : #3c9b5a
+   Light      : #f5f1e8
+
+   Experience
+   ---------------------------------------------------------
+   0%   → Eclipse + intro message
+   15%  → Personas begin emerging
+   38%  → Personas fully emerge
+   38%+ → Personas orbit Eclipse
+   84%  → Exit begins
+   100% → Homepage
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN INTRO SECTION
+   ========================================================= */
+
+.Spectakles-eclipse-intro {
+  position: relative;
+
+  width: 100%;
+
+  /*
+   * Controls the amount of scroll available
+   * for the cinematic sequence.
+   */
+  height: 300vh;
+
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(60, 155, 90, 0.065) 0%,
+      rgba(60, 155, 90, 0.035) 22%,
+      rgba(60, 155, 90, 0.012) 40%,
+      rgba(60, 155, 90, 0) 62%
+    ),
+    #f5f1e8;
+
+  color: #20202c;
+
+  isolation: isolate;
+
+  z-index: 10;
+}
+
+
+/* =========================================================
+   STICKY STAGE
+   ========================================================= */
+
+.Spectakles-eclipse-stage {
+  --intro: 0;
+  --emergence: 0;
+  --orbit: 0;
+  --exit: 0;
+  --eclipse-scale: 1;
+
+  position: sticky;
+
+  top: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  min-height: 100svh;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse 55% 58% at 50% 50%,
+      rgba(60, 155, 90, 0.075) 0%,
+      rgba(60, 155, 90, 0.04) 24%,
+      rgba(60, 155, 90, 0.018) 43%,
+      rgba(245, 241, 232, 0) 72%
+    ),
+    #f5f1e8;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   LARGE GREEN ATMOSPHERIC GLOW
+   =========================================================
+
+   This is deliberately centered on the Eclipse.
+
+   It should feel like the entire environment is being
+   illuminated by the Eclipse rather than like a separate
+   green circle sitting behind it.
+   ========================================================= */
+
+.Spectakles-eclipse-stage::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: min(1100px, 105vw);
+  height: min(1100px, 105vw);
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(60, 155, 90, 0.16) 0%,
+      rgba(60, 155, 90, 0.105) 15%,
+      rgba(60, 155, 90, 0.065) 27%,
+      rgba(60, 155, 90, 0.03) 40%,
+      rgba(60, 155, 90, 0.012) 52%,
+      rgba(60, 155, 90, 0) 72%
+    );
+
+  filter: blur(38px);
+
+  opacity:
+    calc(
+      0.72 +
+      var(--emergence) * 0.28
+    );
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   SECONDARY WARM LIGHT
+   ========================================================= */
+
+.Spectakles-eclipse-stage::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: min(1350px, 120vw);
+  height: min(950px, 105vw);
+
+  transform:
+    translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(255, 255, 255, 0.48) 0%,
+      rgba(255, 255, 255, 0.22) 30%,
+      rgba(245, 241, 232, 0) 70%
+    );
+
+  filter: blur(40px);
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.Spectakles-eclipse-brand {
+  position: absolute;
+
+  top: 30px;
+  left: 34px;
+
+  z-index: 150;
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.18em;
+
+  color: #20202c;
+
+  opacity: 0.65;
+
+  user-select: none;
+}
+
+
+/* =========================================================
+   ECLIPSE WRAPPER
+   ========================================================= */
+
+.Spectakles-eclipse {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  /*
+   * Large central visual.
+   */
+  width: min(
+    820px,
+    72vw
+  );
+
+  aspect-ratio: 1 / 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(
+      var(--eclipse-scale)
+    );
+
+  will-change: transform;
+
+  isolation: isolate;
+
+  z-index: 5;
+}
+
+
+/* =========================================================
+   CORONA CANVAS
+   ========================================================= */
+
+.Spectakles-eclipse-corona {
+  position: absolute;
+
+  /*
+   * IMPORTANT:
+   *
+   * Keep the canvas aligned exactly with the Eclipse
+   * wrapper.
+   *
+   * The TSX canvas dimensions should also use the
+   * Eclipse wrapper dimensions.
+   */
+
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CSS CORONA RING
+   ========================================================= */
+
+.Spectakles-eclipse::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 64%;
+  height: 64%;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 3;
+
+  background:
+    radial-gradient(
+      circle,
+      transparent 0%,
+      transparent 66%,
+      rgba(60, 155, 90, 0.025) 68%,
+      rgba(60, 155, 90, 0.16) 70%,
+      rgba(60, 155, 90, 0.08) 72%,
+      rgba(60, 155, 90, 0.025) 76%,
+      transparent 82%
+    );
+
+  filter: blur(4px);
+
+  opacity:
+    calc(
+      0.72 +
+      var(--emergence) * 0.28
+    );
+}
+
+
+/* =========================================================
+   ECLIPSE CORE
+   ========================================================= */
+
+.Spectakles-eclipse-core {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  /*
+   * 58% of the Eclipse wrapper.
+   */
+  width: 58%;
+  height: 58%;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  z-index: 10;
+
+  overflow: hidden;
+
+  /*
+   * Rich dark gradient from Roundtable UI.
+   */
+  background: radial-gradient(circle, #2d2b3a 0%, #1f1d2b 100%);
+
+  /*
+   * Layered depth + green atmospheric reflection and border.
+   */
+  box-shadow: 
+    0 0 60px rgba(0, 0, 0, 0.45), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.05),
+    /* Green halo immediately around Eclipse */
+    0 0 25px rgba(60, 155, 90, 0.12),
+    /* Main shadow */
+    0 22px 65px rgba(32, 32, 44, 0.18),
+    /* Large soft atmosphere */
+    0 0 120px rgba(60, 155, 90, 0.075);
+    
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   ECLIPSE INTERNAL HIGHLIGHT
+   ========================================================= */
+
+.Spectakles-eclipse-core::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 22%,
+      rgba(
+        255,
+        255,
+        255,
+        0.065
+      ) 0%,
+      rgba(
+        255,
+        255,
+        255,
+        0.025
+      ) 16%,
+      transparent 38%
+    );
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+
+/* =========================================================
+   INTRO CONTENT
+   ========================================================= */
+
+.Spectakles-intro-content {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 76%;
+
+  transform:
+    translate(-50%, -50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  /*
+   * Fades as personas emerge.
+   */
+  opacity:
+    calc(
+      1 -
+      var(--emergence) * 1.8
+    );
+}
+
+
+/* =========================================================
+   INTRO EYEBROW
+   ========================================================= */
+
+.Spectakles-intro-eyebrow {
+  display: block;
+
+  margin-bottom: 17px;
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.22em;
+
+  text-transform: uppercase;
+
+  color:
+    rgba(
+      245,
+      241,
+      232,
+      0.48
+    );
+}
+
+
+/* =========================================================
+   INTRO HEADLINE
+   ========================================================= */
+
+.Spectakles-intro-content h1 {
+  margin: 0;
+
+  max-width: 90%;
+
+  font-size:
+    clamp(
+      2.25rem,
+      4.4vw,
+      4.7rem
+    );
+
+  line-height: 0.88;
+
+  font-weight: 600;
+
+  letter-spacing: -0.065em;
+
+  color: #f5f1e8;
+}
+
+
+/* =========================================================
+   GREEN ACCENT WORD
+   ========================================================= */
+
+.Spectakles-intro-content h1 span {
+  color: #5bbb6d;
+}
+
+
+/* =========================================================
+   INTRO DESCRIPTION
+   ========================================================= */
+
+.Spectakles-intro-content p {
+  margin: 18px 0 0;
+
+  max-width: 240px;
+
+  font-size:
+    clamp(
+      0.68rem,
+      0.9vw,
+      0.85rem
+    );
+
+  line-height: 1.5;
+
+  color:
+    rgba(
+      245,
+      241,
+      232,
+      0.43
+    );
+}
+
+
+/* =========================================================
+   Spectakles WORDMARK
+   =========================================================
+
+   Appears inside the Eclipse after personas emerge.
+   ========================================================= */
+
+.Spectakles-wordmark {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 78%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(
+      calc(
+        0.82 +
+        var(--emergence) * 0.18
+      )
+    );
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  z-index: 6;
+
+  pointer-events: none;
+
+  opacity:
+    calc(
+      var(--emergence) *
+      (1 - var(--exit))
+    );
+}
+
+
+/* =========================================================
+   Spectakles WORDMARK TEXT
+   ========================================================= */
+
+.Spectakles-wordmark span {
+  display: block;
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size:
+    clamp(
+      1.8rem,
+      3.8vw,
+      3.8rem
+    );
+
+  font-weight: 500;
+
+  letter-spacing: 0.14em;
+
+  color: #f5f1e8;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   WORDMARK SUBTEXT
+   ========================================================= */
+
+.Spectakles-wordmark small {
+  display: block;
+
+  margin-top: 15px;
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.25em;
+
+  color:
+    rgba(
+      120,
+      185,
+      132,
+      0.90
+    );
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PERSONA ORBIT CONTAINER
+   ========================================================= */
+
+.Spectakles-personas {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 0;
+  height: 0;
+
+  z-index: 40;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+
+
+/* =========================================================
+   PERSONA
+   ========================================================= */
+
+.Spectakles-persona {
+  --persona-x: 0px;
+  --persona-y: 0px;
+  --persona-scale: 0;
+  --persona-opacity: 0;
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: max-content;
+
+  transform:
+    translate3d(
+      var(--persona-x),
+      var(--persona-y),
+      0
+    )
+    translate(-50%, -50%)
+    scale(
+      var(--persona-scale)
+    );
+
+  opacity:
+    var(--persona-opacity);
+
+  transform-origin:
+    center center;
+
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* =========================================================
+   PERSONA CARD
+   ========================================================= */
+/* =========================================================
+   PERSONA
+========================================================= */
+/* =========================================================
+   PERSONA
+========================================================= */
+/* =========================================================
+   PERSONA POSITION
+========================================================= */
+
+.Spectakles-persona {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 88px;
+  height: 88px;
+
+  transform:
+    translate(-50%, -50%)
+    translate(
+      var(--persona-x),
+      var(--persona-y)
+    )
+    scale(
+      var(--persona-scale)
+    );
+
+  opacity:
+    var(--persona-opacity);
+
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* =========================================================
+   REMOVE OUTER CARD COMPLETELY
+========================================================= */
+
+.Spectakles-persona-card {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+
+  border: none;
+
+  border-radius: 0;
+
+  box-shadow: none;
+
+  backdrop-filter: none;
+
+  -webkit-backdrop-filter: none;
+
+  overflow: visible;
+}
+
+
+/* =========================================================
+   USER ICON
+========================================================= */
+
+.Spectakles-persona-avatar {
+  position: relative;
+
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  color: #f8f5ed;
+
+  background:
+    linear-gradient(
+      145deg,
+      #414150,
+      #20202c
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,0.10);
+
+  box-shadow:
+    0 10px 24px
+    rgba(32,32,44,0.20),
+
+    0 0 20px
+    rgba(60,155,90,0.08);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* =========================================================
+   GREEN ONLINE DOT
+========================================================= */
+
+.Spectakles-persona-avatar::after {
+
+  content: "";
+
+  position: absolute;
+
+  right: 5px;
+  bottom: 5px;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #3c9b5a;
+
+  box-shadow:
+    0 0 0 2px #20202c,
+    0 0 9px
+    rgba(60,155,90,0.55);
+}
+
+
+/* =========================================================
+   USER ICON
+========================================================= */
+
+.Spectakles-persona-avatar svg {
+
+  width: 44px;
+  height: 44px;
+
+  stroke: #f8f5ed;
+
+  stroke-width: 1.35;
+}
+
+
+/* =========================================================
+   REMOVE OLD GREEN EDGE
+========================================================= */
+
+.Spectakles-persona-card::before,
+.Spectakles-persona-card::after {
+
+  display: none !important;
+
+  content: none !important;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.Spectakles-persona-card:hover
+.Spectakles-persona-avatar {
+
+  transform:
+    translateY(-4px)
+    scale(1.04);
+
+  box-shadow:
+    0 16px 30px
+    rgba(32,32,44,0.25),
+
+    0 0 24px
+    rgba(60,155,90,0.16);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+
+  .Spectakles-persona {
+
+    width: 68px;
+    height: 68px;
+  }
+
+  .Spectakles-persona-avatar {
+
+    width: 56px;
+    height: 56px;
+
+    border-radius: 16px;
+  }
+
+  .Spectakles-persona-avatar svg {
+
+    width: 34px;
+    height: 34px;
+  }
+
+  .Spectakles-persona-avatar::after {
+
+    width: 5px;
+    height: 5px;
+
+    right: 4px;
+    bottom: 4px;
+  }
+}
+/* =========================================================
+   PERSONA AVATAR
+   ========================================================= */
+
+.Spectakles-persona-avatar {
+  position: relative;
+
+  width: 46px;
+  height: 46px;
+
+  flex: 0 0 46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background:
+    radial-gradient(
+      circle at 32% 25%,
+      #41414e 0%,
+      #30303d 28%,
+      #20202c 68%,
+      #16161e 100%
+    );
+
+  color: #f5f1e8;
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.02em;
+
+  box-shadow:
+
+    inset 0 1px 1px
+      rgba(
+        255,
+        255,
+        255,
+        0.11
+      ),
+
+    inset 0 -5px 12px
+      rgba(
+        0,
+        0,
+        0,
+        0.16
+      ),
+
+    0 4px 13px
+      rgba(
+        32,
+        32,
+        44,
+        0.14
+      );
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   AVATAR HIGHLIGHT
+   ========================================================= */
+
+.Spectakles-persona-avatar::before {
+  content: "";
+
+  position: absolute;
+
+  left: 7px;
+  top: 6px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(
+        255,
+        255,
+        255,
+        0.16
+      ),
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ACTIVE PARTICIPANT DOT
+   ========================================================= */
+
+.Spectakles-persona-avatar::after {
+  content: "";
+
+  position: absolute;
+
+  right: 4px;
+  bottom: 4px;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #69b879;
+
+  border:
+    2px solid #20202c;
+
+  box-shadow:
+    0 0 0 2px
+      rgba(
+        60,
+        155,
+        90,
+        0.10
+      ),
+
+    0 0 10px
+      rgba(
+        60,
+        155,
+        90,
+        0.42
+      );
+}
+
+
+/* =========================================================
+   PERSONA INFORMATION
+   ========================================================= */
+
+.Spectakles-persona-info {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   PERSONA NAME
+   ========================================================= */
+
+.Spectakles-persona-info strong {
+  display: block;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  line-height: 1;
+
+  letter-spacing: -0.01em;
+
+  color: #20202c;
+}
+
+
+/* =========================================================
+   PERSONA ROLE
+   ========================================================= */
+
+.Spectakles-persona-info span {
+  display: block;
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 7px;
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 0.05em;
+
+  color:
+    rgba(
+      32,
+      32,
+      44,
+      0.48
+    );
+}
+
+
+/* =========================================================
+   GREEN ROLE DOT
+   ========================================================= */
+
+.Spectakles-persona-info span::before {
+  content: "";
+
+  display: inline-block;
+
+  width: 4px;
+  height: 4px;
+
+  margin-right: 6px;
+
+  vertical-align: middle;
+
+  border-radius: 50%;
+
+  background: #3c9b5a;
+
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   DESKTOP CARD HOVER
+   ========================================================= */
+
+.Spectakles-persona-card:hover {
+  border-color:
+    rgba(
+      60,
+      155,
+      90,
+      0.22
+    );
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(
+        255,
+        255,
+        255,
+        0.98
+      ),
+      rgba(
+        248,
+        245,
+        237,
+        0.94
+      )
+    );
+
+  box-shadow:
+
+    0 5px 10px
+      rgba(
+        32,
+        32,
+        44,
+        0.05
+      ),
+
+    0 15px 35px
+      rgba(
+        32,
+        32,
+        44,
+        0.10
+      ),
+
+    0 0 30px
+      rgba(
+        60,
+        155,
+        90,
+        0.08
+      );
+}
+
+
+/* =========================================================
+   PERSONA ROTATION VARIATIONS
+   ========================================================= */
+
+.Spectakles-persona:nth-child(1)
+  .Spectakles-persona-card {
+  transform: rotate(-0.6deg);
+}
+
+.Spectakles-persona:nth-child(2)
+  .Spectakles-persona-card {
+  transform: rotate(0.8deg);
+}
+
+.Spectakles-persona:nth-child(3)
+  .Spectakles-persona-card {
+  transform: rotate(-0.5deg);
+}
+
+.Spectakles-persona:nth-child(4)
+  .Spectakles-persona-card {
+  transform: rotate(0.7deg);
+}
+
+.Spectakles-persona:nth-child(5)
+  .Spectakles-persona-card {
+  transform: rotate(-0.8deg);
+}
+
+.Spectakles-persona:nth-child(6)
+  .Spectakles-persona-card {
+  transform: rotate(0.5deg);
+}
+
+.Spectakles-persona:nth-child(7)
+  .Spectakles-persona-card {
+  transform: rotate(-0.7deg);
+}
+
+.Spectakles-persona:nth-child(8)
+  .Spectakles-persona-card {
+  transform: rotate(0.6deg);
+}
+
+
+/* =========================================================
+   SCROLL INDICATOR
+   ========================================================= */
+
+.Spectakles-eclipse-scroll {
+  position: absolute;
+
+  left: 50%;
+  bottom: 28px;
+
+  z-index: 150;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 7px;
+
+  transform:
+    translateX(-50%);
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.18em;
+
+  color:
+    rgba(
+      32,
+      32,
+      44,
+      0.42
+    );
+
+  opacity:
+    calc(
+      1 -
+      var(--emergence) * 3
+    );
+
+  pointer-events: none;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   SCROLL ARROW
+   ========================================================= */
+
+.Spectakles-eclipse-scroll i {
+  font-style: normal;
+
+  font-size: 16px;
+
+  line-height: 1;
+
+  color: #3c9b5a;
+
+  text-shadow:
+    0 0 10px
+      rgba(
+        60,
+        155,
+        90,
+        0.30
+      );
+}
+
+
+/* =========================================================
+   EXIT MESSAGE
+   ========================================================= */
+
+.Spectakles-eclipse-exit {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  z-index: 130;
+
+  transform:
+    translate(-50%, -50%)
+    scale(
+      calc(
+        0.92 +
+        var(--exit) * 0.08
+      )
+    );
+
+  opacity:
+    calc(
+      var(--exit) * 2
+    );
+
+  font-family:
+    "DM Mono",
+    monospace;
+
+  font-size: 9px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.22em;
+
+  color: #20202c;
+
+  pointer-events: none;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+
+  .Spectakles-eclipse {
+    width: min(
+      850px,
+      66vw
+    );
+  }
+
+
+  .Spectakles-persona-card {
+    min-width: 180px;
+
+    min-height: 66px;
+  }
+
+
+  .Spectakles-persona-avatar {
+    width: 48px;
+    height: 48px;
+
+    flex-basis: 48px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .Spectakles-eclipse {
+    width: min(
+      760px,
+      78vw
+    );
+  }
+
+
+  .Spectakles-persona-card {
+    min-width: 145px;
+
+    min-height: 58px;
+
+    gap: 9px;
+
+    padding:
+      7px
+      13px
+      7px
+      7px;
+  }
+
+
+  .Spectakles-persona-avatar {
+    width: 38px;
+    height: 38px;
+
+    flex-basis: 38px;
+
+    border-radius: 12px;
+
+    font-size: 10px;
+  }
+
+
+  .Spectakles-persona-info strong {
+    font-size: 10px;
+  }
+
+
+  .Spectakles-persona-info span {
+    font-size: 6.5px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .Spectakles-eclipse-intro {
+    height: 280vh;
+  }
+
+
+  /* -------------------------------------------------------
+     BRAND
+  ------------------------------------------------------- */
+
+  .Spectakles-eclipse-brand {
+    top: 22px;
+    left: 20px;
+
+    font-size: 9px;
+  }
+
+
+  /* -------------------------------------------------------
+     ECLIPSE
+  ------------------------------------------------------- */
+
+  .Spectakles-eclipse {
+    width: 100vw;
+  }
+
+
+  .Spectakles-eclipse-core {
+    width: 62%;
+    height: 62%;
+  }
+
+
+  /* -------------------------------------------------------
+     INTRO CONTENT
+  ------------------------------------------------------- */
+
+  .Spectakles-intro-content {
+    width: 74%;
+  }
+
+
+  .Spectakles-intro-eyebrow {
+    margin-bottom: 12px;
+
+    font-size: 6px;
+
+    letter-spacing: 0.18em;
+  }
+
+
+  .Spectakles-intro-content h1 {
+    max-width: 100%;
+
+    font-size:
+      clamp(
+        1.75rem,
+        8vw,
+        3rem
+      );
+  }
+
+
+  .Spectakles-intro-content p {
+    margin-top: 13px;
+
+    max-width: 170px;
+
+    font-size: 0.65rem;
+  }
+
+
+  /* -------------------------------------------------------
+     WORDMARK
+  ------------------------------------------------------- */
+
+  .Spectakles-wordmark {
+    width: 75%;
+  }
+
+
+  .Spectakles-wordmark span {
+    font-size:
+      clamp(
+        1.35rem,
+        7vw,
+        2.4rem
+      );
+
+    letter-spacing: 0.11em;
+  }
+
+
+  .Spectakles-wordmark small {
+    margin-top: 11px;
+
+    font-size: 6px;
+  }
+}
+
+
+/* =========================================================
+   PERSONAS
+========================================================= */
+
+.Spectakles-personas {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 0;
+  height: 0;
+
+  z-index: 40;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+
+/* =========================================================
+   PERSONA POSITION
+========================================================= */
+.Spectakles-persona {
+  --persona-x: 0px;
+  --persona-y: 0px;
+  --persona-scale: 0;
+  --persona-opacity: 0;
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  /*
+   * Large enough that the persona feels like
+   * an actual participant around the Eclipse.
+   */
+  width: 240px !important;
+  height: auto !important;
+
+  transform:
+    translate3d(
+      var(--persona-x),
+      var(--persona-y),
+      0
+    )
+    translate(-50%, -50%)
+    scale(var(--persona-scale));
+
+  opacity: var(--persona-opacity);
+
+  transform-origin: center center;
+
+  will-change:
+    transform,
+    opacity;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PERSONA CONTENT
+========================================================= */
+
+
+.Spectakles-persona-content {
+  position: relative;
+
+  width: 240px !important;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.Spectakles-persona-avatar {
+  position: relative;
+
+  /*
+   * MAIN SIZE
+   */
+  width: 150px !important;
+  height: 150px !important;
+
+  flex: 0 0 150px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 38px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #414150,
+      #20202c
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+
+  box-shadow:
+    0 18px 38px
+    rgba(
+      32,
+      32,
+      44,
+      0.16
+    ),
+
+    0 0 28px
+    rgba(
+      60,
+      155,
+      90,
+      0.10
+    );
+
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+.Spectakles-persona-avatar span {
+  position: relative;
+
+  z-index: 2;
+
+  display: block;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 54px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: -0.04em;
+
+  color: #20202c;
+}
+
+
+/* =========================================================
+   AVATAR HIGHLIGHT
+========================================================= */
+
+.Spectakles-persona-avatar::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 27% 20%,
+      rgba(
+        255,
+        255,
+        255,
+        0.28
+      ),
+      transparent 45%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   USER ICON
+========================================================= */
+
+.Spectakles-persona-avatar svg {
+  width: 86px;
+  height: 86px;
+
+  stroke: #f8f5ed;
+
+  stroke-width: 1.35;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+
+
+/* =========================================================
+   ROLE
+========================================================= */
+
+/* =========================================================
+   SPEAKING BADGE
+========================================================= */
+
+/* =========================================================
+   SPEAKING PERSONA
+========================================================= */
+
+
+
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.Spectakles-persona-content:hover
+.Spectakles-persona-avatar {
+
+  transform:
+    translateY(-5px)
+    scale(1.04);
+
+  box-shadow:
+    0 18px 38px
+    rgba(
+      32,
+      32,
+      44,
+      0.18
+    );
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1400px) {
+
+  .Spectakles-persona {
+    width: 220px !important;
+  }
+
+  .Spectakles-persona-content {
+    width: 220px !important;
+  }
+
+  .Spectakles-persona-avatar {
+    width: 126px !important;
+    height: 126px !important;
+
+    flex-basis: 126px;
+
+    border-radius: 32px;
+  }
+
+  .Spectakles-persona-avatar span {
+    font-size: 52px;
+  }
+
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .Spectakles-persona {
+    width: 160px !important;
+  }
+
+  .Spectakles-persona-content {
+    width: 160px !important;
+  }
+
+  .Spectakles-persona-avatar {
+    width: 88px !important;
+    height: 88px !important;
+
+    flex-basis: 88px;
+
+    border-radius: 23px;
+  }
+
+  .Spectakles-persona-avatar span {
+    font-size: 37px;
+  }
+
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+
+  .Spectakles-persona {
+    width: 120px !important;
+  }
+
+  .Spectakles-persona-content {
+    width: 120px !important;
+  }
+
+  .Spectakles-persona-avatar {
+    width: 70px !important;
+    height: 70px !important;
+
+    flex-basis: 70px;
+
+    border-radius: 18px;
+  }
+
+  .Spectakles-persona-avatar span {
+    font-size: 29px;
+  }
+
+  /* -------------------------------------------------------
+     SCROLL
+  ------------------------------------------------------- */
+
+  .Spectakles-eclipse-scroll {
+    bottom: 20px;
+
+    font-size: 7px;
+  }
+
+
+  .Spectakles-eclipse-scroll i {
+    font-size: 14px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .Spectakles-eclipse {
+    width: 108vw;
+  }
+
+
+  .Spectakles-eclipse-core {
+    width: 61%;
+    height: 61%;
+  }
+
+
+  .Spectakles-intro-content {
+    width: 73%;
+  }
+
+
+  .Spectakles-intro-content h1 {
+    font-size:
+      clamp(
+        1.5rem,
+        8vw,
+        2.35rem
+      );
+  }
+
+
+  /*
+   * Save vertical space.
+   */
+  .Spectakles-intro-content p {
+    display: none;
+  }
+
+
+  /* -------------------------------------------------------
+     WORDMARK
+  ------------------------------------------------------- */
+
+  .Spectakles-wordmark span {
+    font-size:
+      clamp(
+        1.2rem,
+        6.8vw,
+        2rem
+      );
+  }
+
+
+  .Spectakles-wordmark small {
+    font-size: 5px;
+  }
+
+
+  /* -------------------------------------------------------
+     PERSONA
+  ------------------------------------------------------- */
+
+  .Spectakles-persona-card {
+    min-width: 108px;
+
+    min-height: 42px;
+
+    gap: 7px;
+
+    padding:
+      5px
+      9px
+      5px
+      5px;
+
+    border-radius: 13px;
+  }
+
+
+  .Spectakles-persona-avatar {
+    width: 30px;
+    height: 30px;
+
+    flex-basis: 30px;
+
+    border-radius: 9px;
+
+    font-size: 8px;
+  }
+
+
+  .Spectakles-persona-info {
+    gap: 3px;
+  }
+
+
+  .Spectakles-persona-info strong {
+    font-size: 8px;
+  }
+
+
+  .Spectakles-persona-info span {
+    font-size: 5.5px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .Spectakles-eclipse {
+    width: 112vw;
+  }
+
+
+  .Spectakles-eclipse-core {
+    width: 60%;
+    height: 60%;
+  }
+
+
+  .Spectakles-intro-content h1 {
+    font-size: 1.4rem;
+  }
+
+
+  .Spectakles-wordmark span {
+    font-size: 1.1rem;
+  }
+
+
+  .Spectakles-persona-card {
+    min-width: 98px;
+
+    min-height: 39px;
+  }
+
+
+  .Spectakles-persona-avatar {
+    width: 28px;
+    height: 28px;
+
+    flex-basis: 28px;
+  }
+
+
+  .Spectakles-persona-info strong {
+    font-size: 7.5px;
+  }
+
+
+  .Spectakles-persona-info span {
+    font-size: 5px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .Spectakles-eclipse-intro {
+    height: 100vh;
+  }
+
+
+  .Spectakles-eclipse-stage {
+    position: relative;
+  }
+
+
+  .Spectakles-eclipse-scroll {
+    display: none;
+  }
+
+
+  .Spectakles-intro-content {
+    opacity: 1;
+  }
+
+
+  .Spectakles-persona {
+    opacity: 1;
+
+    transform:
+      translate3d(
+        var(--persona-x),
+        var(--persona-y),
+        0
+      )
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+
+  .Spectakles-persona-card {
+    transition: none;
+  }
+
+}
+
+/* =========================================================
+   BLACK HOLE PARTICLE FIELD
+   ========================================================= */
+
+.Spectakles-black-hole {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  /*
+   * The canvas itself is transparent.
+   * The Eclipse core remains responsible for
+   * the dark background.
+   */
+  opacity: 0.92;
+
+  mix-blend-mode: screen;
+}
+
+
+/* =========================================================
+   MAKE SURE CONTENT STAYS ABOVE BLACK HOLE
+   ========================================================= */
+
+.Spectakles-eclipse-core
+  .Spectakles-intro-content {
+  z-index: 5;
+}
+
+
+.Spectakles-eclipse-core
+  .Spectakles-wordmark {
+  z-index: 6;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .Spectakles-black-hole {
+    opacity: 0.78;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .Spectakles-black-hole {
+    opacity: 0.65;
+  }
+
+}
+

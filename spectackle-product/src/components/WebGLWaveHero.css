@@ -1,0 +1,27 @@
+.webgl-wave-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: auto;
+  opacity: 0.92;
+}
+
+.hero-stage > *:not(.webgl-wave-hero) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 720px) {
+  .webgl-wave-hero {
+    opacity: 0.72;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .webgl-wave-hero {
+    opacity: 0.65;
+  }
+}

@@ -1,0 +1,612 @@
+/* =========================================================
+   BASE
+========================================================= */
+
+.neon-reveal {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+
+  isolation: isolate;
+
+  pointer-events: none;
+
+  --neon-color: #3c9b5a;
+
+  --neon-duration: 1800ms;
+
+  --neon-delay: 0ms;
+
+  --neon-width: 100%;
+
+  --neon-height: 1.4%;
+
+  --neon-intensity: 1;
+
+  --neon-spread: 28px;
+
+  --neon-offset: 38%;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.neon-reveal-content {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   MAIN NEON BAR
+========================================================= */
+
+.neon-reveal-bar {
+  position: absolute;
+
+  z-index: 50;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background: var(--neon-color);
+
+  border-radius: 999px;
+
+  /*
+   * Strong realistic glow.
+   */
+  box-shadow:
+    0 0 2px #ffffff,
+    0 0 5px var(--neon-color),
+    0 0 10px var(--neon-color),
+    0 0 20px var(--neon-color),
+    0 0 40px var(--neon-color),
+    0 0 80px
+      color-mix(
+        in srgb,
+        var(--neon-color) 45%,
+        transparent
+      );
+
+  filter:
+    blur(0.15px);
+
+  will-change:
+    transform,
+    opacity;
+
+  animation-duration:
+    var(--neon-duration);
+
+  animation-delay:
+    var(--neon-delay);
+
+  animation-timing-function:
+    cubic-bezier(
+      0.16,
+      0.72,
+      0.25,
+      1
+    );
+
+  animation-fill-mode:
+    both;
+}
+
+
+/* =========================================================
+   WHITE HOT CORE
+========================================================= */
+
+.neon-reveal-bar::after {
+  content: "";
+
+  position: absolute;
+
+  left: 3%;
+  right: 3%;
+
+  top: 50%;
+
+  height: 1px;
+
+  transform:
+    translateY(-50%);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.95
+    );
+
+  border-radius: 999px;
+
+  box-shadow:
+    0 0 3px #ffffff,
+    0 0 8px #ffffff,
+    0 0 14px var(--neon-color);
+
+  opacity:
+    var(--neon-intensity);
+}
+
+
+/* =========================================================
+   SOFT ATMOSPHERIC GLOW
+========================================================= */
+
+.neon-reveal-bar::before {
+  content: "";
+
+  position: absolute;
+
+  left: -10%;
+  right: -10%;
+
+  top: -1000%;
+
+  bottom: -1000%;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      color-mix(
+        in srgb,
+        var(--neon-color) 22%,
+        transparent
+      ) 0%,
+      color-mix(
+        in srgb,
+        var(--neon-color) 8%,
+        transparent
+      ) 25%,
+      transparent 65%
+    );
+
+  filter:
+    blur(
+      calc(
+        var(--neon-spread) * 1.4
+      )
+    );
+
+  opacity:
+    calc(
+      var(--neon-intensity) * 0.75
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HORIZONTAL CENTER
+========================================================= */
+
+.neon-reveal-horizontal
+.neon-reveal-bar {
+
+  width:
+    var(--neon-width);
+
+  height:
+    var(--neon-height);
+
+  left: 50%;
+
+  top:
+    var(--neon-offset);
+
+  transform:
+    translate(-50%, -50%)
+    scaleX(0);
+
+  transform-origin:
+    center;
+}
+
+
+/* =========================================================
+   SCROLL DOWN
+========================================================= */
+
+/*
+ * IMPORTANT FIX:
+ *
+ * .neon-reveal-forward
+ * and
+ * .neon-reveal-from-center
+ *
+ * are on the SAME element.
+ *
+ * Therefore this selector must NOT
+ * put one inside the other.
+ */
+
+.neon-reveal-forward.neon-reveal-from-center
+.neon-reveal-bar {
+
+  animation-name:
+    neon-forward;
+}
+
+
+@keyframes neon-forward {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0);
+  }
+
+  12% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 0.9
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0.12);
+  }
+
+  35% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 1
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0.45);
+  }
+
+  55% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 0.95
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0.82);
+  }
+
+  72% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 0.75
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(1);
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(1.12);
+  }
+}
+
+
+/* =========================================================
+   SCROLL UP
+========================================================= */
+
+.neon-reveal-backward.neon-reveal-from-center
+.neon-reveal-bar {
+
+  animation-name:
+    neon-backward;
+}
+
+
+@keyframes neon-backward {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(1.12);
+  }
+
+  28% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 0.7
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(1);
+  }
+
+  48% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 0.95
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0.78);
+  }
+
+  68% {
+
+    opacity:
+      calc(
+        var(--neon-intensity)
+        * 0.9
+      );
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0.42);
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scaleX(0);
+  }
+}
+
+
+/* =========================================================
+   LEFT
+========================================================= */
+
+.neon-reveal-from-left
+.neon-reveal-bar {
+
+  width:
+    var(--neon-width);
+
+  height:
+    var(--neon-height);
+
+  left: 0;
+
+  top:
+    var(--neon-offset);
+
+  transform:
+    translateY(-50%)
+    scaleX(0);
+
+  transform-origin:
+    left center;
+}
+
+
+.neon-reveal-forward.neon-reveal-from-left
+.neon-reveal-bar {
+
+  animation-name:
+    neon-left;
+}
+
+
+@keyframes neon-left {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      scaleX(0);
+  }
+
+  15% {
+
+    opacity: 1;
+  }
+
+  65% {
+
+    opacity: 0.9;
+
+    transform:
+      translateY(-50%)
+      scaleX(1);
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      scaleX(1.1);
+  }
+}
+
+
+/* =========================================================
+   RIGHT
+========================================================= */
+
+.neon-reveal-from-right
+.neon-reveal-bar {
+
+  width:
+    var(--neon-width);
+
+  height:
+    var(--neon-height);
+
+  left: auto;
+
+  right: 0;
+
+  top:
+    var(--neon-offset);
+
+  transform:
+    translateY(-50%)
+    scaleX(0);
+
+  transform-origin:
+    right center;
+}
+
+
+.neon-reveal-forward.neon-reveal-from-right
+.neon-reveal-bar {
+
+  animation-name:
+    neon-right;
+}
+
+
+@keyframes neon-right {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      scaleX(0);
+  }
+
+  15% {
+
+    opacity: 1;
+  }
+
+  65% {
+
+    opacity: 0.9;
+
+    transform:
+      translateY(-50%)
+      scaleX(1);
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      scaleX(1.1);
+  }
+}
+
+
+/* =========================================================
+   MIRROR
+========================================================= */
+
+.neon-reveal-bar-mirror {
+
+  opacity: 0.45;
+
+  filter:
+    blur(0.4px);
+}
+
+
+/* =========================================================
+   Spectakles ECLIPSE NEON
+========================================================= */
+
+.Spectakles-eclipse-neon {
+
+  position: absolute;
+
+  /*
+   * Make the neon extend outside
+   * the Eclipse.
+   */
+  inset:
+    -25% -18%;
+
+  width: 136%;
+  height: 150%;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 720px) {
+
+  .Spectakles-eclipse-neon {
+
+    inset:
+      -15% -25%;
+
+    width: 150%;
+    height: 130%;
+  }
+
+  .neon-reveal {
+
+    --neon-spread: 18px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .neon-reveal-bar {
+
+    animation: none !important;
+
+    opacity: 0.25;
+  }
+}

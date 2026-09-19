@@ -1,0 +1,749 @@
+/* =========================================================
+   INSTITUTIONS BENTO
+========================================================= */
+
+.institution-bento {
+  width: 100%;
+  margin-top: 60px;
+}
+
+.institution-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 230px;
+  gap: 14px;
+  width: 100%;
+}
+
+
+/* =========================================================
+   CARD BASE
+========================================================= */
+
+.institution-bento-card {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(32, 32, 44, 0.12);
+  isolation: isolate;
+  transform: translate3d(var(--pointer-x, 0px), var(--pointer-y, 0px), 0);
+  opacity: 0;
+  transition:
+    transform 0.35s ease,
+    opacity 0.6s ease,
+    box-shadow 0.35s ease;
+}
+
+.institution-bento-card.is-visible {
+  opacity: 1;
+}
+
+.institution-bento-card:hover {
+  box-shadow: 0 22px 55px rgba(32, 32, 44, 0.22);
+}
+
+
+/* =========================================================
+   CARD SIZES
+========================================================= */
+
+.institution-bento-wide   { grid-column: span 2; }
+.institution-bento-tall   { grid-row: span 2; }
+.institution-bento-square { grid-column: span 1; }
+
+
+/* =========================================================
+   COLOR TREATMENTS
+========================================================= */
+
+.institution-bento-green {
+  background: linear-gradient(150deg, #1b5e32 0%, #287841 50%, #34914f 100%);
+}
+
+.institution-bento-yellow {
+  background: linear-gradient(150deg, #b8860b 0%, #d4a017 50%, #e6b82e 100%);
+}
+
+.institution-bento-peach {
+  background: linear-gradient(150deg, #b85c44 0%, #cb7157 50%, #de876e 100%);
+}
+
+.institution-bento-ink {
+  background: linear-gradient(150deg, #0d0d18 0%, #151524 50%, #1e1e32 100%);
+}
+
+
+/* =========================================================
+   CARD TOP  (monospace label row)
+========================================================= */
+
+.institution-bento-card-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.institution-bento-card-top svg {
+  opacity: 0.75;
+}
+
+/* Light-tone overrides for top header */
+.institution-bento-yellow .institution-bento-card-top,
+.institution-bento-peach  .institution-bento-card-top {
+  color: rgba(26, 26, 36, 0.75);
+}
+
+
+/* =========================================================
+   CARD BOTTOM  (title + body + arrow)
+========================================================= */
+
+.institution-bento-card-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 18px 20px;
+  color: #ffffff;
+}
+
+/* Wide cards: constrain text strictly to the left half (0 to 52%) */
+.institution-bento-wide .institution-bento-card-bottom {
+  max-width: 53%;
+}
+
+.institution-bento-card-bottom h3 {
+  margin: 0;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  font-weight: 650;
+}
+
+.institution-bento-wide .institution-bento-card-bottom h3 {
+  font-size: clamp(19px, 1.8vw, 25px);
+}
+
+.institution-bento-tall .institution-bento-card-bottom h3 {
+  font-size: clamp(22px, 2.2vw, 30px);
+}
+
+.institution-bento-card-bottom p {
+  max-width: 320px;
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  line-height: 1.38;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.institution-bento-card-bottom a {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.institution-bento-card-bottom a:hover {
+  transform: translate(2px, -2px);
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Light-tone text color overrides (Yellow & Peach) */
+.institution-bento-yellow .institution-bento-card-bottom,
+.institution-bento-peach  .institution-bento-card-bottom {
+  color: #1a1a24;
+}
+
+.institution-bento-yellow .institution-bento-card-bottom p {
+  color: rgba(26, 26, 36, 0.72);
+}
+
+.institution-bento-peach .institution-bento-card-bottom p {
+  color: rgba(26, 26, 36, 0.72);
+}
+
+.institution-bento-yellow .institution-bento-card-bottom a,
+.institution-bento-peach  .institution-bento-card-bottom a {
+  color: #1a1a24;
+  background: rgba(26, 26, 36, 0.12);
+}
+
+.institution-bento-yellow .institution-bento-card-bottom a:hover,
+.institution-bento-peach  .institution-bento-card-bottom a:hover {
+  background: rgba(26, 26, 36, 0.22);
+}
+
+
+/* =========================================================
+   SPATIAL VISUAL ZONES (Guaranteed zero text overlap)
+========================================================= */
+
+.ib-visual {
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Square cards: visual is strictly confined to upper row (Y: 42px - 82px) */
+.institution-bento-square .ib-visual {
+  position: absolute;
+  top: 44px;
+  left: 20px;
+  right: 20px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Wide cards: visual is strictly on the right half (56% to 100%) */
+.institution-bento-wide .ib-visual {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  bottom: 20px;
+  width: 44%;
+  max-width: 235px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Tall card: visual is strictly in upper half (Y: 48px to 240px) */
+.institution-bento-tall .ib-visual {
+  position: absolute;
+  top: 48px;
+  left: 20px;
+  right: 20px;
+  height: 200px;
+}
+
+
+/* =========================================================
+   1. CAMPUS VISUAL (Wide card, right side)
+========================================================= */
+
+.ib-visual-campus {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ib-campus-dots {
+  display: grid;
+  grid-template-columns: repeat(6, 12px);
+  gap: 8px;
+}
+
+.ib-campus-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.ib-campus-dot-active {
+  background: #a7f3d0;
+  box-shadow: 0 0 0 3px rgba(167, 243, 208, 0.25);
+}
+
+.ib-campus-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.ib-campus-pulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  animation: ib-pulse 1.8s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   2. PLACEMENT VISUAL (Tall card, upper half)
+========================================================= */
+
+.ib-visual-placement {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ib-placement-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ib-placement-step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11.5px;
+  color: rgba(26, 26, 36, 0.5);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(26, 26, 36, 0.08);
+}
+
+.ib-placement-step.done {
+  color: rgba(26, 26, 36, 0.85);
+}
+
+.ib-placement-step.active {
+  color: #1a1a24;
+  font-weight: 650;
+}
+
+.ib-step-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(26, 26, 36, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ib-placement-step.done .ib-step-dot {
+  background: #1a1a24;
+  border-color: #1a1a24;
+  color: #e6b82e;
+}
+
+.ib-placement-step.active .ib-step-dot {
+  border-color: #1a1a24;
+  background: rgba(26, 26, 36, 0.1);
+}
+
+.ib-placement-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.ib-placement-bar {
+  height: 5px;
+  background: rgba(26, 26, 36, 0.14);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ib-placement-bar span {
+  display: block;
+  height: 100%;
+  background: #1a1a24;
+  border-radius: 3px;
+}
+
+.ib-placement-val {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: rgba(26, 26, 36, 0.65);
+}
+
+
+/* =========================================================
+   3. AI PRACTICE VISUAL (Square card, upper zone)
+========================================================= */
+
+.ib-visual-ai {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ib-ai-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(26, 26, 36, 0.1);
+  border: 1px solid rgba(26, 26, 36, 0.16);
+  border-radius: 999px;
+  padding: 4px 9px;
+}
+
+.ib-ai-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1a1a24;
+}
+
+.ib-ai-name {
+  font-size: 10px;
+  font-weight: 650;
+  color: #1a1a24;
+}
+
+.ib-ai-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.06em;
+  color: rgba(26, 26, 36, 0.6);
+  text-transform: uppercase;
+}
+
+.ib-ai-mini-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.ib-ai-mini-wave i {
+  display: block;
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: #1a1a24;
+  opacity: 0.45;
+  animation: ib-wave 1.2s ease-in-out infinite;
+}
+
+.ib-ai-mini-wave i:nth-child(2) { animation-delay: 0.2s; height: 16px; }
+.ib-ai-mini-wave i:nth-child(3) { animation-delay: 0.4s; height: 20px; opacity: 0.8; }
+.ib-ai-mini-wave i:nth-child(4) { animation-delay: 0.6s; height: 14px; }
+.ib-ai-mini-wave i:nth-child(5) { animation-delay: 0.8s; height: 10px; }
+
+
+/* =========================================================
+   4. MOCK INTERVIEWS VISUAL (Square card, upper zone)
+========================================================= */
+
+.ib-visual-interviews {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ib-iv-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.ib-iv-rec-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: ib-pulse 1.4s ease-in-out infinite;
+}
+
+.ib-iv-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+}
+
+.ib-iv-bar {
+  width: 3.5px;
+  border-radius: 2px 2px 0 0;
+  background: #60a5fa;
+}
+
+
+/* =========================================================
+   5. GROUP DISCUSSIONS VISUAL (Square card, upper zone)
+========================================================= */
+
+.ib-visual-discussions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ib-disc-avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.ib-disc-av {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  border: 1.5px solid #287841;
+  margin-left: -5px;
+}
+
+.ib-disc-av:first-child {
+  margin-left: 0;
+}
+
+.ib-disc-av-1 { background: #dcfce7; color: #15803d; }
+.ib-disc-av-2 { background: #fef08a; color: #a16207; }
+.ib-disc-av-3 { background: #fed7aa; color: #c2410c; }
+
+.ib-disc-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ib-disc-pulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #86efac;
+  animation: ib-pulse 1.8s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   6. PRESENTATIONS VISUAL (Wide card, right side)
+========================================================= */
+
+.ib-visual-presentations {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.ib-slide {
+  background: #ffffff;
+  border-radius: 11px;
+  padding: 12px 14px;
+  width: 90%;
+  max-width: 215px;
+  box-shadow: 0 8px 24px rgba(26, 26, 36, 0.16);
+  color: #1a1a24;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ib-slide-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #1a1a24;
+}
+
+.ib-slide-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ib-slide-bullets span {
+  font-size: 9px;
+  color: #64748b;
+  padding-left: 7px;
+  border-left: 2px solid rgba(26, 26, 36, 0.12);
+  line-height: 1.35;
+}
+
+.ib-slide-active {
+  color: #b8860b !important;
+  border-left-color: #b8860b !important;
+  font-weight: 600;
+}
+
+.ib-slide-footer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.ib-slide-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(26, 26, 36, 0.18);
+}
+
+.ib-slide-dot-active {
+  background: #b8860b;
+  width: 12px;
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   7. INSIGHTS VISUAL (Wide card, right side)
+========================================================= */
+
+.ib-visual-insights {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ib-insights-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.ib-insights-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ib-insights-bar {
+  display: block;
+  width: 20px;
+  border-radius: 4px 4px 0 0;
+  background: rgba(26, 26, 36, 0.16);
+}
+
+.ib-insights-bar.last {
+  background: #1a1a24;
+}
+
+.ib-insights-label {
+  font-size: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: rgba(26, 26, 36, 0.5);
+  text-transform: uppercase;
+}
+
+.ib-insights-stat {
+  font-size: 10.5px;
+  color: rgba(26, 26, 36, 0.72);
+}
+
+.ib-insights-stat strong {
+  color: #1a1a24;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+@keyframes ib-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.8); }
+}
+
+@keyframes ib-wave {
+  0%, 100% { transform: scaleY(0.5); }
+  50%       { transform: scaleY(1.1); }
+}
+
+
+/* =========================================================
+   TABLET (<= 900px)
+========================================================= */
+
+@media (max-width: 900px) {
+  .institution-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 230px;
+  }
+
+  .institution-bento-wide  { grid-column: span 2; }
+  .institution-bento-tall  { grid-row: span 2; }
+}
+
+
+/* =========================================================
+   MOBILE (<= 720px)
+========================================================= */
+
+@media (max-width: 720px) {
+  .institution-bento {
+    margin-top: 40px;
+  }
+
+  .institution-bento-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 240px;
+    gap: 12px;
+  }
+
+  .institution-bento-wide,
+  .institution-bento-tall,
+  .institution-bento-square {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .institution-bento-wide .institution-bento-card-bottom {
+    max-width: 100%;
+  }
+
+  .institution-bento-card-bottom h3 {
+    font-size: 22px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .institution-bento-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .ib-campus-pulse,
+  .ib-iv-rec-dot,
+  .ib-disc-pulse,
+  .ib-ai-mini-wave i {
+    animation: none;
+  }
+}
