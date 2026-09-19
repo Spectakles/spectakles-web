@@ -22,7 +22,8 @@
 - **Styling**: Tailwind CSS + Custom Design System
 - **Animations**: GSAP (GreenSock) + Canvas/WebGL particle systems
 - **Icons**: Lucide React
-- **Backend / Services**: Supabase (Waitlist), Firebase Analytics & Google Gemini Multimodal APIs
+- **Backend / Services**: Supabase (Waitlist & Blog Sync), Firebase Analytics & Google Gemini Multimodal APIs
+- **Admin CMS**: Custom secure blog editorial suite with SEO preview engines & JSON-LD structured schemas
 
 ---
 
@@ -37,9 +38,13 @@
 ├── src/
 │   ├── app/                    # Next.js App Router routes & layouts
 │   │   ├── about/page.tsx      # About Spectakles
+│   │   ├── admin/page.tsx      # Admin Blog CMS & Editorial Management Panel
+│   │   ├── api/                # API route handlers
+│   │   │   ├── admin/          # Admin authentication, session check & logout
+│   │   │   └── blogs/          # Blog CRUD endpoints & slug-specific APIs
 │   │   ├── blog/               # Insights blog
-│   │   │   ├── [slug]/page.tsx # Dynamic article reader
-│   │   │   └── page.tsx        # Blog index
+│   │   │   ├── [slug]/page.tsx # Dynamic SEO article reader with JSON-LD schema
+│   │   │   └── page.tsx        # Dynamic blog index with category filters & search
 │   │   ├── faq/page.tsx        # Frequently asked questions
 │   │   ├── impact/page.tsx     # Institutional impact & case studies
 │   │   ├── pricing/page.tsx    # Pricing & institution tiers
@@ -47,14 +52,47 @@
 │   │   ├── layout.tsx          # Root layout, metadata & global background
 │   │   └── page.tsx            # Home landing page
 │   ├── components/             # Reusable UI & interactive components
-│   ├── data/                   # Blog articles & static data models
-│   ├── lib/                    # Supabase client & Firebase analytics
+│   │   ├── admin/              # Blog editor, dashboard & SEO simulator
+│   │   └── blog/               # Dynamic article reader with TOC & link renderer
+│   ├── data/                   # Seed articles & static data models
+│   ├── lib/                    # Blog store, auth HMAC crypto, Supabase & Firebase
 │   └── styles/                 # Specialized component animation stylesheets
 ├── .env.example                # Environment variables template
 ├── next.config.mjs             # Next.js configuration
 ├── tailwind.config.ts          # Tailwind CSS theme extension
 └── tsconfig.json               # TypeScript path aliases (@/*)
 ```
+
+---
+
+## Admin Blog CMS Panel
+
+Spectakles Web includes an integrated, production-grade Editorial Content Management System for publishing and optimizing articles.
+
+### Access & Default Credentials
+
+Navigate to `/admin` in your browser:
+
+- **URL**: `http://localhost:3000/admin`
+- **Default Email**: `admin@spectakles.in` (configurable via `ADMIN_EMAIL`)
+- **Default Password**: `spectakles2026!admin` (configurable via `ADMIN_PASSWORD`)
+
+### CMS Capabilities
+
+1. **Rich Block Content Builder**:
+   - Create and arrange Headings (H2/H3), Paragraphs, Blockquotes, and Bullet Lists.
+   - Embed inline hyperlinks formatted as `[Anchor Text](https://link.com)` or bare URLs, automatically rendered as accessible links.
+2. **Media & Image Integration**:
+   - Direct image URL entry or one-click Unsplash presets.
+   - Image file uploader with base64 data conversion for instant local asset embedding.
+3. **Real-time SEO Simulation**:
+   - **Google SERP Snippet Preview**: Displays real-time desktop/mobile search card rendering with character limit warnings.
+   - **OpenGraph & Twitter Card Preview**: Previews high-impact 1200x630 social sharing cards.
+4. **Structured Data & Discoverability**:
+   - Automatically generates `<script type="application/ld+json">` with `schema.org/BlogPosting` specifications.
+   - Dynamic canonical URL tags and keyword meta-injection.
+5. **Persistent Storage & Cloud Sync**:
+   - Stores articles in `data/blogs.json` locally and synchronously backs up to Supabase if configured.
 
 ---
 
@@ -79,7 +117,7 @@ npm install
 cp .env.example .env.local
 ```
 
-Fill in your Supabase and Firebase keys (optional in development; fallbacks enabled).
+Fill in your admin credentials, Supabase, and Firebase keys (optional in development; fallbacks enabled).
 
 3. Run the development server:
 
