@@ -1,0 +1,369 @@
+[
+  {
+    "slug": "how-to-speak-with-confidence-in-a-group-discussion",
+    "title": "How to speak with confidence in a group discussion",
+    "excerpt": "A practical framework for entering the conversation, making your point, and helping the room move forward.",
+    "category": "Group Discussion",
+    "author": "Ananya Mehta",
+    "authorRole": "Learning & communication writer",
+    "authorBio": "Writes about the small, practical shifts that help people think clearly and show up with confidence.",
+    "date": "September 12, 2026",
+    "readTime": "6 min read",
+    "image": "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=85",
+    "imageAlt": "A team collaborating around a table in a bright meeting room",
+    "tags": [
+      "GD",
+      "communication",
+      "confidence"
+    ],
+    "featured": true,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Group discussions reward more than the loudest voice. The people who make an idea clearer, connect two perspectives, or create room for someone else often have the greatest influence."
+      },
+      {
+        "type": "paragraph",
+        "text": "Confidence in a GD is less about performing certainty and more about having a reliable way to enter the room. With a simple structure, you can spend less energy wondering when to speak and more energy listening for the useful thing to add."
+      },
+      {
+        "type": "heading",
+        "id": "start-with-a-point",
+        "level": 2,
+        "text": "Start with one clear point"
+      },
+      {
+        "type": "paragraph",
+        "text": "Before you speak, reduce your thought to one sentence. A point that is easy to repeat is easier for the room to build on. Add one example or consequence, then stop long enough for someone else to respond."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Name the idea in plain language.",
+          "Support it with one concrete example.",
+          "Leave a small opening for another perspective."
+        ]
+      },
+      {
+        "type": "heading",
+        "id": "listen-for-openings",
+        "level": 2,
+        "text": "Listen for openings"
+      },
+      {
+        "type": "paragraph",
+        "text": "A strong contribution often begins with something another person has already said. Try extending, clarifying, or respectfully challenging the point in front of you. This makes your entry feel relevant rather than rehearsed."
+      },
+      {
+        "type": "quote",
+        "text": "The best speakers in a group are usually the best listeners with a point of view.",
+        "attribution": "Spectakles coaching note"
+      },
+      {
+        "type": "heading",
+        "id": "leave-the-room-better",
+        "level": 2,
+        "text": "Leave the room better"
+      },
+      {
+        "type": "paragraph",
+        "text": "Aim to make the discussion easier for the next person. Summarise a thread, ask a sharper question, or invite a quieter perspective. These moves signal confidence because they show you are paying attention to the whole room."
+      },
+      {
+        "type": "paragraph",
+        "text": "Practice one of these moves in your next round. Confidence grows faster when it has a specific behaviour to attach to."
+      }
+    ],
+    "id": "seed-1",
+    "metaTitle": "How to speak with confidence in a group discussion",
+    "metaDescription": "A practical framework for entering the conversation, making your point, and helping the room move forward.",
+    "status": "published",
+    "createdAt": "2026-09-19T14:40:08.608Z",
+    "updatedAt": "2026-09-19T14:40:08.608Z"
+  },
+  {
+    "slug": "the-ai-interview-prep-stack",
+    "title": "The AI interview prep stack that actually helps",
+    "excerpt": "Use AI to rehearse your thinking, not replace it. Here is a smarter way to prepare for the questions that matter.",
+    "category": "AI & Interviews",
+    "author": "Rohan Kapoor",
+    "authorRole": "Product educator",
+    "authorBio": "Writes about the small, practical shifts that help people think clearly and show up with confidence.",
+    "date": "September 05, 2026",
+    "readTime": "8 min read",
+    "image": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
+    "imageAlt": "Colleagues discussing ideas in front of a whiteboard",
+    "tags": [
+      "AI",
+      "interviews",
+      "career"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Good interview preparation is a feedback loop: make an answer, notice what is unclear, try again. AI can make that loop faster, but only when you use it as a demanding practice partner rather than a shortcut."
+      },
+      {
+        "type": "heading",
+        "id": "build-your-context",
+        "level": 2,
+        "text": "Build your context first"
+      },
+      {
+        "type": "paragraph",
+        "text": "Give the tool the role, company, and kind of conversation you are preparing for. Then add your own experience. Generic prompts create generic answers; useful context creates useful friction."
+      },
+      {
+        "type": "heading",
+        "id": "practice-out-loud",
+        "level": 2,
+        "text": "Practice out loud"
+      },
+      {
+        "type": "paragraph",
+        "text": "Typing an answer hides the pauses and detours that appear when you speak. Use voice practice to discover where your thinking needs a cleaner structure."
+      },
+      {
+        "type": "list",
+        "items": [
+          "Ask for one follow-up at a time.",
+          "Record the answer before reviewing it.",
+          "Rewrite only the part that confused you."
+        ]
+      },
+      {
+        "type": "heading",
+        "id": "keep-your-voice",
+        "level": 2,
+        "text": "Keep your voice"
+      },
+      {
+        "type": "paragraph",
+        "text": "The goal is not a perfectly polished script. It is a sharper version of your own thinking. Leave room for natural language, specific stories, and the occasional pause."
+      }
+    ],
+    "id": "seed-2",
+    "metaTitle": "The AI interview prep stack that actually helps",
+    "metaDescription": "Use AI to rehearse your thinking, not replace it. Here is a smarter way to prepare for the questions that matter.",
+    "status": "published",
+    "createdAt": "2026-09-19T14:40:08.608Z",
+    "updatedAt": "2026-09-19T14:40:08.608Z"
+  },
+  {
+    "slug": "a-better-way-to-prepare-a-presentation",
+    "title": "A better way to prepare a presentation",
+    "excerpt": "Build the thread before you polish the slides. A clear argument makes every visual and sentence work harder.",
+    "category": "Presentation",
+    "author": "Ananya Mehta",
+    "authorRole": "Learning & communication writer",
+    "authorBio": "Writes about the small, practical shifts that help people think clearly and show up with confidence.",
+    "date": "August 26, 2026",
+    "readTime": "5 min read",
+    "image": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=85",
+    "imageAlt": "A presenter speaking to a small group in a modern office",
+    "tags": [
+      "presentation",
+      "communication"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "The most convincing presentations feel simple in the room because the thinking happened before the slides were designed. Start with the change you want the audience to make, then build backwards."
+      },
+      {
+        "type": "heading",
+        "id": "find-the-thread",
+        "level": 2,
+        "text": "Find the thread"
+      },
+      {
+        "type": "paragraph",
+        "text": "Write the presentation as three sentences: where we are, what is changing, and what we should do next. If those sentences are clear, your audience has a path to follow."
+      },
+      {
+        "type": "heading",
+        "id": "rehearse-the-transitions",
+        "level": 2,
+        "text": "Rehearse the transitions"
+      },
+      {
+        "type": "paragraph",
+        "text": "Most nerves collect between slides. Practice the sentence that connects one idea to the next, and the whole talk starts to feel more like one thought."
+      },
+      {
+        "type": "quote",
+        "text": "Clarity is not less detail. It is knowing which detail earns its place.",
+        "attribution": "Spectakles coaching note"
+      }
+    ],
+    "id": "seed-3",
+    "metaTitle": "A better way to prepare a presentation",
+    "metaDescription": "Build the thread before you polish the slides. A clear argument makes every visual and sentence work harder.",
+    "status": "published",
+    "createdAt": "2026-09-19T14:40:08.608Z",
+    "updatedAt": "2026-09-19T14:40:08.608Z"
+  },
+  {
+    "slug": "the-quiet-power-of-asking-a-good-question",
+    "title": "The quiet power of asking a good question",
+    "excerpt": "Questions can change the energy of a room. Learn how to make yours specific, generous, and genuinely useful.",
+    "category": "Communication",
+    "author": "Maya Iyer",
+    "authorRole": "Community editor",
+    "authorBio": "Writes about the small, practical shifts that help people think clearly and show up with confidence.",
+    "date": "August 14, 2026",
+    "readTime": "4 min read",
+    "image": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
+    "imageAlt": "A group listening to a colleague during a conversation",
+    "tags": [
+      "communication",
+      "student life"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A good question does more than request information. It gives people a better place to think from. That is why the right question can make a quiet room feel active without making it loud."
+      },
+      {
+        "type": "heading",
+        "id": "make-it-specific",
+        "level": 2,
+        "text": "Make it specific"
+      },
+      {
+        "type": "paragraph",
+        "text": "Broad questions invite broad answers. Add a context, a trade-off, or a moment you want to understand, and people can meet you somewhere concrete."
+      },
+      {
+        "type": "heading",
+        "id": "make-room",
+        "level": 2,
+        "text": "Make room for the answer"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ask the question, then let the silence do a little work. A thoughtful pause is not a failed conversation; it is often the space where a better answer arrives."
+      }
+    ],
+    "id": "seed-4",
+    "metaTitle": "The quiet power of asking a good question",
+    "metaDescription": "Questions can change the energy of a room. Learn how to make yours specific, generous, and genuinely useful.",
+    "status": "published",
+    "createdAt": "2026-09-19T14:40:08.608Z",
+    "updatedAt": "2026-09-19T14:40:08.608Z"
+  },
+  {
+    "slug": "your-first-week-of-career-preparation",
+    "title": "Your first week of career preparation",
+    "excerpt": "A calm, practical seven-day plan for turning career anxiety into a small set of useful next steps.",
+    "category": "Career",
+    "author": "Rohan Kapoor",
+    "authorRole": "Product educator",
+    "authorBio": "Writes about the small, practical shifts that help people think clearly and show up with confidence.",
+    "date": "August 02, 2026",
+    "readTime": "7 min read",
+    "image": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
+    "imageAlt": "Students working together in a campus library",
+    "tags": [
+      "career",
+      "student life",
+      "interviews"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Career preparation becomes less intimidating when it is treated as a series of small rehearsals instead of one enormous decision. This first week is designed to create momentum, not a perfect plan."
+      },
+      {
+        "type": "heading",
+        "id": "days-one-and-two",
+        "level": 2,
+        "text": "Days one and two: take stock"
+      },
+      {
+        "type": "paragraph",
+        "text": "List the roles that interest you, the experiences you can already explain, and the parts of an interview that make you hesitate. Clarity starts with an honest inventory."
+      },
+      {
+        "type": "heading",
+        "id": "days-three-to-five",
+        "level": 2,
+        "text": "Days three to five: rehearse"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Tell one project story in two minutes.",
+          "Practice one role-specific question.",
+          "Ask a peer for one piece of feedback."
+        ]
+      },
+      {
+        "type": "heading",
+        "id": "days-six-and-seven",
+        "level": 2,
+        "text": "Days six and seven: reflect"
+      },
+      {
+        "type": "paragraph",
+        "text": "Notice what became easier. Keep that behaviour, adjust one thing, and choose the next small rehearsal. Progress is easier to see when you leave a trail of attempts."
+      }
+    ],
+    "id": "seed-5",
+    "metaTitle": "Your first week of career preparation",
+    "metaDescription": "A calm, practical seven-day plan for turning career anxiety into a small set of useful next steps.",
+    "status": "published",
+    "createdAt": "2026-09-19T14:40:08.608Z",
+    "updatedAt": "2026-09-19T14:40:08.608Z"
+  },
+  {
+    "slug": "why-practice-works-better-than-performance",
+    "title": "Why practice works better than performance",
+    "excerpt": "The safest place to build confidence is a room where you are allowed to try, miss, and try again.",
+    "category": "Student Life",
+    "author": "Maya Iyer",
+    "authorRole": "Community editor",
+    "authorBio": "Writes about the small, practical shifts that help people think clearly and show up with confidence.",
+    "date": "July 23, 2026",
+    "readTime": "5 min read",
+    "image": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=85",
+    "imageAlt": "A student raising a hand in a seminar room",
+    "tags": [
+      "student life",
+      "confidence",
+      "communication"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Performance asks us to prove what we can do. Practice gives us somewhere to discover it. That distinction matters when confidence is still becoming a habit."
+      },
+      {
+        "type": "heading",
+        "id": "make-it-low-stakes",
+        "level": 2,
+        "text": "Make it low-stakes"
+      },
+      {
+        "type": "paragraph",
+        "text": "A useful practice environment gives feedback without turning every attempt into a verdict. You can pay attention to the behaviour itself: clarity, timing, listening, and recovery."
+      },
+      {
+        "type": "heading",
+        "id": "return-often",
+        "level": 2,
+        "text": "Return often"
+      },
+      {
+        "type": "paragraph",
+        "text": "Confidence compounds through repetition. A short round every week often changes more than one high-pressure session at the end of a semester."
+      }
+    ],
+    "id": "seed-6",
+    "metaTitle": "Why practice works better than performance",
+    "metaDescription": "The safest place to build confidence is a room where you are allowed to try, miss, and try again.",
+    "status": "published",
+    "createdAt": "2026-09-19T14:40:08.608Z",
+    "updatedAt": "2026-09-19T14:40:08.608Z"
+  }
+]
