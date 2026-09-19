@@ -1,4 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+@import "../styles/AsciiWavesBackground.css";
+@import "../styles/CreativeExperience.css";
+@import "../styles/InstitutionsBento.css";
+@import "../styles/MagicBento.css";
+@import "../styles/NeonReveal.css";
+@import "../styles/ParallaxPills.css";
+@import "../styles/ScrollPortalLayout.css";
+@import "../styles/SpectakleEclipseIntro.css";
+@import "../styles/SpectakleIntro.css";
+@import "../styles/WaitlistModal.css";
+@import "../styles/WebGLWaveHero.css";
+@import "../styles/blog.css";
 
 @tailwind base;
 @tailwind components;
