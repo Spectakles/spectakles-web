@@ -37,21 +37,6 @@ Ensure your environment meets the following requirements before getting started:
 
 ---
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Spectakles/spectackle-product.git
-   cd spectackle-product
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
----
-
 ## Usage
 
 ### Development Server
