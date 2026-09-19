@@ -84,7 +84,7 @@ button {
 }
 .site-header {
   height: 88px;
-  width: min(1280px, calc(100% - 64px));
+  width: min(1160px, calc(100% - 64px));
   margin: 0 auto;
   display: flex;
   align-items: center;

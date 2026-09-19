@@ -53,6 +53,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, [darkMode]);
 
   useEffect(() => {
+    setMenuOpen(false);
     if (typeof window !== "undefined" && window.location.hash) {
       const element = document.getElementById(window.location.hash.slice(1));
       if (element) {
@@ -61,10 +62,20 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
   }, [pathname]);
 
+  if (pathname?.startsWith("/admin")) {
+    return (
+      <DemoContext.Provider value={openDemo}>
+        <div className="admin-shell">
+          <main id="top">{children}</main>
+        </div>
+      </DemoContext.Provider>
+    );
+  }
+
   return (
     <DemoContext.Provider value={openDemo}>
       <div className="site-shell">
-        <header className="relative w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+        <header className="relative section-wrap py-6 flex items-center justify-between">
           {/* Brand Logo */}
           <Link
             className="flex items-center gap-2.5 group"
@@ -103,6 +114,13 @@ export default function Layout({ children }: { children: ReactNode }) {
               onClick={() => trackClick("nav_faq", "header")}
             >
               FAQ
+            </Link>
+            <Link
+              className="hover:text-brand-dark transition-colors"
+              href="/blog"
+              onClick={() => trackClick("nav_blog", "header")}
+            >
+              Blog
             </Link>
           </nav>
 
@@ -171,6 +189,15 @@ export default function Layout({ children }: { children: ReactNode }) {
               >
                 FAQ
               </Link>
+              <Link
+                href="/blog"
+                onClick={() => {
+                  trackClick("nav_blog", "mobile_menu");
+                  setMenuOpen(false);
+                }}
+              >
+                Blog
+              </Link>
             </div>
           )}
         </header>
@@ -203,6 +230,9 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
             <Link href="/faq" onClick={() => trackClick("nav_faq", "footer")}>
               FAQ
+            </Link>
+            <Link href="/blog" onClick={() => trackClick("nav_blog", "footer")}>
+              Blog
             </Link>
             <button
               onClick={() => {

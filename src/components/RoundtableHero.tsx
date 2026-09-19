@@ -35,6 +35,9 @@ export default function RoundtableHero() {
       style={{
         aspectRatio: `${BASE_WIDTH} / ${BASE_HEIGHT}`,
         boxShadow: "14px 14px 0 #e8e0d3, 0 20px 40px -15px rgba(0, 0, 0, 0.35)",
+        backgroundImage: "url(/assets/in-session-roundtable.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       <div
@@ -48,13 +51,12 @@ export default function RoundtableHero() {
           left: 0,
         }}
       >
-        {/* /roundtable embed commented out */}
-        {/* <iframe
+        <iframe
           src="/roundtable.html"
           title="Roundtable Live In-Session Preview"
           className="w-full h-full border-0 select-none pointer-events-auto"
           scrolling="no"
-        /> */}
+        />
       </div>
     </div>
   );
