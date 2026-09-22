@@ -28,15 +28,19 @@ export default function SpectaklesLogo({
   height,
   alt = "Spectakles logo",
 }: SpectaklesLogoProps) {
+  const calculatedWidth = width ?? (height ? Math.round(height * (1433 / 231)) : undefined);
+  const calculatedHeight = height ?? (width ? Math.round(width * (231 / 1433)) : undefined);
+
   return (
     <img
       src={spectaklesLogoSrc}
       alt={alt}
-      width={width}
-      height={height}
+      width={calculatedWidth}
+      height={calculatedHeight}
       className={className}
       style={{
         objectFit: "contain",
+        aspectRatio: "1433 / 231",
         height: height ? `${height}px` : undefined,
         width: width ? `${width}px` : "auto",
         maxWidth: "100%",

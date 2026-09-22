@@ -73,7 +73,7 @@ export default function ScrollPortalLayout({
   }, [perspective, scrub]);
 
   return (
-    <main
+    <div
       ref={sectionRef}
       className="portal-layout"
       style={
@@ -83,6 +83,6 @@ export default function ScrollPortalLayout({
       }
     >
       {children}
-    </main>
+    </div>
   );
 }
