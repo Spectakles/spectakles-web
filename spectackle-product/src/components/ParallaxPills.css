@@ -42,6 +42,8 @@
 }
 
 .parallax-pill-content {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -104,10 +106,9 @@
   box-shadow: 2px 3px 0 rgba(32, 32, 44, 0.18);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-}
-
-.parallax-pill.hero-pill-silence::before {
-  display: none;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
 }
 
 .parallax-pill.hero-pill-silence .pill-star {
@@ -131,10 +132,9 @@
   box-shadow: 2px 3px 0 rgba(32, 32, 44, 0.18);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-}
-
-.parallax-pill.hero-pill-human::before {
-  display: none;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
 }
 
 .parallax-pill.hero-pill-human .pill-arrow {
@@ -143,6 +143,51 @@
   line-height: 1;
   display: inline-flex;
   align-items: center;
+}
+
+/* Mouseover shine effect for hero pills matching Magic Bento */
+.parallax-pill.hero-pill-silence::before,
+.parallax-pill.hero-pill-human::before {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -60%;
+  width: 50%;
+  height: 340%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0.08) 80%,
+    transparent 100%
+  );
+  transform: rotate(25deg) translateX(-140%);
+  filter: blur(1px);
+  transition: opacity 0.2s ease;
+}
+
+.parallax-pill.hero-pill-silence:hover::before,
+.parallax-pill.hero-pill-human:hover::before {
+  opacity: 1;
+  animation: hero-pill-shine 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.parallax-pill.hero-pill-silence:hover,
+.parallax-pill.hero-pill-human:hover {
+  box-shadow: 3px 5px 0 rgba(32, 32, 44, 0.22);
+}
+
+@keyframes hero-pill-shine {
+  0% {
+    transform: rotate(25deg) translateX(-140%);
+  }
+  100% {
+    transform: rotate(25deg) translateX(360%);
+  }
 }
 
 .hero-stage-wrap {
