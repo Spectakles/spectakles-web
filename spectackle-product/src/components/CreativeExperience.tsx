@@ -545,8 +545,9 @@ export default function CreativeExperience() {
             </div>
             <div
               ref={visualRef}
+              id={`panel-${current.id}`}
               className={`creative-visual creative-visual-${current.id}`}
-              role="img"
+              role="region"
               aria-label={`${current.label} illustration`}
             >
               {Visual && <Visual />}
@@ -575,7 +576,8 @@ export default function CreativeExperience() {
           <div
             ref={listRef}
             className="creative-service-list"
-            role="list"
+            role="tablist"
+            aria-label="Practice areas"
           >
             {experiences.map((experience, index) => {
               const Icon = experience.icon;
@@ -584,6 +586,7 @@ export default function CreativeExperience() {
                 <button
                   key={experience.number}
                   type="button"
+                  id={`tab-${experience.id}`}
                   className={
                     index === active
                       ? "creative-service active"
@@ -592,10 +595,10 @@ export default function CreativeExperience() {
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
                   onClick={() => setActive(index)}
-                  role="listitem"
-                  aria-current={
-                    index === active ? "step" : undefined
-                  }
+                  role="tab"
+                  aria-selected={index === active}
+                  aria-controls={`panel-${experience.id}`}
+                  tabIndex={index === active ? 0 : -1}
                 >
                   <span className="creative-service-number">
                     {experience.number}

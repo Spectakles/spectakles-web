@@ -1,5 +1,5 @@
 import {
-  useLayoutEffect,
+  useEffect,
   useRef,
   type CSSProperties,
   type ReactNode,
@@ -25,7 +25,7 @@ export default function ScrollPortalLayout({
 }: ScrollPortalLayoutProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const container = sectionRef.current;
 
     if (!container) return;
