@@ -39,6 +39,9 @@ export default function ScrollPortalLayout({
       if (!scenes.length) return;
 
       scenes.forEach((scene, index) => {
+        // Keep above-the-fold hero section stable at natural scale/position to prevent layout shift (CLS)
+        if (index === 0) return;
+
         gsap.fromTo(
           scene,
           {
