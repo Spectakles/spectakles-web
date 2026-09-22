@@ -11,6 +11,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    include: ['lucide-react', 'gsap', 'react', 'react-dom', 'react-router-dom'],
   },
 });
