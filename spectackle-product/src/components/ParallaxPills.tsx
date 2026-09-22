@@ -50,12 +50,36 @@ export default function ParallaxPill({
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
+    let pointerRaf = 0;
+    const handlePointerMove = (e: PointerEvent) => {
+      const rect = pill.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      cancelAnimationFrame(pointerRaf);
+      pointerRaf = requestAnimationFrame(() => {
+        pill.style.setProperty("--pill-glow-x", `${x}px`);
+        pill.style.setProperty("--pill-glow-y", `${y}px`);
+        pill.style.setProperty("--pill-glow-opacity", "1");
+      });
+    };
+
+    const handlePointerLeave = () => {
+      cancelAnimationFrame(pointerRaf);
+      pill.style.setProperty("--pill-glow-opacity", "0");
+    };
+
+    pill.addEventListener("pointermove", handlePointerMove);
+    pill.addEventListener("pointerleave", handlePointerLeave);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      pill.removeEventListener("pointermove", handlePointerMove);
+      pill.removeEventListener("pointerleave", handlePointerLeave);
 
       if (animationFrame.current) {
         cancelAnimationFrame(animationFrame.current);
       }
+      cancelAnimationFrame(pointerRaf);
     };
   }, [strength]);
 
@@ -69,6 +93,8 @@ export default function ParallaxPill({
         } as React.CSSProperties
       }
     >
+      <div className="parallax-pill-glow" />
+      <div className="parallax-pill-shine-beam" />
       <span className="parallax-pill-content">{children}</span>
     </div>
   );
