@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./ParallaxPills.css";
 
 type ParallaxPillProps = {
@@ -19,7 +19,7 @@ export default function ParallaxPill({
   const pillRef = useRef<HTMLDivElement>(null);
   const animationFrame = useRef<number | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const pill = pillRef.current;
 
     if (!pill) return;

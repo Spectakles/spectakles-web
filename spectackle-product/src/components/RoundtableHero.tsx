@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import roundtableHtml from '../assets/roundtable.html?raw';
 import roundtableCss from '../assets/roundtable-compiled.css?raw';
 
@@ -9,18 +9,16 @@ export default function RoundtableHero() {
   const BASE_WIDTH = 1120;
   const BASE_HEIGHT = 860;
 
-  useLayoutEffect(() => {
-    const updateScale = () => {
-      if (containerRef.current) {
-        const width = containerRef.current.clientWidth;
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
         if (width > 0) {
           setScale(width / BASE_WIDTH);
         }
       }
-    };
+    });
 
-    updateScale();
-    const observer = new ResizeObserver(updateScale);
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
@@ -55,6 +53,7 @@ export default function RoundtableHero() {
       style={{
         aspectRatio: `${BASE_WIDTH} / ${BASE_HEIGHT}`,
         boxShadow: '14px 14px 0 #e8e0d3, 0 20px 40px -15px rgba(0, 0, 0, 0.35)',
+        containerType: 'inline-size',
       }}
     >
       <div
