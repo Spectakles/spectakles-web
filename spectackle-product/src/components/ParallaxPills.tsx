@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import "./ParallaxPills.css";
 
 type ParallaxPillProps = {
@@ -19,10 +19,23 @@ export default function ParallaxPill({
   const pillRef = useRef<HTMLDivElement>(null);
   const animationFrame = useRef<number | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const pill = pillRef.current;
 
     if (!pill) return;
+
+    const getOffset = () => {
+      const rect = pill.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const pillCenter = rect.top + rect.height / 2;
+      const distanceY = pillCenter - viewportCenter;
+      const maxDistance = window.innerHeight;
+      return (distanceY / maxDistance) * strength * 3;
+    };
+
+    // Calculate and apply resting position synchronously before first paint to eliminate CLS
+    const initialY = getOffset();
+    pill.style.setProperty("--pill-y", `${initialY}px`);
 
     const handleScroll = () => {
       if (animationFrame.current) {
@@ -30,25 +43,12 @@ export default function ParallaxPill({
       }
 
       animationFrame.current = requestAnimationFrame(() => {
-        const rect = pill.getBoundingClientRect();
-        
-        // Calculate distance from center of viewport
-        const viewportCenter = window.innerHeight / 2;
-        const pillCenter = rect.top + rect.height / 2;
-        
-        const distanceY = pillCenter - viewportCenter;
-        
-        // The parallax effect creates movement on Y axis proportional to scroll distance from center
-        const maxDistance = window.innerHeight;
-        const moveY = (distanceY / maxDistance) * strength * 3;
-        
+        const moveY = getOffset();
         pill.style.setProperty("--pill-y", `${moveY}px`);
       });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Initial calculation
-    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
