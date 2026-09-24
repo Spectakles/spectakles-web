@@ -1,5 +1,5 @@
 import {
-  useLayoutEffect,
+  useEffect,
   useRef,
   type CSSProperties,
   type ReactNode,
@@ -25,7 +25,7 @@ export default function ScrollPortalLayout({
 }: ScrollPortalLayoutProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const container = sectionRef.current;
 
     if (!container) return;
@@ -39,6 +39,9 @@ export default function ScrollPortalLayout({
       if (!scenes.length) return;
 
       scenes.forEach((scene, index) => {
+        // Keep above-the-fold hero section stable at natural scale/position to prevent layout shift (CLS)
+        if (index === 0) return;
+
         gsap.fromTo(
           scene,
           {
@@ -73,7 +76,7 @@ export default function ScrollPortalLayout({
   }, [perspective, scrub]);
 
   return (
-    <main
+    <div
       ref={sectionRef}
       className="portal-layout"
       style={
@@ -83,6 +86,6 @@ export default function ScrollPortalLayout({
       }
     >
       {children}
-    </main>
+    </div>
   );
 }

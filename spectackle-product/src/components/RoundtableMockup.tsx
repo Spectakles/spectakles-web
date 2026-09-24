@@ -109,7 +109,7 @@ export default function RoundtableMockup() {
 {/* BEGIN: MainContentArea */}
 <div className="flex-1 flex flex-row overflow-hidden relative" data-purpose="main-layout-container">
 {/* BEGIN: SpatialRoundtableRoom */}
-<main className="flex-1 relative flex flex-col items-center justify-center p-4 h-full" data-purpose="discussion-spatial-canvas">
+<div className="flex-1 relative flex flex-col items-center justify-center p-4 h-full" data-purpose="discussion-spatial-canvas">
 {/* Central Spatial Circle Container */}
 <div className="relative w-[600px] h-[580px] flex items-center justify-center">
 {/* Center Virtual Table Disc */}
@@ -224,7 +224,7 @@ export default function RoundtableMockup() {
           </p>
 </div>
 </div>
-</main>
+</div>
 {/* END: SpatialRoundtableRoom */}
 {/* BEGIN: CoachingTelemetrySidebar */}
 <aside className="w-[340px] bg-[#FFFBF0] text-[#1E1C26] p-6 flex flex-col justify-between border-l border-black/5 shadow-2xl flex-shrink-0" data-purpose="live-coaching-sidebar">

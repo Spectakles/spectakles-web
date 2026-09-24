@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import roundtableHtml from '../assets/roundtable.html?raw';
+import roundtableCss from '../assets/roundtable-compiled.css?raw';
 
 export default function RoundtableHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,17 +10,15 @@ export default function RoundtableHero() {
   const BASE_HEIGHT = 860;
 
   useEffect(() => {
-    const updateScale = () => {
-      if (containerRef.current) {
-        const width = containerRef.current.clientWidth;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
         if (width > 0) {
           setScale(width / BASE_WIDTH);
         }
       }
-    };
+    });
 
-    updateScale();
-    const observer = new ResizeObserver(updateScale);
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
@@ -27,19 +26,24 @@ export default function RoundtableHero() {
     return () => observer.disconnect();
   }, []);
 
-  // Ensure iframe content has no scrollbars and occupies full dimensions
+  // Ensure iframe content uses compiled static Tailwind styles with no external 3MB CDN script and full dimensions
   const formattedHtml = useMemo(() => {
-    return roundtableHtml.replace(
-      '</head>',
-      `<style>
-        html, body {
-          overflow: hidden !important;
-          margin: 0 !important;
-          height: 100% !important;
-          width: 100% !important;
-        }
-      </style></head>`
-    );
+    return roundtableHtml
+      .replace(
+        /<script src="https:\/\/cdn\.tailwindcss\.com[^"]*"><\/script>/i,
+        `<style>${roundtableCss}</style>`
+      )
+      .replace(
+        '</head>',
+        `<style>
+          html, body {
+            overflow: hidden !important;
+            margin: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+          }
+        </style></head>`
+      );
   }, []);
 
   return (
@@ -49,6 +53,7 @@ export default function RoundtableHero() {
       style={{
         aspectRatio: `${BASE_WIDTH} / ${BASE_HEIGHT}`,
         boxShadow: '14px 14px 0 #e8e0d3, 0 20px 40px -15px rgba(0, 0, 0, 0.35)',
+        containerType: 'inline-size',
       }}
     >
       <div

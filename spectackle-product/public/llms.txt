@@ -1,0 +1,12 @@
+# Spectakles
+
+> Make every voice count. Spectakles turns group discussions, practice sessions, and presentations into confident, measurable moments of participation for educational institutions.
+
+## Core Information
+- Website: https://spectakles.in/
+- Mission: Helping students find their voice in group discussions and campus placement rounds through intelligent AI simulation and standard 5-parameter rubric assessment.
+
+## Key Pages
+- [Home](https://spectakles.in/): AI group discussion simulation, rubric breakdown, and placement prep.
+- [About](https://spectakles.in/about): Mission, philosophy, and team behind Spectakles.
+- [FAQ](https://spectakles.in/faq): Common questions from students and institutions regarding the platform.

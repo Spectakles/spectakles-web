@@ -72,14 +72,14 @@ export default function Layout({ children }: { children: ReactNode }) {
           {/* Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold text-gray-700" aria-label="Main navigation">
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="inline-block transition-all duration-200 hover:scale-[1.03] hover:text-black cursor-pointer"
               to="/#how-it-works"
               onClick={() => trackClick("nav_how_it_works", "header")}
             >
               How it works
             </Link>
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="inline-block transition-all duration-200 hover:scale-[1.06] hover:text-black cursor-pointer"
               to="/about"
               onClick={() => trackClick("nav_about", "header")}
             >
@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
             {/* <button className="hover:text-brand-dark transition-colors" onClick={() => setShowDemo(true)}>Early Access</button> */}
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="inline-block transition-all duration-200 hover:scale-[1.09] hover:text-black cursor-pointer"
               to="/faq"
               onClick={() => trackClick("nav_faq", "header")}
             >
@@ -133,6 +133,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           {menuOpen && (
             <div className="absolute top-[80px] left-0 right-0 bg-white shadow-md p-6 flex flex-col gap-4 text-center z-50 border-t border-gray-100 lg:hidden font-semibold text-gray-700">
               <Link
+                className="inline-block transition-all duration-200 hover:scale-[1.03] hover:text-black cursor-pointer"
                 to="/#how-it-works"
                 onClick={() => {
                   trackClick("nav_how_it_works", "mobile_menu");
@@ -142,6 +143,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 How it works
               </Link>
               <Link
+                className="inline-block transition-all duration-200 hover:scale-[1.06] hover:text-black cursor-pointer"
                 to="/about"
                 onClick={() => {
                   trackClick("nav_about", "mobile_menu");
@@ -152,6 +154,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Link>
               {/* <button onClick={() => { setShowDemo(true); setMenuOpen(false); }}>Early Access</button> */}
               <Link
+                className="inline-block transition-all duration-200 hover:scale-[1.09] hover:text-black cursor-pointer"
                 to="/faq"
                 onClick={() => {
                   trackClick("nav_faq", "mobile_menu");
