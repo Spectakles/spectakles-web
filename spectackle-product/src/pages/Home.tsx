@@ -23,6 +23,7 @@ import MagicBento from "../components/MagicBento";
 import ParallaxPills from "../components/ParallaxPills";
 import ScrollPortalLayout from "../components/ScrollPortalLayout";
 import RoundtableHero from "../components/RoundtableHero";
+import TypingText from "../components/TypingText";
 import { trackClick } from "../lib/firebase";
 
 export default function Home() {
@@ -37,17 +38,29 @@ export default function Home() {
           <div className="hero-copy">
             <div className="announcement">
               <Sparkles size={15} />
-              Built for the moments that matter
+              Your next GD starts here
             </div>
 
             <h1>
-              Make every voice in the room <em>count.</em>
+              Stop rehearsing.{" "}
+              <em>
+                <TypingText
+                  words={[
+                    "Start speaking.",
+                    "Own the GD.",
+                    "Think on your feet.",
+                    "Take the floor.",
+                    "Stand out.",
+                  ]}
+                  typingSpeed={70}
+                  deletingSpeed={38}
+                  pauseTime={2200}
+                />
+              </em>
             </h1>
 
             <p className="hero-text">
-              Spectakles turns group discussions, practice sessions, and
-              presentations into confident, measurable moments of
-              participation.
+              Think fast. Speak smart. Own your next GD.
             </p>
 
             <div className="hero-actions">
@@ -73,7 +86,7 @@ export default function Home() {
               strength={16}
             >
               <span className="pill-star">★</span>
-              <span>No awkward silences</span>
+              <span>Stop overthinking</span>
             </ParallaxPills>
 
             <ParallaxPills
@@ -82,7 +95,7 @@ export default function Home() {
               rotate={6}
               strength={22}
             >
-              <span>Made for humans</span>
+              <span>Speak when it matters</span>
               <span className="pill-arrow">↗</span>
             </ParallaxPills>
           </div>
@@ -101,17 +114,15 @@ export default function Home() {
           id="institutions"
         >
           <div className="section-intro">
-            <p className="eyebrow">More than participation</p>
+            <p className="eyebrow">The GD reality</p>
 
             <h2>
-              Turn “any questions?” into{" "}
-              <span>everyone&apos;s in.</span>
+              You knew the answer.{" "}
+              <span>You just didn&apos;t say it.</span>
             </h2>
 
             <p>
-              Whether you&apos;re a placement leader, faculty member, or
-              student success team, Spectakles gives every learner a place to
-              practice, participate, and progress.
+              Because knowing what to say isn&apos;t enough. You need to say it when it matters.
             </p>
           </div>
 
@@ -126,15 +137,14 @@ export default function Home() {
           id="how-it-works"
         >
           <div className="section-intro centered">
-            <p className="eyebrow">A better kind of practice</p>
+            <p className="eyebrow">The GD loop</p>
 
             <h2>
-              From first word to <span>full flow.</span>
+              From awkward silence to <span>active participation.</span>
             </h2>
 
             <p>
-              One playful loop helps students prepare, show up, and know
-              exactly how to improve next time.
+              Practice real conversations, handle pressure, respond on the spot and make your voice count.
             </p>
           </div>
 
@@ -151,17 +161,16 @@ export default function Home() {
           <div className="section-wrap experience-inner">
             <div className="experience-copy">
               <p className="eyebrow eyebrow-light">
-                The student experience
+                Live GD simulation
               </p>
 
               <h2>
-                Practice that feels more like{" "}
-                <span>a game night.</span>
+                Less hesitation.{" "}
+                <span>More conversation.</span>
               </h2>
 
               <p>
-                No blank pages. No cold call energy. Just a clear,
-                low-pressure way to speak up, listen well, and get better.
+                Build the confidence to speak clearly, even when the pressure is real.
               </p>
 
               <div className="experience-list">
@@ -171,9 +180,9 @@ export default function Home() {
                   </span>
 
                   <span>
-                    <b>Low stakes, high energy</b>
+                    <b>Think on your feet</b>
                     <small>
-                      Students can try, miss, and try again.
+                      Handle interruptions, counter arguments, and jump in.
                     </small>
                   </span>
                 </div>
@@ -184,9 +193,9 @@ export default function Home() {
                   </span>
 
                   <span>
-                    <b>Progress they can feel</b>
+                    <b>Know how you sound</b>
                     <small>
-                      Small wins become visible over time.
+                      Track speaking pace, fillers, and talk time in real time.
                     </small>
                   </span>
                 </div>
@@ -197,9 +206,9 @@ export default function Home() {
                   </span>
 
                   <span>
-                    <b>Feedback that sounds human</b>
+                    <b>Placement-grade rubric</b>
                     <small>
-                      Specific, warm, and ready for next round.
+                      Evaluated on the exact 5 parameters campus recruiters test.
                     </small>
                   </span>
                 </div>
@@ -210,7 +219,7 @@ export default function Home() {
                 to="/#top"
                 onClick={() => trackClick("explore_student_journey", "student_experience_section")}
               >
-                Explore the student journey{" "}
+                Explore the GD simulation{" "}
                 <MoveUpRight size={16} />
               </Link>
             </div>
@@ -222,7 +231,7 @@ export default function Home() {
                 </span>
 
                 <span className="result-status">
-                  <span /> Round complete
+                  <span /> GD Round complete
                 </span>
               </div>
 
@@ -232,8 +241,8 @@ export default function Home() {
                 </span>
 
                 <div>
-                  <p>Nice speaking, Ananya.</p>
-                  <span>Here&apos;s your instant snapshot.</span>
+                  <p>Strong intervention, Ananya.</p>
+                  <span>Here&apos;s your instant GD scorecard.</span>
                 </div>
               </div>
 
@@ -241,39 +250,39 @@ export default function Home() {
                 <div>
                   <span>Talk time</span>
                   <b>2:14</b>
-                  <small>↑ 32s vs last time</small>
+                  <small>Optimal 2–3m window</small>
                 </div>
 
                 <div>
-                  <span>Times you spoke</span>
+                  <span>Interventions</span>
                   <b>7</b>
-                  <small>New record</small>
+                  <small>Floor takeovers</small>
                 </div>
 
                 <div>
-                  <span>Vibe check</span>
-                  <b>Confident</b>
-                  <small>Smiled 12×</small>
+                  <span>Speaking pace</span>
+                  <b>138 WPM</b>
+                  <small>Clear & steady</small>
                 </div>
               </div>
 
               <div className="highlight-box">
                 <span>
                   <Check size={15} />
-                  <b>What landed:</b> your fresher + copilot example gave
-                  the room something to build on.
+                  <b>What landed:</b> Backed your counter-point with real
+                  data before the floor shifted.
                 </span>
 
                 <span>
                   <Target size={15} />
-                  <b>Try next:</b> invite a quieter speaker in before your
-                  closing point.
+                  <b>Try next:</b> Acknowledge Rohan&apos;s objection before
+                  launching your conclusion.
                 </span>
               </div>
 
               <div className="progress-report">
                 <div>
-                  <span>Confidence journey</span>
+                  <span>Placement readiness</span>
 
                   <b>
                     +24% <small>this month</small>
@@ -285,8 +294,8 @@ export default function Home() {
                 </div>
 
                 <div className="progress-labels">
-                  <small>First round</small>
-                  <small>Today</small>
+                  <small>Day 1</small>
+                  <small>Placement ready</small>
                 </div>
               </div>
             </div>
@@ -299,15 +308,15 @@ export default function Home() {
         <section className="rounds-section section-wrap">
           <div className="rounds-heading">
             <div>
-              <p className="eyebrow">Ready when you are</p>
+              <p className="eyebrow">Multiple scenarios</p>
 
               <h2>
-                There&apos;s a round for <span>that.</span>
+                Different room. <span>Different challenge.</span>
               </h2>
             </div>
 
             <div className="round-tabs">
-              {["Placement prep", "Classroom", "Team skills"].map(
+              {["Placement GD", "Contrarian debate", "Case study"].map(
                 (tab, index) => (
                   <button
                     className={activeRound === index ? "active" : ""}
@@ -327,7 +336,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="round-feature">
+          <div
+            className={`round-feature round-feature-${activeRound}`}
+            key={activeRound}
+          >
             <div className="round-number">
               0{activeRound + 1}
             </div>
@@ -335,27 +347,27 @@ export default function Home() {
             <div className="round-copy">
               <h3>
                 {activeRound === 0
-                  ? "The interview warm-up"
+                  ? "The campus placement GD"
                   : activeRound === 1
-                    ? "The room opener"
-                    : "The team huddle"}
+                    ? "The contrarian room"
+                    : "The case study roundtable"}
               </h3>
 
               <p>
                 {activeRound === 0
-                  ? "Build a point, handle a follow-up, and leave ready for the real thing."
+                  ? "Handle aggressive floor takeovers, structure arguments on the fly, and stand out to evaluators."
                   : activeRound === 1
-                    ? "Make every classroom discussion easier to enter and more rewarding to stay in."
-                    : "Practice listening, clarity, and collaboration in a space where everyone contributes."}
+                    ? "Defend controversial angles, counter strong pushback, and hold your ground under scrutiny."
+                    : "Break down messy business dilemmas, synthesize points, and align the group toward consensus."}
               </p>
 
               <div className="round-tags">
-                <span>8 min</span>
-                <span>5 participants</span>
+                <span>{activeRound === 0 ? "8 min" : activeRound === 1 ? "10 min" : "12 min"}</span>
+                <span>5 candidates</span>
 
                 <span>
                   <Sparkles size={13} />
-                  Instant feedback
+                  {activeRound === 0 ? "Recruiter rubric" : activeRound === 1 ? "Rebuttal scoring" : "Synthesis check"}
                 </span>
               </div>
             </div>
@@ -364,11 +376,20 @@ export default function Home() {
               <div className="quote-mark">✦</div>
 
               <p>
-                The goal isn&apos;t perfection. It&apos;s about getting
-                comfortable with thinking on your feet.
+                {activeRound === 0
+                  ? "Confidence isn't a personality. It's practice."
+                  : activeRound === 1
+                    ? "Defend controversial ideas with calm, structured clarity."
+                    : "Synthesis wins rooms. Noise just fills them."}
               </p>
 
-              <span>— The Spectakles Approach</span>
+              <span>
+                {activeRound === 0
+                  ? "— The Placement Rule"
+                  : activeRound === 1
+                    ? "— The Contrarian Rule"
+                    : "— The Roundtable Rule"}
+              </span>
             </div>
           </div>
         </section>
@@ -383,16 +404,15 @@ export default function Home() {
             </div>
 
             <p className="eyebrow">
-              Your next great session is waiting
+              Your next GD is coming
             </p>
 
             <h2>
-              Put a little more <em>life</em> in learning.
+              Ready to <em>speak up?</em>
             </h2>
 
             <p>
-              See how Spectakles can help your campus build confident
-              communicators, one round at a time.
+              Stop overthinking in silence. Practice before placement day and own your moment.
             </p>
 
             <button
@@ -406,8 +426,8 @@ export default function Home() {
             </button>
 
             <div className="cta-doodles">
-              <span>more voices</span>
-              <span>more momentum</span>
+              <span>think fast</span>
+              <span>speak smart</span>
             </div>
           </div>
         </section>

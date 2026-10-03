@@ -1,4 +1,6 @@
 import {
+  useCallback,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -6,11 +8,13 @@ import {
 
 import {
   ArrowUpRight,
-  Check,
+  ChevronLeft,
+  ChevronRight,
   MessageCircle,
-  Mic2,
-  Presentation,
+  Pause,
+  Play,
   Sparkles,
+  Star,
   Users,
   Zap,
 } from "lucide-react";
@@ -22,65 +26,112 @@ import "./CreativeExperience.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const experiences = [
+const DURATION_MS = 6000;
+
+export const experiences = [
   {
-    id: "discussions",
+    id: "simulations",
     number: "01",
-    label: "Group discussions",
-    title: "Find your way into the room.",
-    body: "Practice making a point, listening closely, and helping the conversation move.",
+    label: "Live GD simulations",
+    title: "Don't wait for permission. Take the floor.",
+    body: "Practice entering fast-paced discussions, taking the floor with confidence, and steering the room without getting talked over.",
     icon: Users,
-  },
-  {
-    id: "interviews",
-    number: "02",
-    label: "Mock interviews",
-    title: "Rehearse the real thing.",
-    body: "Try follow-ups, sharpen your stories, and leave with a clear next step.",
-    icon: Mic2,
-  },
-  {
-    id: "presentations",
-    number: "03",
-    label: "Presentations",
-    title: "Make the thread easy to follow.",
-    body: "Build a strong point of view and deliver it with the calm of practice behind you.",
-    icon: Presentation,
+    themeColor: "#237442",
+    themePastel: "#d4f0db",
+    themeText: "#237442",
+    themeGlow: "rgba(35, 116, 66, 0.14)",
+    tag: "ROUNDTABLE SIM",
+    overlayBadge: {
+      tag: "LIVE GD ROUNDTABLE",
+      text: "6 Candidates Active",
+      highlight: "Turn 03/12",
+    },
+    overlayScore: {
+      score: "9.4",
+      label: "Recruiter Rubric",
+      quote: "Broke deadlock by synthesizing opposing viewpoints with clear, structured points.",
+    },
   },
   {
     id: "debates",
-    number: "04",
-    label: "Debates",
-    title: "Challenge ideas, not people.",
-    body: "Learn to disagree with clarity, curiosity, and enough structure to stay generous.",
+    number: "02",
+    label: "Debates & counter-arguments",
+    title: "Think on your feet. Disagree with poise.",
+    body: "Learn how to challenge flawed logic, back up your points with facts, and turn aggressive interruptions into your advantage.",
     icon: MessageCircle,
+    themeColor: "#cb7157",
+    themePastel: "#ffd9ca",
+    themeText: "#a3482d",
+    themeGlow: "rgba(203, 113, 87, 0.14)",
+    tag: "REBUTTAL STAGE",
+    overlayBadge: {
+      tag: "CROSS-EXAMINATION",
+      text: "Rebuttal Window Open",
+      highlight: "Motion Live",
+    },
+    overlayScore: {
+      score: "9.1",
+      label: "Rebuttal Defense",
+      quote: "Countered velocity premise using concrete reliability metrics without sounding combative.",
+    },
   },
   {
-    id: "ai",
-    number: "05",
-    label: "AI practice",
-    title: "A sparring partner for your thinking.",
-    body: "Meet personas that ask better follow-ups and give feedback you can use immediately.",
+    id: "personas",
+    number: "03",
+    label: "Dynamic AI personas",
+    title: "Meet the loudest voice before placement day.",
+    body: "Spar against realistic personalities: the aggressive interrupter, the sharp contrarian, the mediator, and the silent candidate.",
     icon: Sparkles,
+    themeColor: "#d4a017",
+    themePastel: "#fce48b",
+    themeText: "#8a6100",
+    themeGlow: "rgba(212, 160, 23, 0.14)",
+    tag: "AI PERSONAS",
+    overlayBadge: {
+      tag: "ADAPTIVE AI SPARRING",
+      text: "Aggressive Interrupter Mode",
+      highlight: "Pressure: High",
+    },
+    overlayScore: {
+      score: "9.3",
+      label: "Pressure Resilience",
+      quote: "Maintained composure through two sharp interruptions, acknowledged the point, and finished argument.",
+    },
   },
   {
-    id: "comms",
-    number: "06",
-    label: "Communication skills",
-    title: "Small reps. Visible progress.",
-    body: "Turn one brave sentence into a habit that travels with you beyond campus.",
+    id: "analytics",
+    number: "04",
+    label: "Speech & recruiter analytics",
+    title: "Every second tracked. Zero guesswork.",
+    body: "Instant recruiter breakdown on your talk-time ratio, speaking pace, filler frequency, and leadership signals.",
     icon: Zap,
+    themeColor: "#20202c",
+    themePastel: "#e8e6f0",
+    themeText: "#20202c",
+    themeGlow: "rgba(32, 32, 44, 0.14)",
+    tag: "GD ANALYTICS",
+    overlayBadge: {
+      tag: "VOCAL & CADENCE METRICS",
+      text: "142 WPM · 18% Floor Share",
+      highlight: "Zero Fillers",
+    },
+    overlayScore: {
+      score: "9.8",
+      label: "Placement Readiness",
+      quote: "Ideal floor share: spoke 3 high-impact times with crisp articulation and zero filler pauses.",
+    },
   },
 ];
 
 /* ─── Centered Thematic Visuals for Each Experience ──────── */
 
-function DiscussionsVisual() {
+function SimulationsVisual() {
   const personas = [
     { name: "Ananya", role: "Leader", initial: "A", active: true },
     { name: "Rohan", role: "Contrarian", initial: "R", active: false },
     { name: "Priya", role: "Mediator", initial: "P", active: false },
     { name: "Aarav", role: "Analyst", initial: "Aa", active: false },
+    { name: "Sneha", role: "Strategist", initial: "S", active: false },
   ];
 
   return (
@@ -88,7 +139,7 @@ function DiscussionsVisual() {
       <div className="ce-roundtable-box">
         <div className="ce-rt-top-bar">
           <span className="ce-rt-dot-live" />
-          <span>5-CANDIDATE ROUNDTABLE</span>
+          <span>6-CANDIDATE GD ROUNDTABLE</span>
           <span className="ce-rt-turn">TURN 03/12</span>
         </div>
 
@@ -109,9 +160,9 @@ function DiscussionsVisual() {
         </div>
 
         <div className="ce-rt-transcript">
-          <div className="ce-rt-speaker">Ananya Iyer (Speaking):</div>
+          <div className="ce-rt-speaker">Ananya Iyer (Leader · Speaking):</div>
           <p className="ce-rt-speech">
-            "To hit that target, we must balance automated CI tests with manual validation..."
+            &ldquo;While automated QA accelerates release speed, without peer review our technical debt multiplies rapidly...&rdquo;
           </p>
         </div>
 
@@ -129,137 +180,49 @@ function DiscussionsVisual() {
   );
 }
 
-function InterviewsVisual() {
-  return (
-    <div className="ce-inner ce-inner-interviews">
-      <div className="ce-interview-card">
-        <div className="ce-iv-header">
-          <span className="ce-rec-dot" />
-          <span>MOCK INTERVIEW · LIVE STT</span>
-          <span className="ce-iv-timer">03:42</span>
-        </div>
-
-        <div className="ce-iv-bubble ce-iv-q">
-          <div className="ce-iv-role">INTERVIEWER (AI PANEL)</div>
-          <p>"Walk me through a time you resolved a major production incident under tight SLA pressure."</p>
-        </div>
-
-        <div className="ce-iv-bubble ce-iv-a">
-          <div className="ce-iv-role">YOU (CANDIDATE)</div>
-          <p>"I immediately isolated the canary instance, reviewed crash traces, and rolled back within 4 minutes."</p>
-        </div>
-
-        <div className="ce-iv-metrics">
-          <div className="ce-iv-metric">
-            <span>PACE</span>
-            <strong>138 WPM</strong>
-          </div>
-          <div className="ce-iv-metric">
-            <span>CLARITY</span>
-            <strong>9.2/10</strong>
-          </div>
-          <div className="ce-iv-metric">
-            <span>FILLERS</span>
-            <strong className="ce-good">0 DETECTED</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PresentationsVisual() {
-  return (
-    <div className="ce-inner ce-inner-presentations">
-      <div className="ce-presentation-card">
-        <div className="ce-pres-slide">
-          <div className="ce-pres-slide-header">
-            <span className="ce-pres-slide-num">SLIDE 03</span>
-            <span className="ce-pres-slide-topic">SYSTEM ARCHITECTURE</span>
-          </div>
-
-          <h4 className="ce-pres-slide-title">The Three Pillars of Resilience</h4>
-
-          <div className="ce-pres-points">
-            <div className="ce-pres-point">
-              <span className="ce-point-num">1</span>
-              <span>Observability-First Monitoring</span>
-            </div>
-            <div className="ce-pres-point">
-              <span className="ce-point-num">2</span>
-              <span>Graceful Circuit Degradation</span>
-            </div>
-            <div className="ce-pres-point ce-pres-point-active">
-              <span className="ce-point-num">3</span>
-              <span>Automated Regional Failover →</span>
-            </div>
-          </div>
-
-          <div className="ce-pres-dots">
-            <span />
-            <span />
-            <span className="active" />
-            <span />
-          </div>
-        </div>
-
-        <div className="ce-pres-feedback">
-          <Check size={12} />
-          <span>Clear structural framing · Strong audience engagement</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function DebatesVisual() {
   return (
     <div className="ce-inner ce-inner-debates">
       <div className="ce-debate-round">
-        {/* Motion header */}
         <div className="ce-motion-banner">
           <span className="ce-motion-badge">MOTION</span>
           <span className="ce-motion-text">Speed of Delivery vs. Architectural Stability</span>
         </div>
 
-        {/* Side A: Proposition */}
         <div className="ce-debate-side ce-side-pro">
           <div className="ce-side-head">
             <span className="ce-avatar-tag ce-tag-pro">R</span>
             <div className="ce-speaker-info">
               <strong>Rohan Verma</strong>
-              <small>Proposition</small>
+              <small>Proposition (Pro-Velocity)</small>
             </div>
             <span className="ce-verdict-pill ce-pill-pro">FOR</span>
           </div>
           <p className="ce-side-quote">
-            "Rapid production releases surface real failure modes faster than theoretical review cycles."
+            &ldquo;Rapid production releases surface real failure modes faster than theoretical review cycles.&rdquo;
           </p>
         </div>
 
-        {/* Centered VS divider */}
         <div className="ce-vs-divider">
           <span className="ce-vs-line" />
           <span className="ce-vs-badge">VS</span>
           <span className="ce-vs-line" />
         </div>
 
-        {/* Side B: Opposition */}
         <div className="ce-debate-side ce-side-con">
           <div className="ce-side-head">
             <span className="ce-avatar-tag ce-tag-con">P</span>
             <div className="ce-speaker-info">
               <strong>Priya Sharma</strong>
-              <small>Opposition</small>
+              <small>Opposition (Pro-Stability)</small>
             </div>
             <span className="ce-verdict-pill ce-pill-con">AGAINST</span>
           </div>
           <p className="ce-side-quote">
-            "Unbounded velocity compounds unvalidated debt, crippling enterprise reliability within quarters."
+            &ldquo;Unbounded velocity compounds unvalidated debt, crippling enterprise reliability within quarters.&rdquo;
           </p>
         </div>
 
-        {/* Status bar */}
         <div className="ce-debate-floor-status">
           <span className="ce-floor-pulse" />
           <span>Floor open · Rebuttal cross-examination</span>
@@ -269,7 +232,7 @@ function DebatesVisual() {
   );
 }
 
-function AiVisual() {
+function PersonasVisual() {
   return (
     <div className="ce-inner ce-inner-ai">
       <div className="ce-ai-chat-card">
@@ -279,8 +242,8 @@ function AiVisual() {
               <Sparkles size={13} />
             </span>
             <div>
-              <strong>Ananya Iyer</strong>
-              <small>Strategic Leader AI Persona</small>
+              <strong>Karan Mehta</strong>
+              <small>Aggressive Contrarian AI</small>
             </div>
           </div>
           <span className="ce-ai-active-pill">ACTIVE</span>
@@ -289,71 +252,71 @@ function AiVisual() {
         <div className="ce-ai-exchange">
           <div className="ce-ai-msg ce-ai-from-persona">
             <p>
-              "You raised a strong point regarding cost-efficiency. But how do you reconcile that with team burnout during peak quarters?"
+              &ldquo;That plan sounds idealistic. But in a 20-minute discussion, how do you prevent the team from splintering on execution?&rdquo;
             </p>
           </div>
 
           <div className="ce-ai-suggested">
-            <span className="ce-sug-label">SUGGESTED COUNTER-STRATEGY:</span>
+            <span className="ce-sug-label">RECOMMENDED INTERVENTION STRATEGY:</span>
             <div className="ce-sug-chips">
-              <span>PESTLE: Internal Capacity</span>
-              <span>Two-Way Door Decisions</span>
+              <span>Acknowledge &amp; Pivot</span>
+              <span>3-Step Framework</span>
             </div>
           </div>
 
           <div className="ce-ai-msg ce-ai-from-user">
-            <p>"We structure sustainable sprint cadences and automate repetitive manual QA."</p>
+            <p>&ldquo;Fair push, Karan. That&apos;s why we define the non-negotiables first, then assign modular ownership.&rdquo;</p>
           </div>
         </div>
 
         <div className="ce-ai-live-eval">
-          <span>RUBRIC SCORE:</span>
-          <strong>9.0 / 10 · High Analytical Depth</strong>
+          <span>GD RUBRIC EVALUATION:</span>
+          <strong>9.3 / 10 · High Composure Under Fire</strong>
         </div>
       </div>
     </div>
   );
 }
 
-function CommsVisual() {
+function AnalyticsVisual() {
   return (
     <div className="ce-inner ce-inner-comms">
       <div className="ce-comms-dashboard">
         <div className="ce-comms-top">
           <div className="ce-comms-title">
             <Zap size={14} />
-            <span>COMMUNICATION ANALYTICS</span>
+            <span>GD PERFORMANCE ANALYTICS</span>
           </div>
           <span className="ce-comms-badge">PLACEMENT READY</span>
         </div>
 
         <div className="ce-comms-grid">
           <div className="ce-comms-stat">
-            <span className="ce-stat-lbl">CADENCE</span>
+            <span className="ce-stat-lbl">TALK TIME SHARE</span>
+            <strong className="ce-stat-val">18%</strong>
+            <span className="ce-stat-sub">Optimal (15-20% in GD)</span>
+          </div>
+          <div className="ce-comms-stat">
+            <span className="ce-stat-lbl">SPEAKING PACE</span>
             <strong className="ce-stat-val">142</strong>
-            <span className="ce-stat-sub">Words per min</span>
+            <span className="ce-stat-sub">Words per minute</span>
           </div>
           <div className="ce-comms-stat">
-            <span className="ce-stat-lbl">CLARITY</span>
-            <strong className="ce-stat-val">94%</strong>
-            <span className="ce-stat-sub">Articulation</span>
-          </div>
-          <div className="ce-comms-stat">
-            <span className="ce-stat-lbl">FILLERS</span>
+            <span className="ce-stat-lbl">FILLER WORDS</span>
             <strong className="ce-stat-val ce-good">0</strong>
-            <span className="ce-stat-sub">Zero 'um' / 'uh'</span>
+            <span className="ce-stat-sub">Zero &lsquo;um&rsquo; / &lsquo;uh&rsquo; detected</span>
           </div>
           <div className="ce-comms-stat">
-            <span className="ce-stat-lbl">CONFIDENCE</span>
-            <strong className="ce-stat-val">9.1</strong>
-            <span className="ce-stat-sub">Out of 10</span>
+            <span className="ce-stat-lbl">RECRUITER SCORE</span>
+            <strong className="ce-stat-val">9.4</strong>
+            <span className="ce-stat-sub">Top 5% Placement Tier</span>
           </div>
         </div>
 
         <div className="ce-comms-spectrum">
           <div className="ce-spectrum-label">
-            <span>VOICE FREQUENCY & MODULATION</span>
-            <span>OPTIMAL RANGE</span>
+            <span>VOICE MODULATION &amp; PITCH CONTOUR</span>
+            <span>OPTIMAL GD ZONE</span>
           </div>
           <div className="ce-spectrum-bars">
             {[20, 35, 28, 55, 42, 70, 60, 85, 68, 75, 52, 60, 38, 48, 25].map((h, i) => (
@@ -371,39 +334,61 @@ function CommsVisual() {
 }
 
 const visuals: Record<string, () => JSX.Element> = {
-  discussions: DiscussionsVisual,
-  interviews: InterviewsVisual,
-  presentations: PresentationsVisual,
+  simulations: SimulationsVisual,
   debates: DebatesVisual,
-  ai: AiVisual,
-  comms: CommsVisual,
+  personas: PersonasVisual,
+  analytics: AnalyticsVisual,
 };
 
 /* ─── Main Component ─────────────────────────────────────── */
 
 export default function CreativeExperience() {
   const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const current = experiences[active];
   const CurrentIcon = current.icon;
   const Visual = visuals[current.id];
 
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const visualRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  const handleNext = useCallback(() => {
+    setActive((prev) => (prev + 1) % experiences.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setActive((prev) => (prev - 1 + experiences.length) % experiences.length);
+  }, []);
+
+  const handleSelect = (index: number) => {
+    setActive(index);
+  };
+
+  // Auto-cycling timer: advances every DURATION_MS when not paused or hovered
+  useEffect(() => {
+    if (isPaused || isHovered) return;
+
+    const timer = setInterval(() => {
+      handleNext();
+    }, DURATION_MS);
+
+    return () => clearInterval(timer);
+  }, [isPaused, isHovered, handleNext, active]);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    const heading = headingRef.current;
-    const visual = visualRef.current;
-    const list = listRef.current;
+    const header = headerRef.current;
+    const tabs = tabsRef.current;
+    const stage = stageRef.current;
 
-    if (!section || !heading || !visual || !list) return;
+    if (!section || !header || !tabs || !stage) return;
 
     const ctx = gsap.context(() => {
-      const words = heading.querySelectorAll(".reveal-word");
-      const listItems = list.querySelectorAll(".creative-service");
+      const words = header.querySelectorAll(".reveal-word");
 
       gsap.from(words, {
         yPercent: 110,
@@ -414,63 +399,34 @@ export default function CreativeExperience() {
         ease: "power4.out",
         scrollTrigger: {
           trigger: section,
-          start: "top 78%",
-          toggleActions: "restart none restart none",
+          start: "top 80%",
+          once: true,
         },
       });
 
-      gsap.from(
-        heading.querySelectorAll(".creative-heading-extra"),
-        {
-          y: 25,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 78%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-
-      gsap.from(visual, {
-        clipPath: "inset(18% 12% 18% 12% round 24px)",
-        scale: 0.88,
+      gsap.from(header.querySelectorAll(".header-animate"), {
+        y: 20,
         opacity: 0,
-        rotateX: 5,
-        transformPerspective: 1000,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 82%",
-          toggleActions: "restart none restart none",
-        },
-      });
-
-      gsap.from(listItems, {
-        y: 35,
-        opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         stagger: 0.1,
         ease: "power3.out",
         scrollTrigger: {
           trigger: section,
-          start: "top 75%",
-          toggleActions: "restart none restart none",
+          start: "top 80%",
+          once: true,
         },
       });
 
-      gsap.to(visual, {
-        y: -35,
-        ease: "none",
+      gsap.from(stage, {
+        scale: 0.94,
+        opacity: 0,
+        y: 25,
+        duration: 0.9,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
+          start: "top 80%",
+          once: true,
         },
       });
     }, section);
@@ -481,146 +437,214 @@ export default function CreativeExperience() {
   return (
     <section
       ref={sectionRef}
-      className="creative-experience"
+      className="creative-experience features-2-section"
       id="practice"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="section-wrap creative-experience-inner">
-
-        {/* LEFT CONTENT */}
-
-        <div
-          ref={headingRef}
-          className="creative-heading"
-        >
-          <p className="eyebrow creative-heading-extra">
-            Practice, in motion
-          </p>
+      <div className="section-wrap features-2-container">
+        {/* SECTION HEADER */}
+        <div ref={headerRef} className="features-2-header">
+          <div className="features-badge header-animate">
+            <span className="features-badge-dot" />
+            <span className="features-badge-text">PRACTICE BEFORE IT COUNTS</span>
+          </div>
 
           <h2 className="staggered-heading">
             <span className="word-mask">
               <span className="reveal-word">Every</span>
             </span>{" "}
-
             <span className="word-mask">
               <span className="reveal-word">room</span>
             </span>{" "}
-
             <span className="word-mask">
               <span className="reveal-word">has</span>
             </span>{" "}
-
             <span className="word-mask">
               <span className="reveal-word">a</span>
             </span>{" "}
-
             <span className="word-mask">
-              <span className="reveal-word accent-word">
-                way
-              </span>
+              <span className="reveal-word accent-word">way</span>
             </span>{" "}
-
             <span className="word-mask">
-              <span className="reveal-word accent-word">
-                in.
-              </span>
+              <span className="reveal-word accent-word">in.</span>
             </span>
           </h2>
 
-          <p className="creative-heading-extra">
-            Choose a moment to work on. Spectakles gives you
-            a low-pressure place to try it, understand it,
-            and come back better.
+          <p className="features-header-sub header-animate">
+            Because knowing what to say isn&apos;t enough. You need to say it when it matters.
           </p>
         </div>
 
-        {/* RIGHT CONTENT */}
-
-        <div className="creative-story">
-
-          {/* VISUAL CARD */}
-
-          <div className="creative-visual-wrap">
-            <div className="creative-portal-frame">
-              <div className="creative-portal-frame-inner" />
-            </div>
+        {/* TWO-COLUMN LAYOUT */}
+        <div className="features-2-grid">
+          {/* LEFT COLUMN: AUTO-CYCLING FEATURE LIST (4 MAJOR GD TABS) */}
+          <div className="features-list-col">
             <div
-              ref={visualRef}
-              id={`panel-${current.id}`}
-              className={`creative-visual creative-visual-${current.id}`}
-              role="region"
-              aria-label={`${current.label} illustration`}
+              ref={tabsRef}
+              className="feature-tabs"
+              role="tablist"
+              aria-label="Group discussion features carousel"
             >
-              {Visual && <Visual />}
+              {experiences.map((exp, index) => {
+                const Icon = exp.icon;
+                const isActive = index === active;
 
-              <div className="creative-visual-label">
-                <CurrentIcon size={16} />
-                {current.label}
-              </div>
+                return (
+                  <button
+                    key={exp.id}
+                    type="button"
+                    role="tab"
+                    id={`feature-tab-${exp.id}`}
+                    aria-selected={isActive}
+                    aria-controls={`feature-panel-${exp.id}`}
+                    tabIndex={isActive ? 0 : -1}
+                    className={`feature-tab-item ${isActive ? "active" : ""} ${isPaused || isHovered ? "is-paused" : ""
+                      }`}
+                    style={
+                      {
+                        "--item-theme": exp.themeColor,
+                        "--item-glow": exp.themeGlow,
+                        "--item-pastel": exp.themePastel,
+                        "--item-text": exp.themeText,
+                      } as React.CSSProperties
+                    }
+                    onClick={() => handleSelect(index)}
+                  >
+                    <div className="feature-tab-top">
+                      <span className="feature-tab-num">{exp.number}</span>
 
-              <span className="creative-visual-index">
-                {current.number} / 06
-              </span>
-            </div>
+                      <div className="feature-tab-icon-wrap">
+                        <Icon size={18} className="feature-tab-icon" />
+                      </div>
 
-            <div className="creative-visual-caption">
-              <span>Now exploring</span>
+                      <div className="feature-tab-text">
+                        <span className="feature-tab-title">{exp.label}</span>
+                        <p className="feature-tab-desc">{exp.body}</p>
+                      </div>
 
-              <strong key={current.number}>
-                {current.title}
-              </strong>
+                      <ArrowUpRight size={18} className="feature-tab-arrow" />
+                    </div>
+
+                    {/* AUTO-CYCLING PROGRESS BAR */}
+                    {isActive && (
+                      <div className="feature-tab-progress-track">
+                        <div
+                          key={`progress-${active}-${isHovered ? "paused" : "running"}`}
+                          className="feature-tab-progress-bar"
+                          style={{
+                            animationDuration: `${DURATION_MS}ms`,
+                            backgroundColor: exp.themeColor,
+                          }}
+                        />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* PRACTICE LIST */}
+          {/* RIGHT COLUMN: SHOWCASE STAGE & ANIMATED GLASS OVERLAYS */}
+          <div className="features-stage-col" ref={stageRef}>
+            <div
+              className="stage-container"
+              style={
+                {
+                  "--stage-theme": current.themeColor,
+                  "--stage-glow": current.themeGlow,
+                  "--stage-pastel": current.themePastel,
+                  "--stage-text": current.themeText,
+                } as React.CSSProperties
+              }
+            >
+              {/* DYNAMIC AMBIENT BACKGLOW */}
+              <div
+                className="stage-ambient-glow"
+                style={{
+                  background: `radial-gradient(circle at 50% 50%, ${current.themeGlow} 0%, rgba(0,0,0,0) 70%)`,
+                }}
+              />
 
-          <div
-            ref={listRef}
-            className="creative-service-list"
-            role="tablist"
-            aria-label="Practice areas"
-          >
-            {experiences.map((experience, index) => {
-              const Icon = experience.icon;
+              {/* TOP ANIMATED GLASS OVERLAY BADGE */}
+              <div className="glass-overlay glass-overlay-top">
+                <div className="glass-overlay-glow-dot" style={{ backgroundColor: current.themeColor }} />
+                <div className="glass-overlay-badge-content">
+                  <span className="glass-badge-tag">{current.overlayBadge.tag}</span>
+                  <div className="glass-badge-row">
+                    <span className="glass-badge-main">{current.overlayBadge.text}</span>
+                    <span
+                      className="glass-badge-pill"
+                      style={{
+                        backgroundColor: current.themePastel,
+                        color: current.themeText,
+                        borderColor: current.themeColor,
+                      }}
+                    >
+                      {current.overlayBadge.highlight}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-              return (
-                <button
-                  key={experience.number}
-                  type="button"
-                  id={`tab-${experience.id}`}
-                  className={
-                    index === active
-                      ? "creative-service active"
-                      : "creative-service"
-                  }
-                  onMouseEnter={() => setActive(index)}
-                  onFocus={() => setActive(index)}
-                  onClick={() => setActive(index)}
-                  role="tab"
-                  aria-selected={index === active}
-                  aria-controls={`panel-${experience.id}`}
-                  tabIndex={index === active ? 0 : -1}
-                >
-                  <span className="creative-service-number">
-                    {experience.number}
+              {/* MAIN SHOWCASE CARD */}
+              <div
+                id={`feature-panel-${current.id}`}
+                role="tabpanel"
+                aria-labelledby={`feature-tab-${current.id}`}
+                className={`stage-card stage-card-${current.id}`}
+              >
+                {/* STAGE HEADER BAR */}
+                <div className="stage-topbar">
+                  <div className="stage-window-dots">
+                    <span className="window-dot dot-red" />
+                    <span className="window-dot dot-yellow" />
+                    <span className="window-dot dot-green" />
+                  </div>
+
+                  <div className="stage-topbar-title">
+                    <CurrentIcon size={14} style={{ color: current.themeColor }} />
+                    <span>{current.label}</span>
+                  </div>
+
+                  <span className="stage-status-live">
+                    <span className="live-ping" style={{ backgroundColor: current.themeColor }} />
+                    ACTIVE
                   </span>
+                </div>
 
-                  <span className="creative-service-copy">
-                    <strong>{experience.label}</strong>
-                    <small>{experience.body}</small>
+                {/* VISUAL DISPLAY WITH ANIMATED KEY */}
+                <div className="stage-screen" key={current.id}>
+                  {Visual && <Visual />}
+                </div>
+
+                {/* BOTTOM CAPTION BAR */}
+                <div className="stage-bottom-bar">
+                  <div className="stage-caption-info">
+                    <span className="stage-caption-sub">GD FOCUS AREA</span>
+                    <strong className="stage-caption-heading">{current.title}</strong>
+                  </div>
+
+                  <span className="stage-index-badge">
+                    {current.number} / 04
                   </span>
+                </div>
+              </div>
 
-                  <Icon
-                    size={17}
-                    className="creative-service-icon"
-                  />
+              {/* BOTTOM ANIMATED GLASS OVERLAY SCORE CARD */}
+              <div className="glass-overlay glass-overlay-bottom">
+                <div className="glass-score-header">
+                  <div className="glass-score-badge">
+                    <Star size={13} className="star-icon" />
+                    <strong>{current.overlayScore.score}</strong>
+                    <small>/ 10</small>
+                  </div>
+                  <span className="glass-score-label">{current.overlayScore.label}</span>
+                </div>
 
-                  <ArrowUpRight
-                    size={17}
-                    className="creative-service-arrow"
-                  />
-                </button>
-              );
-            })}
+                <p className="glass-score-quote">&ldquo;{current.overlayScore.quote}&rdquo;</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

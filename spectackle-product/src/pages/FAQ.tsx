@@ -11,98 +11,94 @@ import { trackClick, trackEvent } from "../lib/firebase";
 
 const categories = [
   {
-    label: "For institutions",
+    label: "GD & Placement Prep",
     icon: "building",
     questions: [
       {
-        q: "How long does it take to roll out Spectakles on our campus?",
-        a: "Most institutions are up and running within two weeks. We handle setup, faculty onboarding, and your first round templates. Students need nothing more than a browser.",
+        q: "How does Spectakles prepare me for campus placement GDs?",
+        a: "You practice in simulated 5-candidate roundtables with realistic interruptions, time-boxed rounds, and instant scoring on the 5 standard campus rubric parameters.",
       },
       {
-        q: "Do we need special hardware or software?",
-        a: "No. Spectakles runs in any modern browser on laptops, tablets, or phones. No installs, no plugins, no IT tickets.",
+        q: "What if I get cut off or interrupted during a GD?",
+        a: "That's exactly what you practice here. You learn how to reclaim the floor, hold your line of thought, and jump in without being aggressive.",
       },
       {
-        q: "Can we customize rounds for our curriculum?",
-        a: "Yes. Campus and Network plans include custom round templates. You can tailor topics, durations, and feedback criteria to match your courses and placement process.",
+        q: "What parameters are evaluated in my scorecard?",
+        a: "Content relevance, communication fluency, leadership & initiative, team behavior & listening, and analytical reasoning.",
       },
       {
-        q: "How do you measure participation and confidence?",
-        a: "We track talk time, number of turns, response patterns, and faculty-validated confidence scores. Every metric is visible in your dashboard and exportable for reporting.",
+        q: "Can I practice for specific company placement rounds?",
+        a: "Yes. Topics and rounds match actual engineering placement drives and MBA admission patterns.",
       },
       {
-        q: "Is student data secure and private?",
-        a: "Absolutely. Student data is encrypted, access-controlled, and never sold or shared with third parties. Each institution owns its data. We are FERPA-aligned and SOC 2 ready.",
-      },
-      {
-        q: "What does the analytics dashboard show?",
-        a: "You get cohort-level participation trends, confidence growth over time, session-by-session breakdowns, and exportable reports for accreditation and placement tracking.",
+        q: "How does this compare to practicing with friends?",
+        a: "Friends don't give you millisecond filler-word counts, speech pacing stats, or contrarian challenge AI that won't let you hide.",
       },
     ],
   },
   {
-    label: "For faculty",
+    label: "AI Personas",
     icon: "faculty",
     questions: [
       {
-        q: "Will this add more work to my plate?",
-        a: "No. Spectakles comes with ready-to-run rounds. You pick a topic, press start, and the platform handles prompts, nudges, and recaps. You focus on the conversation, not the logistics.",
+        q: "Who are the AI personas in the room?",
+        a: "They are simulated candidates with distinct discussion styles—from aggressive debaters to analytical thinkers and consensus builders.",
       },
       {
-        q: "Can I use Spectakles in my existing lectures?",
-        a: "Yes. Many faculty use Spectakles for 10-minute discussion breaks within lectures, or as standalone practice sessions outside class hours.",
+        q: "Do the AI personas interrupt me?",
+        a: "Yes. Just like a real GD, if you pause too long or hesitate, someone else takes the floor.",
       },
       {
-        q: "How do I know which students need help?",
-        a: "Your dashboard highlights participation trends per student. You can see who's improving, who's quiet, and who might benefit from a nudge — without calling anyone out publicly.",
+        q: "Is it voice-based or typing?",
+        a: "Full voice interaction. You speak with your real microphone, just like in a physical or video placement round.",
       },
       {
-        q: "Can I give my own feedback alongside Spectakles's?",
-        a: "Yes. Faculty can add notes and observations to any session recap, which students see alongside the automated snapshot.",
+        q: "What if I freeze or don't know what to say?",
+        a: "Your private prep notes offer instant framework suggestions to get your thinking back on track.",
       },
     ],
   },
   {
-    label: "For students",
+    label: "For Students",
     icon: "student",
     questions: [
       {
-        q: "Do I need to download anything?",
-        a: "No app, no download. You join a round through a link in your browser. That's it.",
+        q: "Do I need to download any software?",
+        a: "Zero downloads. Open the link in Chrome, Safari, or Edge and start speaking immediately.",
       },
       {
-        q: "What if I'm nervous about speaking?",
-        a: "That's exactly who Spectakles is for. You get a private prep space, friendly prompts, and a low-pressure environment. You can start small — even one sentence counts.",
+        q: "Will other students hear my mistakes?",
+        a: "No. Your practice sessions and scorecards are 100% private to you.",
       },
       {
-        q: "Will my performance be shared publicly?",
-        a: "Never. Your session snapshots are private to you and your faculty. No leaderboards, no public scores, no embarrassment.",
+        q: "Can I practice solo whenever I want?",
+        a: "Yes. Start a round 24/7 whenever you have 10 minutes before an interview.",
       },
       {
-        q: "Can I practice on my own?",
-        a: "Yes. Students can run solo practice rounds to build confidence before joining group sessions.",
+        q: "I get extreme stage fright. Can Spectakles help me?",
+        a: "That's who Spectakles is made for. Repeated low-stakes reps desensitize the fear so speaking feels natural.",
       },
     ],
   },
   {
-    label: "Technical & security",
+    label: "Campus & Setup",
     icon: "tech",
     questions: [
       {
-        q: "What devices and browsers are supported?",
-        a: "Spectakles works on Chrome, Firefox, Safari, and Edge. It's optimized for laptops, tablets, and phones. No minimum specs beyond a working microphone.",
+        q: "Can colleges and placement cells use Spectakles?",
+        a: "Yes. Placement cells use Spectakles to conduct cohort-wide GD readiness drives with automated scoring.",
       },
       {
-        q: "How is data stored and protected?",
-        a: "All data is encrypted in transit and at rest. We use row-level security, role-based access control, and regular security audits. Each institution's data is logically isolated.",
+        q: "How quickly can a university roll this out?",
+        a: "Within 48 hours. No complex IT integration required—students simply log in with their college email.",
       },
       {
-        q: "Do you integrate with our LMS?",
-        a: "Campus and Network plans include LMS integration support. We can connect with popular platforms via API. Talk to us about your specific setup.",
+        q: "Is student voice data secure?",
+        a: "Yes. Sessions are encrypted in transit and at rest. We never sell student data.",
       },
       {
-        q: "What happens to our data if we stop using Spectakles?",
-        a: "You own your data. You can export everything at any time. If you discontinue, we securely delete your data within 30 days of your request.",
+        q: "How do placement officers track student readiness?",
+        a: "A centralized dashboard tracks cohort participation trends, average speaking pace, and rubric readiness benchmarks.",
       },
     ],
   },
@@ -139,15 +135,15 @@ export default function FAQ() {
         <div className="page-hero-copy">
           <div className="announcement">
             <Sparkles size={15} />
-            Questions, answered
+            Quick answers
           </div>
 
           <h1>
-            Everything you might be <em>wondering.</em>
+            Got questions? <em>We got you.</em>
           </h1>
 
           <p>
-            Pick a category and find what you need. Still stuck? Email us at{" "}
+            Everything you need to know about practicing GDs on Spectakles. Still stuck? Email us at{" "}
             <a href="mailto:contact@spectakles.in">
               <strong>contact@spectakles.in</strong>
             </a>
@@ -247,15 +243,15 @@ export default function FAQ() {
             <Sparkles size={34} />
           </div>
 
-          <p className="eyebrow">Didn't find your answer?</p>
+          <p className="eyebrow">Need more clarity?</p>
 
           <h2>
-            Let's <em>talk.</em>
+            Still have <em>questions?</em>
           </h2>
 
           <p>
-            Send us your questions, feedback, or just say hello at{" "}
-            <strong>contact@spectakles.in</strong>.
+            Drop us a line at{" "}
+            <strong>contact@spectakles.in</strong> — we respond fast.
           </p>
 
           <a
@@ -268,8 +264,8 @@ export default function FAQ() {
           </a>
 
           <div className="cta-doodles">
-            <span>ask away</span>
-            <span>we're listening</span>
+            <span>speak up</span>
+            <span>stay ready</span>
           </div>
         </div>
       </section>
