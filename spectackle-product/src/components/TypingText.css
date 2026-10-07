@@ -1,0 +1,28 @@
+.typing-text-wrapper {
+  display: inline;
+  position: relative;
+}
+
+.typing-text-content {
+  display: inline;
+}
+
+.typing-text-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  font-weight: 300;
+  font-style: normal;
+  color: var(--green, #257341);
+  animation: typingCursorBlink 0.9s ease-in-out infinite;
+  user-select: none;
+  vertical-align: baseline;
+}
+
+@keyframes typingCursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

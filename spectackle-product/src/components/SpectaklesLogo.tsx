@@ -10,6 +10,7 @@
  */
 
 import spectaklesLogoSrc from "../assets/spectakles-logo-horizontal-navbar.svg";
+import spectaklesLogoWhiteSrc from "../assets/spectakles-logo-horizontal-white.svg";
 
 interface SpectaklesLogoProps {
   /** CSS class(es) applied to the <img> element */
@@ -20,6 +21,8 @@ interface SpectaklesLogoProps {
   height?: number;
   /** Accessible label (defaults to "Spectakles logo") */
   alt?: string;
+  /** Color variant: default (black wordmark) or white (white wordmark for dark backgrounds) */
+  variant?: "default" | "white";
 }
 
 export default function SpectaklesLogo({
@@ -27,13 +30,15 @@ export default function SpectaklesLogo({
   width,
   height,
   alt = "Spectakles logo",
+  variant = "default",
 }: SpectaklesLogoProps) {
   const calculatedWidth = width ?? (height ? Math.round(height * (1433 / 231)) : undefined);
   const calculatedHeight = height ?? (width ? Math.round(width * (231 / 1433)) : undefined);
+  const logoSrc = variant === "white" ? spectaklesLogoWhiteSrc : spectaklesLogoSrc;
 
   return (
     <img
-      src={spectaklesLogoSrc}
+      src={logoSrc}
       alt={alt}
       width={calculatedWidth}
       height={calculatedHeight}

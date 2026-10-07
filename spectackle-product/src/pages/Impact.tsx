@@ -4,62 +4,62 @@ import { useDemo } from '../components/Layout';
 import SpectaklesLogo from '../components/SpectaklesLogo';
 
 const stats = [
-  { value: 'Participation', label: 'More voices heard', sub: 'in every single session' },
-  { value: 'Confidence', label: 'Lower speaking anxiety', sub: 'through repeated practice' },
-  { value: 'Quality', label: 'Better structured thoughts', sub: 'guided by AI nudges' },
-  { value: 'Scale', label: 'Unlimited practice rounds', sub: 'for every student' },
+  { value: 'Talk Time', label: 'Balanced participation', sub: 'No single speaker dominates' },
+  { value: 'Fluency', label: 'Fewer filler words', sub: 'Controlled cadence under pressure' },
+  { value: 'Structure', label: 'Structured arguments', sub: 'Backed by evidence and logic' },
+  { value: 'Readiness', label: 'Placement ready', sub: '5-parameter rubric mastery' },
 ];
 
 const useCases = [
   {
     name: 'Scenario 1',
-    tag: 'Placement prep',
+    tag: 'Placement Drives',
     color: 'green',
-    headline: 'From quiet rooms to confident interviews.',
-    body: 'Students often struggle to speak up in mock Group Discussions. Spectakles provides a low-pressure environment to practice organizing thoughts, entering conversations, and handling follow-ups before the real interview.',
+    headline: 'From freezing in round 1 to getting placed.',
+    body: 'Students struggle with floor interruptions and impromptu reasoning. Spectakles builds the reflexes to claim the mic and make every intervention count.',
     metrics: [
-      { value: 'Reps', label: 'Practice rounds' },
-      { value: 'Feedback', label: 'Instant feedback' },
-      { value: 'Focus', label: 'Structure & flow' },
+      { value: 'Reps', label: 'Roundtable reps' },
+      { value: 'Feedback', label: 'Instant scoring' },
+      { value: 'Focus', label: 'Floor assertiveness' },
     ],
-    quote: 'Design goal: Make the hardest part of the interview feel familiar.',
-    author: 'The Placement Use Case',
+    quote: 'Placement day isn\'t practice. Make practice count.',
+    author: 'Campus Placement GDs',
   },
   {
     name: 'Scenario 2',
-    tag: 'Classroom engagement',
+    tag: 'Contrarian Debates',
     color: 'peach',
-    headline: 'Discussions that don\'t die after two minutes.',
-    body: 'Too often, the same three hands go up in every lecture. Spectakles gives every student a way in — a prompt, a nudge, a moment — so that classroom discussions come alive across the entire cohort.',
+    headline: 'Stand your ground when challenged.',
+    body: 'AI peers push back with counter-evidence. You learn to handle disagreement, adapt your argument, and maintain poise.',
     metrics: [
-      { value: 'Voices', label: 'Every student' },
-      { value: 'Pacing', label: 'Guided discussion' },
-      { value: 'Safety', label: 'No peer judgment' },
+      { value: 'Floor', label: 'Rebuttal timing' },
+      { value: 'Logic', label: 'Argument depth' },
+      { value: 'Poise', label: 'Zero panic' },
     ],
-    quote: 'Design goal: Turn "Any questions?" into active participation.',
-    author: 'The Classroom Use Case',
+    quote: 'Challenge ideas, counter strong pushback, and hold your ground.',
+    author: 'Debate Roundtables',
   },
   {
     name: 'Scenario 3',
-    tag: 'Communication skills',
+    tag: 'Speech Analytics',
     color: 'yellow',
     headline: 'Confidence you can actually measure.',
-    body: 'How do you prove a student is getting better at speaking? Spectakles\'s session snapshots provide tangible evidence of improvement — talk time, participation frequency, and specific coaching points after every round.',
+    body: 'Session scorecards give objective evidence of improvement — talk time, speaking pace, and rubric breakdowns after every round.',
     metrics: [
-      { value: 'Time', label: 'Active talk time' },
-      { value: 'Growth', label: 'Progress tracking' },
-      { value: 'Coaching', label: 'Personalized tips' },
+      { value: 'Cadence', label: 'Optimal 130–150 WPM' },
+      { value: 'Fillers', label: 'Zero um/uh' },
+      { value: 'Rubric', label: '5-axis scorecard' },
     ],
-    quote: 'Design goal: Give students data to prove their progress.',
-    author: 'The Soft Skills Use Case',
+    quote: 'Speak once. Then speak better.',
+    author: 'Performance Insights',
   },
 ];
 
 const principles = [
-  { text: 'Confidence is not a personality trait. It is a trainable skill that grows with repetition.', author: 'Core Belief', tone: 'peach' },
-  { text: 'Group discussions shouldn\'t feel like a battleground. They should be a collaborative practice.', author: 'Our Philosophy', tone: 'blue' },
-  { text: 'Feedback needs to be instant to be useful. Waiting a week to hear how you did doesn\'t work.', author: 'Design Principle', tone: 'mint' },
-  { text: 'The quietest person in the room often has the best ideas. We just need to give them a safe way to share them.', author: 'Our Mission', tone: 'lilac' },
+  { text: 'Confidence isn\'t a personality. It\'s practice.', author: 'Core Rule', tone: 'peach' },
+  { text: 'Because knowing what to say isn\'t enough. You need to say it when it matters.', author: 'Our Philosophy', tone: 'blue' },
+  { text: 'Because silence doesn\'t get you noticed.', author: 'Placement Reality', tone: 'mint' },
+  { text: 'Don\'t just join the GD. Own your moment.', author: 'The Goal', tone: 'lilac' },
 ];
 
 export default function Impact() {
@@ -71,7 +71,7 @@ export default function Impact() {
         <div className="page-hero-copy">
           <div className="announcement"><TrendingUp size={15} /> Expected Outcomes</div>
           <h1>When students speak up, <em>everything</em> changes.</h1>
-          <p>We are building Spectakles to solve the biggest bottleneck in education: the fear of speaking. Here&apos;s the impact we are designing for.</p>
+          <p>Think fast. Speak smart. Stand out. Here is what happens when you train before placement day.</p>
         </div>
         <div className="page-hero-visual">
           <div className="impact-hero-card">
@@ -112,7 +112,7 @@ export default function Impact() {
         <div className="section-intro centered">
           <p className="eyebrow">Target Scenarios</p>
           <h2>From hesitant to <span>hands up.</span></h2>
-          <p>Three different challenges — one common goal: helping students find their voice.</p>
+          <p>Three high-pressure rooms — one goal: speak with confidence.</p>
         </div>
         <div className="case-studies-list">
           {useCases.map((study) => (
@@ -162,9 +162,9 @@ export default function Impact() {
       <section className="cta-section section-wrap">
         <div className="cta-inner">
           <div className="cta-sun"><Sparkles size={34} /></div>
-          <p className="eyebrow">Your campus could be next</p>
-          <h2>Ready to see this kind of <em>impact?</em></h2>
-          <p>Join the waitlist and we&apos;ll show you how Spectakles fits your institution.</p>
+          <p className="eyebrow">Your next GD is coming</p>
+          <h2>Ready to <em>speak up?</em></h2>
+          <p>Stop overthinking in silence. Join the waitlist and walk into your next GD ready.</p>
           <button className="button button-dark" onClick={() => openDemo(true)}>Join the waitlist <ArrowRight size={18} /></button>
           <div className="cta-doodles"><span>more voices</span><span>more momentum</span></div>
         </div>

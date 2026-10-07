@@ -1,23 +1,24 @@
 /* =========================================================
-   INSTITUTIONS BENTO
+   INSTITUTIONS BENTO (Magic UI Bento Grid Pattern)
+   Animations trigger ONLY ON HOVER with smooth, relaxed timing
 ========================================================= */
 
 .institution-bento {
   width: 100%;
-  margin-top: 60px;
+  margin-top: 52px;
 }
 
 .institution-bento-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 230px;
-  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 310px;
+  gap: 18px;
   width: 100%;
 }
 
 
 /* =========================================================
-   CARD BASE
+   CARD BASE & MAGIC UI ELEVATION
 ========================================================= */
 
 .institution-bento-card {
@@ -25,58 +26,84 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  border-radius: 22px;
-  border: 1px solid rgba(32, 32, 44, 0.12);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   isolation: isolate;
-  transform: translate3d(var(--pointer-x, 0px), var(--pointer-y, 0px), 0);
   opacity: 0;
+  transform: translateY(14px);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 6px 18px rgba(0, 0, 0, 0.08),
+    0 20px 42px rgba(0, 0, 0, 0.1);
   transition:
-    transform 0.35s ease,
-    opacity 0.6s ease,
-    box-shadow 0.35s ease;
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.6s ease;
 }
 
 .institution-bento-card.is-visible {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .institution-bento-card:hover {
-  box-shadow: 0 22px 55px rgba(32, 32, 44, 0.22);
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 16px 36px rgba(0, 0, 0, 0.16),
+    0 32px 64px rgba(0, 0, 0, 0.24);
 }
 
 
 /* =========================================================
-   CARD SIZES
+   BENTO SIZES (3-Column Layout)
 ========================================================= */
 
-.institution-bento-wide   { grid-column: span 2; }
-.institution-bento-tall   { grid-row: span 2; }
-.institution-bento-square { grid-column: span 1; }
+.institution-bento-wide {
+  grid-column: span 2;
+}
+
+.institution-bento-tall {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.institution-bento-square {
+  grid-column: span 1;
+}
+
+.institution-bento-full {
+  grid-column: span 3;
+}
 
 
 /* =========================================================
-   COLOR TREATMENTS
+   COLOR TREATMENTS (EXACT SIGNATURE BRAND THEMES)
 ========================================================= */
 
 .institution-bento-green {
   background: linear-gradient(150deg, #1b5e32 0%, #287841 50%, #34914f 100%);
+  color: #ffffff;
 }
 
 .institution-bento-yellow {
   background: linear-gradient(150deg, #b8860b 0%, #d4a017 50%, #e6b82e 100%);
+  color: #1a1a24;
 }
 
 .institution-bento-peach {
   background: linear-gradient(150deg, #b85c44 0%, #cb7157 50%, #de876e 100%);
+  color: #1a1a24;
 }
 
 .institution-bento-ink {
   background: linear-gradient(150deg, #0d0d18 0%, #151524 50%, #1e1e32 100%);
+  color: #ffffff;
 }
 
 
 /* =========================================================
-   CARD TOP  (monospace label row)
+   TOP HEADER (Monospace Category Row)
 ========================================================= */
 
 .institution-bento-card-top {
@@ -84,181 +111,327 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  color: rgba(255, 255, 255, 0.88);
+  padding: 18px 24px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.12em;
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
 }
 
-.institution-bento-card-top svg {
-  opacity: 0.75;
+.ib-top-label {
+  font-weight: 650;
 }
 
-/* Light-tone overrides for top header */
+.ib-top-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* Light tones */
 .institution-bento-yellow .institution-bento-card-top,
-.institution-bento-peach  .institution-bento-card-top {
+.institution-bento-peach .institution-bento-card-top {
   color: rgba(26, 26, 36, 0.75);
 }
 
 
 /* =========================================================
-   CARD BOTTOM  (title + body + arrow)
+   CARD CONTENT BLOCK (Magic UI Hover Slide Up)
 ========================================================= */
 
-.institution-bento-card-bottom {
+.institution-bento-card-content {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
-  padding: 18px 20px;
-  color: #ffffff;
+  z-index: 3;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Wide cards: constrain text strictly to the left half (0 to 52%) */
-.institution-bento-wide .institution-bento-card-bottom {
-  max-width: 53%;
+/* Upward shift on card hover */
+.institution-bento-card:hover .institution-bento-card-content {
+  transform: translateY(-46px);
 }
 
-.institution-bento-card-bottom h3 {
-  margin: 0;
-  font-size: clamp(17px, 1.45vw, 21px);
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-  font-weight: 650;
+/* Wide / full cards constrain text to avoid colliding with right visual */
+.institution-bento-wide .institution-bento-card-content {
+  max-width: 54%;
 }
 
-.institution-bento-wide .institution-bento-card-bottom h3 {
-  font-size: clamp(19px, 1.8vw, 25px);
+.institution-bento-full .institution-bento-card-content {
+  max-width: 52%;
 }
 
-.institution-bento-tall .institution-bento-card-bottom h3 {
-  font-size: clamp(22px, 2.2vw, 30px);
-}
-
-.institution-bento-card-bottom p {
-  max-width: 320px;
-  margin: 6px 0 0;
-  font-size: 11.5px;
-  line-height: 1.38;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.institution-bento-card-bottom a {
-  position: absolute;
-  right: 20px;
-  bottom: 18px;
+.ib-card-icon-wrap {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  color: white;
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(8px);
-  transition:
-    transform 0.25s ease,
-    background 0.25s ease;
+  margin-bottom: 2px;
 }
 
-.institution-bento-card-bottom a:hover {
-  transform: translate(2px, -2px);
-  background: rgba(255, 255, 255, 0.28);
+.ib-card-icon {
+  transform-origin: left bottom;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0.95;
 }
 
-/* Light-tone text color overrides (Yellow & Peach) */
-.institution-bento-yellow .institution-bento-card-bottom,
-.institution-bento-peach  .institution-bento-card-bottom {
-  color: #1a1a24;
+.institution-bento-card:hover .ib-card-icon {
+  transform: scale(0.82);
+  opacity: 1;
 }
 
-.institution-bento-yellow .institution-bento-card-bottom p {
-  color: rgba(26, 26, 36, 0.72);
+.ib-card-title {
+  margin: 0;
+  font-size: clamp(17.5px, 1.5vw, 21.5px);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  color: inherit;
 }
 
-.institution-bento-peach .institution-bento-card-bottom p {
-  color: rgba(26, 26, 36, 0.72);
+.institution-bento-wide .ib-card-title {
+  font-size: clamp(19px, 1.75vw, 24px);
 }
 
-.institution-bento-yellow .institution-bento-card-bottom a,
-.institution-bento-peach  .institution-bento-card-bottom a {
-  color: #1a1a24;
-  background: rgba(26, 26, 36, 0.12);
+.institution-bento-tall .ib-card-title {
+  font-size: clamp(21px, 2.1vw, 28px);
 }
 
-.institution-bento-yellow .institution-bento-card-bottom a:hover,
-.institution-bento-peach  .institution-bento-card-bottom a:hover {
-  background: rgba(26, 26, 36, 0.22);
+.institution-bento-full .ib-card-title {
+  font-size: clamp(20px, 1.85vw, 26px);
+}
+
+.ib-card-desc {
+  max-width: 340px;
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.institution-bento-yellow .ib-card-desc,
+.institution-bento-peach .ib-card-desc {
+  color: rgba(26, 26, 36, 0.76);
 }
 
 
 /* =========================================================
-   SPATIAL VISUAL ZONES (Guaranteed zero text overlap)
+   SLIDING CTA BUTTON (Magic UI Pattern)
 ========================================================= */
+
+.institution-bento-card-cta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  padding: 0 24px 18px 24px;
+  display: flex;
+  align-items: center;
+  transform: translateY(28px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.35s ease;
+}
+
+.institution-bento-card:hover .institution-bento-card-cta {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ib-card-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Green & Ink buttons */
+.institution-bento-green .ib-card-cta-btn,
+.institution-bento-ink .ib-card-cta-btn {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+.institution-bento-green .ib-card-cta-btn:hover,
+.institution-bento-ink .ib-card-cta-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* Yellow & Peach buttons */
+.institution-bento-yellow .ib-card-cta-btn,
+.institution-bento-peach .ib-card-cta-btn {
+  color: #1a1a24;
+  background: rgba(26, 26, 36, 0.14);
+  border: 1px solid rgba(26, 26, 36, 0.22);
+  backdrop-filter: blur(10px);
+}
+
+.institution-bento-yellow .ib-card-cta-btn:hover,
+.institution-bento-peach .ib-card-cta-btn:hover {
+  background: rgba(26, 26, 36, 0.24);
+  border-color: rgba(26, 26, 36, 0.35);
+}
+
+.ib-cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.ib-card-cta-btn:hover .ib-cta-arrow {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   AMBIENT HOVER OVERLAY
+========================================================= */
+
+.institution-bento-card-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.35s ease;
+}
+
+.institution-bento-green .institution-bento-card-overlay,
+.institution-bento-ink .institution-bento-card-overlay {
+  background: radial-gradient(circle at 65% 0%, rgba(255, 255, 255, 0.1), transparent 75%);
+}
+
+.institution-bento-yellow .institution-bento-card-overlay,
+.institution-bento-peach .institution-bento-card-overlay {
+  background: radial-gradient(circle at 65% 0%, rgba(26, 26, 36, 0.08), transparent 75%);
+}
+
+.institution-bento-card:hover .institution-bento-card-overlay {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   BACKGROUND CONTAINER & VISUAL BASE
+========================================================= */
+
+.ib-card-background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
 
 .ib-visual {
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
-}
-
-/* Square cards: visual is strictly confined to upper row (Y: 42px - 82px) */
-.institution-bento-square .ib-visual {
-  position: absolute;
-  top: 44px;
-  left: 20px;
-  right: 20px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Wide cards: visual is strictly on the right half (56% to 100%) */
-.institution-bento-wide .ib-visual {
-  position: absolute;
-  top: 40px;
-  right: 20px;
-  bottom: 20px;
-  width: 44%;
-  max-width: 235px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-/* Tall card: visual is strictly in upper half (Y: 48px to 240px) */
-.institution-bento-tall .ib-visual {
-  position: absolute;
-  top: 48px;
-  left: 20px;
-  right: 20px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 
 /* =========================================================
-   1. CAMPUS VISUAL (Wide card, right side)
+   1. CAMPUS VISUAL (Wide Card, Right Side)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-campus {
+  position: absolute;
+  top: 32px;
+  right: 24px;
+  bottom: 24px;
+  width: 48%;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+}
+
+.ib-campus-radar-wrap {
+  position: relative;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ib-radar-ripple {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(167, 243, 208, 0.45);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-radar-ripple {
+  animation: ib-radar-expand 3.6s cubic-bezier(0.1, 0.7, 0.2, 1) infinite;
+}
+
+.institution-bento-card:hover .ib-radar-ripple.ring-2 {
+  animation-delay: 1.2s;
+}
+
+.institution-bento-card:hover .ib-radar-ripple.ring-3 {
+  animation-delay: 2.4s;
+}
+
+.ib-campus-sweep-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(90deg, transparent 0%, rgba(167, 243, 208, 0.35) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-campus-sweep-line {
+  opacity: 1;
+  animation: ib-sweep-horizontal 4.8s ease-in-out infinite alternate;
 }
 
 .ib-campus-dots {
+  position: relative;
+  z-index: 2;
   display: grid;
-  grid-template-columns: repeat(6, 12px);
+  grid-template-columns: repeat(8, 12px);
   gap: 8px;
 }
 
@@ -267,76 +440,187 @@
   height: 11px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.18);
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .ib-campus-dot-active {
   background: #a7f3d0;
-  box-shadow: 0 0 0 3px rgba(167, 243, 208, 0.25);
+  box-shadow: 0 0 12px rgba(167, 243, 208, 0.7), 0 0 0 2px rgba(167, 243, 208, 0.35);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-campus-dot-active {
+  animation: ib-active-dot-throb 2.8s ease-in-out infinite alternate;
 }
 
 .ib-campus-stat {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.24);
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.82);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.ib-campus-pulse {
-  width: 5px;
-  height: 5px;
+.ib-campus-pulse-beacon {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ib-campus-pulse-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #6ee7b7;
-  animation: ib-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 8px #6ee7b7;
 }
+
+.ib-campus-pulse-ring {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #6ee7b7;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-campus-pulse-ring {
+  animation: ib-pulse-ring 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.ib-campus-live-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+}
+
+.ib-campus-live-equalizer span {
+  width: 2.5px;
+  border-radius: 2px;
+  background: #6ee7b7;
+  transform-origin: bottom;
+  transition: transform 0.4s ease;
+}
+
+.ib-campus-live-equalizer span:nth-child(1) { height: 6px; }
+.ib-campus-live-equalizer span:nth-child(2) { height: 13px; }
+.ib-campus-live-equalizer span:nth-child(3) { height: 8px; }
+.ib-campus-live-equalizer span:nth-child(4) { height: 11px; }
+
+.institution-bento-card:hover .ib-campus-live-equalizer span {
+  animation: ib-sound-bounce 1.8s ease-in-out infinite alternate;
+}
+
+.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(1) { animation-delay: 0s; }
+.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(2) { animation-delay: 0.35s; }
+.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(3) { animation-delay: 0.7s; }
+.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(4) { animation-delay: 1.05s; }
 
 
 /* =========================================================
-   2. PLACEMENT VISUAL (Tall card, upper half)
+   2. PLACEMENT VISUAL (Tall Card, Upper Panel)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-placement {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  right: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+}
+
+.ib-placement-panel {
+  background: rgba(26, 26, 36, 0.08);
+  border: 1px solid rgba(26, 26, 36, 0.16);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 8px 24px rgba(26, 26, 36, 0.08);
+}
+
+.ib-placement-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 7px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a24;
+  background: rgba(26, 26, 36, 0.1);
+  border: 1px solid rgba(26, 26, 36, 0.18);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.ib-placement-live-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1a1a24;
+  transition: transform 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-placement-live-indicator {
+  animation: ib-pulse 2.6s ease-in-out infinite;
 }
 
 .ib-placement-steps {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 5px;
 }
 
 .ib-placement-step {
   display: flex;
   align-items: center;
-  gap: 9px;
-  font-size: 11.5px;
-  color: rgba(26, 26, 36, 0.5);
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(26, 26, 36, 0.08);
+  gap: 10px;
+  font-size: 12px;
+  color: rgba(26, 26, 36, 0.55);
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(26, 26, 36, 0.09);
+  transition: transform 0.3s ease;
 }
 
 .ib-placement-step.done {
-  color: rgba(26, 26, 36, 0.85);
+  color: rgba(26, 26, 36, 0.92);
 }
 
 .ib-placement-step.active {
   color: #1a1a24;
-  font-weight: 650;
+  font-weight: 700;
 }
 
 .ib-step-dot {
-  width: 16px;
-  height: 16px;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
-  border: 1.5px solid rgba(26, 26, 36, 0.25);
+  border: 1.5px solid rgba(26, 26, 36, 0.32);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ib-placement-step.done .ib-step-dot {
@@ -347,154 +631,414 @@
 
 .ib-placement-step.active .ib-step-dot {
   border-color: #1a1a24;
-  background: rgba(26, 26, 36, 0.1);
+  background: rgba(26, 26, 36, 0.14);
+  box-shadow: 0 0 0 3px rgba(26, 26, 36, 0.1);
+}
+
+.institution-bento-card:hover .ib-placement-step.active .ib-step-dot {
+  animation: ib-active-ring 3s infinite;
+}
+
+.ib-step-dot-active-core {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1a1a24;
+}
+
+.ib-step-label {
+  flex: 1;
+}
+
+.ib-step-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  background: #1a1a24;
+  color: #fce48b;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-weight: 750;
+}
+
+.ib-step-live-ping {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e6b82e;
+}
+
+.institution-bento-card:hover .ib-step-live-ping {
+  animation: ib-pulse 2s infinite;
 }
 
 .ib-placement-progress {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 7px;
   margin-top: 4px;
 }
 
+.ib-placement-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ib-placement-val {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: #1a1a24;
+}
+
+.ib-placement-pill {
+  font-size: 9px;
+  font-weight: 750;
+  color: #1a1a24;
+  background: rgba(26, 26, 36, 0.12);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
 .ib-placement-bar {
-  height: 5px;
-  background: rgba(26, 26, 36, 0.14);
-  border-radius: 3px;
+  height: 8px;
+  background: rgba(26, 26, 36, 0.16);
+  border-radius: 4px;
   overflow: hidden;
+  position: relative;
 }
 
 .ib-placement-bar span {
   display: block;
   height: 100%;
-  background: #1a1a24;
-  border-radius: 3px;
+  position: relative;
+  background: linear-gradient(90deg, #1a1a24 0%, #45455d 50%, #1a1a24 100%);
+  background-size: 200% 100%;
+  border-radius: 4px;
 }
 
-.ib-placement-val {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  color: rgba(26, 26, 36, 0.65);
+.institution-bento-card:hover .ib-placement-bar span {
+  animation: ib-shimmer 3.8s linear infinite;
+}
+
+.ib-placement-bar-sparkle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: #ffffff;
+  opacity: 0;
+  filter: blur(2px);
+  transition: opacity 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-placement-bar-sparkle {
+  opacity: 0.75;
+  animation: ib-sparkle-sweep 3.2s ease-in-out infinite alternate;
 }
 
 
 /* =========================================================
-   3. AI PRACTICE VISUAL (Square card, upper zone)
+   3. AI PERSONAS VISUAL (Square Card, Upper Zone)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-ai {
+  position: absolute;
+  top: 48px;
+  left: 20px;
+  right: 20px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .ib-ai-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(26, 26, 36, 0.1);
-  border: 1px solid rgba(26, 26, 36, 0.16);
+  align-self: flex-start;
+  gap: 8px;
+  background: rgba(26, 26, 36, 0.12);
+  border: 1px solid rgba(26, 26, 36, 0.22);
   border-radius: 999px;
-  padding: 4px 9px;
+  padding: 4px 11px;
+}
+
+.ib-ai-dot-wrap {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ib-ai-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #1a1a24;
 }
 
+.ib-ai-ring {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(26, 26, 36, 0.4);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-ai-ring {
+  animation: ib-pulse-ring 3s ease-out infinite;
+}
+
+.institution-bento-card:hover .ib-ai-ring.ring-2 {
+  animation-delay: 1.5s;
+}
+
 .ib-ai-name {
-  font-size: 10px;
-  font-weight: 650;
+  font-size: 11px;
+  font-weight: 700;
   color: #1a1a24;
 }
 
 .ib-ai-tag {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 7.5px;
-  letter-spacing: 0.06em;
-  color: rgba(26, 26, 36, 0.6);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: rgba(26, 26, 36, 0.7);
   text-transform: uppercase;
 }
 
-.ib-ai-mini-wave {
+.ib-ai-equalizer {
   display: flex;
-  align-items: center;
-  gap: 3px;
+  align-items: flex-end;
+  gap: 4px;
+  height: 48px;
+  padding: 0 2px;
 }
 
-.ib-ai-mini-wave i {
+.ib-ai-bar {
   display: block;
-  width: 3px;
-  height: 12px;
-  border-radius: 2px;
+  width: 5px;
+  border-radius: 3px;
   background: #1a1a24;
-  opacity: 0.45;
-  animation: ib-wave 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+  transition: transform 0.4s ease;
 }
 
-.ib-ai-mini-wave i:nth-child(2) { animation-delay: 0.2s; height: 16px; }
-.ib-ai-mini-wave i:nth-child(3) { animation-delay: 0.4s; height: 20px; opacity: 0.8; }
-.ib-ai-mini-wave i:nth-child(4) { animation-delay: 0.6s; height: 14px; }
-.ib-ai-mini-wave i:nth-child(5) { animation-delay: 0.8s; height: 10px; }
+/* On hover, bars dance at smooth, unhurried 2.2s pace */
+.institution-bento-card:hover .ib-ai-bar {
+  animation: ib-eq-frequency 2.2s ease-in-out infinite alternate;
+}
+
+.institution-bento-card:hover .ib-ai-bar-1 { animation-delay: 0s; }
+.institution-bento-card:hover .ib-ai-bar-2 { animation-delay: 0.35s; }
+.institution-bento-card:hover .ib-ai-bar-3 { animation-delay: 0.7s; }
+.institution-bento-card:hover .ib-ai-bar-4 { animation-delay: 1.05s; }
+
+.ib-ai-prompt-ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(26, 26, 36, 0.8);
+  background: rgba(26, 26, 36, 0.07);
+  padding: 3px 8px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.ib-ai-ticker-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1a1a24;
+}
+
+.institution-bento-card:hover .ib-ai-ticker-dot {
+  animation: ib-pulse 2s infinite;
+}
+
+.ib-ai-typing-cursor {
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.institution-bento-card:hover .ib-ai-typing-cursor {
+  animation: ib-blink 1.4s infinite;
+}
 
 
 /* =========================================================
-   4. MOCK INTERVIEWS VISUAL (Square card, upper zone)
+   4. MOCK INTERVIEWS VISUAL (Square Card, Ink)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-interviews {
+  position: absolute;
+  top: 48px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ib-iv-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 }
 
 .ib-iv-tag {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 8.5px;
+  font-size: 9px;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.72);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.ib-iv-rec-wrap {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ib-iv-rec-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #ef4444;
-  animation: ib-pulse 1.4s ease-in-out infinite;
+  box-shadow: 0 0 10px #ef4444;
+}
+
+.ib-iv-rec-ring {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #ef4444;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-iv-rec-ring {
+  animation: ib-pulse-ring 2.6s ease-out infinite;
+}
+
+.ib-iv-rec-label {
+  font-weight: 750;
+}
+
+.ib-iv-latency {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9.5px;
+  color: #38bdf8;
+  font-weight: 700;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 3px 8px;
+  border-radius: 999px;
 }
 
 .ib-iv-bars {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
-  height: 22px;
+  gap: 3.5px;
+  height: 48px;
 }
 
 .ib-iv-bar {
-  width: 3.5px;
+  position: relative;
+  width: 4.5px;
   border-radius: 2px 2px 0 0;
-  background: #60a5fa;
+  background: linear-gradient(180deg, #38bdf8 0%, #818cf8 100%);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.35);
+  transform-origin: bottom;
+  transition: transform 0.4s ease;
+}
+
+.ib-iv-bar-cap {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 1px;
+}
+
+/* On hover, bars dance at unhurried 2.0s pace */
+.institution-bento-card:hover .ib-iv-bar {
+  animation: ib-eq-frequency 2s ease-in-out infinite alternate;
+}
+
+.institution-bento-card:hover .ib-iv-bar-1 { animation-delay: 0.15s; }
+.institution-bento-card:hover .ib-iv-bar-2 { animation-delay: 0.5s; }
+.institution-bento-card:hover .ib-iv-bar-3 { animation-delay: 0.85s; }
+
+.ib-iv-clarity-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.ib-iv-clarity-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
 }
 
 
 /* =========================================================
-   5. GROUP DISCUSSIONS VISUAL (Square card, upper zone)
+   5. REAL-TIME GDS VISUAL (Square Card, Green)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-discussions {
+  position: absolute;
+  top: 48px;
+  left: 20px;
+  right: 20px;
+}
+
+.ib-disc-stage {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 10px 14px;
 }
 
 .ib-disc-avatar-stack {
@@ -502,235 +1046,734 @@
   align-items: center;
 }
 
+.ib-disc-av-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .ib-disc-av {
-  width: 22px;
-  height: 22px;
+  position: relative;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
-  font-weight: 700;
-  border: 1.5px solid #287841;
-  margin-left: -5px;
+  font-size: 11px;
+  font-weight: 750;
+  border: 2px solid #287841;
+  margin-left: -8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.35s ease, margin 0.35s ease;
 }
 
-.ib-disc-av:first-child {
+.ib-disc-av-wrap:first-child .ib-disc-av {
   margin-left: 0;
 }
 
-.ib-disc-av-1 { background: #dcfce7; color: #15803d; }
-.ib-disc-av-2 { background: #fef08a; color: #a16207; }
-.ib-disc-av-3 { background: #fed7aa; color: #c2410c; }
+.institution-bento-card:hover .ib-disc-av {
+  margin-left: -2px;
+}
+
+.ib-disc-av-1 {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ib-disc-av-2 {
+  background: #fef08a;
+  color: #a16207;
+}
+
+.ib-disc-av-3 {
+  background: #fed7aa;
+  color: #c2410c;
+}
+
+.ib-disc-sound-ring {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #86efac;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s ease;
+}
+
+.institution-bento-card:hover .ib-disc-sound-ring {
+  animation: ib-pulse-ring 3s ease-out infinite;
+}
+
+.institution-bento-card:hover .ib-disc-sound-ring.ring-2 {
+  animation-delay: 1.5s;
+}
+
+.ib-disc-speaking-indicator {
+  position: absolute;
+  top: -10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 8px;
+  z-index: 3;
+}
+
+.ib-disc-speaking-indicator span {
+  width: 2px;
+  border-radius: 1px;
+  background: #a7f3d0;
+  transform-origin: bottom;
+  transition: transform 0.3s ease;
+}
+
+.ib-disc-speaking-indicator span:nth-child(1) { height: 4px; }
+.ib-disc-speaking-indicator span:nth-child(2) { height: 8px; }
+.ib-disc-speaking-indicator span:nth-child(3) { height: 6px; }
+
+.institution-bento-card:hover .ib-disc-speaking-indicator span {
+  animation: ib-sound-bounce 1.6s ease-in-out infinite alternate;
+}
+
+.institution-bento-card:hover .ib-disc-speaking-indicator span:nth-child(1) { animation-delay: 0s; }
+.institution-bento-card:hover .ib-disc-speaking-indicator span:nth-child(2) { animation-delay: 0.3s; }
+.institution-bento-card:hover .ib-disc-speaking-indicator span:nth-child(3) { animation-delay: 0.6s; }
 
 .ib-disc-status {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 8.5px;
+  font-size: 9px;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .ib-disc-pulse {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #86efac;
-  animation: ib-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 6px #86efac;
+}
+
+.institution-bento-card:hover .ib-disc-pulse {
+  animation: ib-pulse 2.5s ease-in-out infinite;
 }
 
 
 /* =========================================================
-   6. PRESENTATIONS VISUAL (Wide card, right side)
+   6. PRESENTATIONS VISUAL (Wide Card, Yellow)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-presentations {
+  position: absolute;
+  top: 32px;
+  right: 24px;
+  bottom: 24px;
+  width: 48%;
+  max-width: 275px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
 .ib-slide {
+  position: relative;
   background: #ffffff;
-  border-radius: 11px;
-  padding: 12px 14px;
-  width: 90%;
-  max-width: 215px;
-  box-shadow: 0 8px 24px rgba(26, 26, 36, 0.16);
+  border-radius: 14px;
+  padding: 14px 16px;
+  width: 100%;
+  max-width: 255px;
+  box-shadow: 0 14px 34px rgba(26, 26, 36, 0.2);
   color: #1a1a24;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
+  overflow: hidden;
+  transition: transform 0.35s ease;
+}
+
+.institution-bento-card:hover .ib-slide {
+  transform: translateY(-4px) rotate(-0.5deg);
+}
+
+.ib-slide-laser-dot {
+  position: absolute;
+  top: 48px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444, 0 0 18px #ef4444;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-slide-laser-dot {
+  opacity: 1;
+  animation: ib-laser-sweep 4s ease-in-out infinite;
+}
+
+.ib-slide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .ib-slide-title {
-  font-size: 10.5px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 750;
   letter-spacing: -0.01em;
   color: #1a1a24;
+}
+
+.ib-slide-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8.5px;
+  color: rgba(26, 26, 36, 0.6);
+  font-weight: 600;
 }
 
 .ib-slide-bullets {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
-.ib-slide-bullets span {
-  font-size: 9px;
+.ib-slide-bullet-item {
+  font-size: 9.5px;
   color: #64748b;
-  padding-left: 7px;
+  padding-left: 9px;
   border-left: 2px solid rgba(26, 26, 36, 0.12);
   line-height: 1.35;
 }
 
 .ib-slide-active {
   color: #b8860b !important;
-  border-left-color: #b8860b !important;
-  font-weight: 600;
+  border-left: 2px solid #b8860b !important;
+  font-weight: 700;
+  font-size: 9.5px;
+  padding-left: 9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.35;
+}
+
+.ib-slide-active-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #b8860b;
+  display: inline-block;
+}
+
+.ib-slide-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-slide-arrow {
+  animation: ib-arrow-slide 2s ease-in-out infinite alternate;
 }
 
 .ib-slide-footer {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
   margin-top: 2px;
 }
 
+.ib-slide-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .ib-slide-dot {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: rgba(26, 26, 36, 0.18);
+  background: rgba(26, 26, 36, 0.2);
 }
 
 .ib-slide-dot-active {
   background: #b8860b;
-  width: 12px;
-  border-radius: 2px;
+  width: 15px;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-slide-dot-active {
+  animation: ib-dot-grow 2.6s ease-in-out infinite alternate;
+}
+
+.ib-slide-reactions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ib-slide-reaction-chip {
+  font-size: 8.5px;
+  font-weight: 700;
+  background: rgba(26, 26, 36, 0.08);
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-slide-reaction-chip {
+  animation: ib-chip-bob 2.4s ease-in-out infinite alternate;
+}
+
+.institution-bento-card:hover .ib-slide-reaction-chip:nth-child(2) {
+  animation-delay: 1.2s;
 }
 
 
 /* =========================================================
-   7. INSIGHTS VISUAL (Wide card, right side)
+   7. PERFORMANCE INSIGHTS VISUAL (Full Anchor Card, Peach)
+   Only animates on hover, slow & unhurried
 ========================================================= */
 
 .ib-visual-insights {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  bottom: 24px;
+  width: 48%;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
+  gap: 12px;
+}
+
+.ib-insights-target-line {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
   gap: 8px;
+}
+
+.ib-insights-target-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: #1a1a24;
+  background: rgba(26, 26, 36, 0.1);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.ib-insights-target-dash {
+  flex: 1;
+  border-bottom: 2px dashed rgba(26, 26, 36, 0.28);
 }
 
 .ib-insights-chart {
   display: flex;
   align-items: flex-end;
-  gap: 6px;
+  gap: 10px;
+  height: 90px;
 }
 
 .ib-insights-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .ib-insights-bar {
+  position: relative;
   display: block;
-  width: 20px;
-  border-radius: 4px 4px 0 0;
-  background: rgba(26, 26, 36, 0.16);
+  width: 24px;
+  border-radius: 5px 5px 0 0;
+  background: rgba(26, 26, 36, 0.22);
+  transform-origin: bottom;
+  transition: transform 0.4s ease;
 }
 
 .ib-insights-bar.last {
   background: #1a1a24;
+  box-shadow: 0 4px 14px rgba(26, 26, 36, 0.35);
+}
+
+.institution-bento-card:hover .ib-insights-bar {
+  animation: ib-bar-pulse-strong 2.8s ease-in-out infinite alternate;
+}
+
+.institution-bento-card:hover .ib-insights-col:nth-child(1) .ib-insights-bar { animation-delay: 0s; }
+.institution-bento-card:hover .ib-insights-col:nth-child(2) .ib-insights-bar { animation-delay: 0.25s; }
+.institution-bento-card:hover .ib-insights-col:nth-child(3) .ib-insights-bar { animation-delay: 0.5s; }
+.institution-bento-card:hover .ib-insights-col:nth-child(4) .ib-insights-bar { animation-delay: 0.75s; }
+.institution-bento-card:hover .ib-insights-col:nth-child(5) .ib-insights-bar { animation-delay: 1s; }
+
+.ib-insights-peak-star {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #1a1a24;
+  transition: transform 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-insights-peak-star {
+  animation: ib-star-pulse 2.2s ease-in-out infinite alternate;
 }
 
 .ib-insights-label {
-  font-size: 8px;
+  font-size: 9px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  color: rgba(26, 26, 36, 0.5);
+  font-weight: 650;
+  color: rgba(26, 26, 36, 0.65);
   text-transform: uppercase;
 }
 
 .ib-insights-stat {
-  font-size: 10.5px;
-  color: rgba(26, 26, 36, 0.72);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #1a1a24;
+  background: rgba(26, 26, 36, 0.1);
+  border: 1px solid rgba(26, 26, 36, 0.18);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.ib-insights-trending-icon {
+  display: flex;
+  align-items: center;
+  color: #1a1a24;
+  transition: transform 0.3s ease;
+}
+
+.institution-bento-card:hover .ib-insights-trending-icon {
+  animation: ib-trend-bounce-strong 2s ease-in-out infinite alternate;
 }
 
 .ib-insights-stat strong {
   color: #1a1a24;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 
 /* =========================================================
-   KEYFRAMES
+   KEYFRAME ANIMATIONS (RELAXED, SMOOTH, ELEGANT PACE)
 ========================================================= */
 
 @keyframes ib-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.35; transform: scale(0.8); }
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
 }
 
-@keyframes ib-wave {
-  0%, 100% { transform: scaleY(0.5); }
-  50%       { transform: scaleY(1.1); }
+@keyframes ib-pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes ib-radar-expand {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes ib-sweep-horizontal {
+  0% {
+    left: -10%;
+  }
+  100% {
+    left: 105%;
+  }
+}
+
+@keyframes ib-active-dot-throb {
+  0% {
+    box-shadow: 0 0 10px rgba(167, 243, 208, 0.6);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 22px rgba(167, 243, 208, 0.9), 0 0 0 3px rgba(167, 243, 208, 0.35);
+    transform: scale(1.22);
+  }
+}
+
+@keyframes ib-active-ring {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(26, 26, 36, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(26, 26, 36, 0.2);
+  }
+}
+
+@keyframes ib-sound-bounce {
+  0% {
+    transform: scaleY(0.45);
+  }
+  100% {
+    transform: scaleY(1.25);
+  }
+}
+
+@keyframes ib-eq-frequency {
+  0% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1.2);
+  }
+  100% {
+    transform: scaleY(0.55);
+  }
+}
+
+@keyframes ib-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes ib-sparkle-sweep {
+  0% {
+    opacity: 0.3;
+    transform: scaleX(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1.3);
+  }
+}
+
+@keyframes ib-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes ib-laser-sweep {
+  0% {
+    left: 20px;
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    left: 175px;
+    opacity: 1;
+  }
+  100% {
+    left: 190px;
+    opacity: 0;
+  }
+}
+
+@keyframes ib-arrow-slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes ib-dot-grow {
+  0% {
+    width: 14px;
+  }
+  100% {
+    width: 20px;
+  }
+}
+
+@keyframes ib-chip-bob {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes ib-bar-pulse-strong {
+  0% {
+    transform: scaleY(0.86);
+  }
+  100% {
+    transform: scaleY(1.1);
+  }
+}
+
+@keyframes ib-star-pulse {
+  0% {
+    transform: translateX(-50%) scale(0.95);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.25);
+  }
+}
+
+@keyframes ib-trend-bounce-strong {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
 }
 
 
 /* =========================================================
-   TABLET (<= 900px)
+   RESPONSIVE DESIGN: TABLET (<= 992px)
 ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
   .institution-bento-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 230px;
+    grid-auto-rows: 300px;
+    gap: 16px;
   }
 
-  .institution-bento-wide  { grid-column: span 2; }
-  .institution-bento-tall  { grid-row: span 2; }
+  .institution-bento-wide {
+    grid-column: span 2;
+  }
+
+  .institution-bento-tall {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .institution-bento-square {
+    grid-column: span 1;
+  }
+
+  .institution-bento-full {
+    grid-column: span 2;
+  }
+
+  .institution-bento-wide .institution-bento-card-content,
+  .institution-bento-full .institution-bento-card-content {
+    max-width: 56%;
+  }
 }
 
 
 /* =========================================================
-   MOBILE (<= 720px)
+   RESPONSIVE DESIGN: MOBILE (<= 720px)
 ========================================================= */
 
 @media (max-width: 720px) {
   .institution-bento {
-    margin-top: 40px;
+    margin-top: 36px;
   }
 
   .institution-bento-grid {
     grid-template-columns: 1fr;
-    grid-auto-rows: 240px;
-    gap: 12px;
+    grid-auto-rows: auto;
+    gap: 14px;
   }
 
   .institution-bento-wide,
   .institution-bento-tall,
-  .institution-bento-square {
+  .institution-bento-square,
+  .institution-bento-full {
     grid-column: span 1;
     grid-row: span 1;
+    min-height: 310px;
   }
 
-  .institution-bento-wide .institution-bento-card-bottom {
-    max-width: 100%;
+  /* On mobile: keep text and CTA accessible without hover */
+  .institution-bento-card-content {
+    position: relative;
+    padding: 120px 20px 65px 20px;
+    max-width: 100% !important;
+    transform: none !important;
   }
 
-  .institution-bento-card-bottom h3 {
-    font-size: 22px;
+  .ib-card-title {
+    font-size: 20px !important;
+  }
+
+  .institution-bento-card-cta {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 20px 16px 20px;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ib-visual-campus,
+  .ib-visual-presentations,
+  .ib-visual-insights {
+    width: auto;
+    max-width: none;
+    top: 48px;
+    right: 18px;
+    bottom: auto;
+  }
+
+  .ib-visual-placement {
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  .institution-bento-tall .institution-bento-card-content {
+    padding-top: 10px;
   }
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   ACCESSIBILITY: REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -740,10 +1783,48 @@
     transition: none;
   }
 
-  .ib-campus-pulse,
-  .ib-iv-rec-dot,
+  .institution-bento-card:hover {
+    transform: none;
+  }
+
+  .institution-bento-card-content {
+    transform: none !important;
+    transition: none;
+  }
+
+  .institution-bento-card-cta {
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ib-radar-ripple,
+  .ib-campus-sweep-line,
+  .ib-campus-dot-active,
+  .ib-campus-pulse-ring,
+  .ib-campus-live-equalizer span,
+  .ib-placement-live-indicator,
+  .ib-step-dot.active,
+  .ib-step-live-ping,
+  .ib-placement-bar span,
+  .ib-placement-bar-sparkle,
+  .ib-ai-ring,
+  .ib-ai-bar,
+  .ib-ai-ticker-dot,
+  .ib-ai-typing-cursor,
+  .ib-iv-rec-ring,
+  .ib-iv-bar,
+  .ib-disc-sound-ring,
+  .ib-disc-speaking-indicator span,
   .ib-disc-pulse,
-  .ib-ai-mini-wave i {
-    animation: none;
+  .ib-slide-laser-dot,
+  .ib-slide-active-dot,
+  .ib-slide-arrow,
+  .ib-slide-dot-active,
+  .ib-slide-reaction-chip,
+  .ib-insights-bar,
+  .ib-insights-peak-star,
+  .ib-insights-trending-icon {
+    animation: none !important;
   }
 }

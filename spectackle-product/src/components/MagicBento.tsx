@@ -21,26 +21,26 @@ type Card = {
 const cards: Card[] = [
   {
     number: "01",
-    eyebrow: "PRIVATE NOTEPAD",
-    title: "Get in the zone.",
+    eyebrow: "PRE-GD PREP",
+    title: "Structure your thoughts.",
     description:
-      "Gather your thoughts, shape one strong point, and walk into the room ready.",
+      "Frame your argument, choose your data points, and enter the circle ready.",
     variant: "prep",
   },
   {
     number: "02",
-    eyebrow: "LIVE ROUND",
-    title: "Find your moment.",
+    eyebrow: "LIVE ROUNDTABLE",
+    title: "Own your moment.",
     description:
-      "Friendly prompts and live nudges keep the discussion moving without taking over.",
+      "Practice real interventions, handle pressure, and speak before the window closes.",
     variant: "live",
   },
   {
     number: "03",
-    eyebrow: "INSTANT SNAPSHOT",
-    title: "Leave with a next step.",
+    eyebrow: "INSTANT GD SCORECARD",
+    title: "Know how you sound.",
     description:
-      "A simple recap turns one session into a habit students can build on.",
+      "Get objective scores on talk time, speaking pace, fillers, and argument depth.",
     variant: "report",
   },
 ];
@@ -50,7 +50,7 @@ function PrepVisual() {
     <div className="mb-visual mb-prep">
       <div className="mb-window">
         <div className="mb-window-top">
-          <span>PRIVATE NOTEPAD</span>
+          <span>PRIVATE PREP</span>
           <span className="mb-dots">
             <i />
             <i />
@@ -60,21 +60,21 @@ function PrepVisual() {
 
         <div className="mb-note">
           <span className="mb-note-line mb-note-title">
-            Make one strong point
+            State core premise
           </span>
 
           <span className="mb-note-line">
-            Ask a real question
+            Cite real evidence
           </span>
 
           <span className="mb-note-line">
-            Back it with an example
+            Counter standard objection
           </span>
         </div>
 
         <div className="mb-note-chip">
           <Sparkles size={12} />
-          Add a stat
+          Add a data point
         </div>
       </div>
 
@@ -94,7 +94,7 @@ function LiveVisual() {
     <div className="mb-visual mb-live">
       <div className="mb-live-header">
         <span className="mb-live-dot" />
-        LIVE ROUND
+        LIVE GD ROUND
         <span className="mb-live-time">05:32</span>
       </div>
 
@@ -140,18 +140,18 @@ function ReportVisual() {
 
       <div className="mb-score">
         <strong>8.6</strong>
-        <span>confidence</span>
+        <span>placement score</span>
       </div>
 
       <div className="mb-report-pills">
         <div className="mb-pill mb-pill-green">
           <Check size={12} />
-          Clear examples
+          Strong rebuttal
         </div>
 
         <div className="mb-pill mb-pill-peach">
           <Target size={12} />
-          Invite others
+          Peer reference
         </div>
       </div>
 
@@ -160,7 +160,7 @@ function ReportVisual() {
       </div>
 
       <div className="mb-report-caption">
-        Your next round is already looking better.
+        Recruiter-ready for the next round.
       </div>
     </div>
   );

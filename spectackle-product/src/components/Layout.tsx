@@ -9,7 +9,9 @@ import { ArrowRight, Menu, Moon, Sun, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import WaitlistModal from "./WaitlistModal";
 import SpectaklesLogo from "./SpectaklesLogo";
+import Footer from "./Footer";
 import { trackClick } from "../lib/firebase";
+import "./FloatingNavbar.css";
 
 const navLinks = [
   { label: "How it works", to: "/#how-it-works" },
@@ -22,7 +24,7 @@ const navLinks = [
   { label: "Blog", to: "/blog" },
 ];
 
-const DemoContext = createContext<(open: boolean) => void>(() => {});
+const DemoContext = createContext<(open: boolean) => void>(() => { });
 
 export function useDemo() {
   return useContext(DemoContext);
@@ -55,85 +57,85 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DemoContext.Provider value={openDemo}>
       <div className="site-shell">
-        <header className="relative w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          {/* Brand Logo */}
-          <Link
-            className="flex items-center gap-2.5 group"
-            to="/"
-            aria-label="Spectakles home"
-            onClick={() => trackClick("brand_logo", "header")}
-          >
-            <SpectaklesLogo
-              height={36}
-              className="h-9 w-auto group-hover:scale-105 transition-transform"
-            />
-          </Link>
-          
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold text-gray-700" aria-label="Main navigation">
+        {/* Floating Capsule Sticky Navbar */}
+        <header className="floating-navbar-wrapper" aria-label="Main Navigation">
+          <div className="floating-navbar-pill">
+            {/* Left: Brand Logo */}
             <Link
-              className="inline-block transition-all duration-200 hover:scale-[1.03] hover:text-black cursor-pointer"
-              to="/#how-it-works"
-              onClick={() => trackClick("nav_how_it_works", "header")}
+              className="navbar-brand-link"
+              to="/"
+              aria-label="Spectakles home"
+              onClick={() => trackClick("brand_logo", "header")}
             >
-              How it works
+              <SpectaklesLogo
+                height={26}
+                variant="white"
+                className="navbar-logo-img"
+              />
             </Link>
-            <Link
-              className="inline-block transition-all duration-200 hover:scale-[1.06] hover:text-black cursor-pointer"
-              to="/about"
-              onClick={() => trackClick("nav_about", "header")}
-            >
-              About
-            </Link>
-            {/* <button className="hover:text-brand-dark transition-colors" onClick={() => setShowDemo(true)}>Early Access</button> */}
-            <Link
-              className="inline-block transition-all duration-200 hover:scale-[1.09] hover:text-black cursor-pointer"
-              to="/faq"
-              onClick={() => trackClick("nav_faq", "header")}
-            >
-              FAQ
-            </Link>
-          </nav>
-          
-          {/* Nav Right CTA */}
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle (Kept for functionality) */}
-            {/* <button
-              className="text-gray-500 hover:text-brand-dark transition-colors hidden md:block"
-              type="button"
-              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-              onClick={() => setDarkMode((current) => !current)}
-            >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button> */}
-            <button
-              className="hidden sm:inline-flex items-center gap-2 bg-brand-green hover:bg-[#257341] text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold shadow-sm transition-all hover:shadow hover:scale-105"
-              onClick={() => {
-                trackClick("join_waitlist", "header_button");
-                setShowDemo(true);
-              }}
-            >
-              <span>Join the Waitlist</span>
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-              </svg>
-            </button>
-            {/* Mobile Menu Toggle */}
-            <button
-              className="lg:hidden text-gray-700"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle navigation"
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+
+            {/* Center: Navigation Links */}
+            <nav className="navbar-nav-links" aria-label="Desktop Navigation">
+              <Link
+                className="navbar-nav-link"
+                to="/#how-it-works"
+                onClick={() => trackClick("nav_how_it_works", "header")}
+              >
+                How it works
+              </Link>
+              <Link
+                className="navbar-nav-link"
+                to="/#institutions"
+                onClick={() => trackClick("nav_institutions", "header")}
+              >
+                The GD Reality
+              </Link>
+              <Link
+                className="navbar-nav-link"
+                to="/about"
+                onClick={() => trackClick("nav_about", "header")}
+              >
+                About
+              </Link>
+              <Link
+                className="navbar-nav-link"
+                to="/faq"
+                onClick={() => trackClick("nav_faq", "header")}
+              >
+                FAQ
+              </Link>
+            </nav>
+
+            {/* Right: CTA Pill Button + Mobile Hamburger */}
+            <div className="navbar-right-group">
+              <button
+                type="button"
+                className="navbar-cta-button"
+                onClick={() => {
+                  trackClick("book_call", "header_button");
+                  setShowDemo(true);
+                }}
+              >
+                Join the Waitlist
+              </button>
+
+              <button
+                type="button"
+                className="navbar-mobile-toggle"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Toggle navigation"
+                aria-expanded={menuOpen}
+              >
+                {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Navigation Dropdown */}
+          {/* Mobile Navigation Dropdown Card */}
           {menuOpen && (
-            <div className="absolute top-[80px] left-0 right-0 bg-white shadow-md p-6 flex flex-col gap-4 text-center z-50 border-t border-gray-100 lg:hidden font-semibold text-gray-700">
+            <div className="navbar-mobile-menu">
               <Link
-                className="inline-block transition-all duration-200 hover:scale-[1.03] hover:text-black cursor-pointer"
+                className="navbar-mobile-link"
                 to="/#how-it-works"
                 onClick={() => {
                   trackClick("nav_how_it_works", "mobile_menu");
@@ -143,7 +145,17 @@ export default function Layout({ children }: { children: ReactNode }) {
                 How it works
               </Link>
               <Link
-                className="inline-block transition-all duration-200 hover:scale-[1.06] hover:text-black cursor-pointer"
+                className="navbar-mobile-link"
+                to="/#institutions"
+                onClick={() => {
+                  trackClick("nav_institutions", "mobile_menu");
+                  setMenuOpen(false);
+                }}
+              >
+                The GD Reality
+              </Link>
+              <Link
+                className="navbar-mobile-link"
                 to="/about"
                 onClick={() => {
                   trackClick("nav_about", "mobile_menu");
@@ -152,9 +164,8 @@ export default function Layout({ children }: { children: ReactNode }) {
               >
                 About
               </Link>
-              {/* <button onClick={() => { setShowDemo(true); setMenuOpen(false); }}>Early Access</button> */}
               <Link
-                className="inline-block transition-all duration-200 hover:scale-[1.09] hover:text-black cursor-pointer"
+                className="navbar-mobile-link"
                 to="/faq"
                 onClick={() => {
                   trackClick("nav_faq", "mobile_menu");
@@ -163,55 +174,26 @@ export default function Layout({ children }: { children: ReactNode }) {
               >
                 FAQ
               </Link>
+              <button
+                type="button"
+                className="navbar-mobile-cta"
+                onClick={() => {
+                  trackClick("book_call", "mobile_menu");
+                  setShowDemo(true);
+                  setMenuOpen(false);
+                }}
+              >
+                Join the Waitlist
+              </button>
             </div>
           )}
         </header>
 
-        <main id="top" key={location.pathname}>
+        <main id="top" key={location.pathname} className="site-main-content">
           {children}
         </main>
 
-        <footer className="site-footer section-wrap">
-          <Link
-            className="brand"
-            to="/"
-            onClick={() => trackClick("brand_logo", "footer")}
-          >
-            <SpectaklesLogo height={38} className="h-9 md:h-10 w-auto" />
-          </Link>
-          <p>Learning should have a little more life in it.</p>
-          <div className="footer-links">
-            <Link
-              to="/#how-it-works"
-              onClick={() => trackClick("nav_how_it_works", "footer")}
-            >
-              How it works
-            </Link>
-            <Link
-              to="/about"
-              onClick={() => trackClick("nav_about", "footer")}
-            >
-              About
-            </Link>
-            <Link
-              to="/faq"
-              onClick={() => trackClick("nav_faq", "footer")}
-            >
-              FAQ
-            </Link>
-            <button
-              onClick={() => {
-                trackClick("join_waitlist", "footer_button");
-                setShowDemo(true);
-              }}
-            >
-              Join the waitlist
-            </button>
-          </div>
-          <span className="copyright">
-            © 2026 Spectakles. Made for better conversations.
-          </span>
-        </footer>
+        <Footer onOpenWaitlist={() => setShowDemo(true)} />
         <WaitlistModal isOpen={showDemo} onClose={() => setShowDemo(false)} />
       </div>
     </DemoContext.Provider>

@@ -1,9 +1,9 @@
 import { FormEvent, useEffect, useState } from "react";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Check, Loader2, ShieldCheck, X } from "lucide-react";
 import "./WaitlistModal.css";
 import SpectaklesLogo from "./SpectaklesLogo";
 import { supabase } from "../lib/supabase";
-import { trackEvent, trackClick } from "../lib/firebase";
+import { trackEvent } from "../lib/firebase";
 
 interface WaitlistModalProps {
   isOpen: boolean;
@@ -49,7 +49,7 @@ export default function WaitlistModal({
     }
 
     if (!email.includes("@")) {
-      setError("Please enter a valid email.");
+      setError("Please enter a valid email address.");
       return;
     }
 
@@ -119,35 +119,35 @@ export default function WaitlistModal({
         className="waitlist-modal"
         role="dialog"
         aria-modal="true"
+        aria-labelledby="waitlist-heading"
       >
         <button
           className="waitlist-close"
           onClick={handleClose}
-          aria-label="Close"
+          aria-label="Close dialog"
         >
-          <X size={18} />
+          <X size={17} />
         </button>
 
         {!submitted ? (
           <>
             <div className="waitlist-header">
               <div className="waitlist-logo">
-                <SpectaklesLogo height={36} className="h-9 w-auto" />
+                <SpectaklesLogo height={30} className="h-7 w-auto" />
               </div>
 
-              <p className="waitlist-eyebrow">
-                COMING SOON
-              </p>
+              <div className="waitlist-eyebrow-badge">
+                <span className="waitlist-pulse-dot" />
+                <span>Early Access</span>
+              </div>
 
-              <h2>
-                Join the
-                <span> waitlist.</span>
+              <h2 id="waitlist-heading">
+                Your next GD
+                <span> starts here.</span>
               </h2>
 
               <p>
-                Be among the first to experience
-                a better way to practice,
-                participate, and grow.
+                Practice speaking under pressure before placement day arrives.
               </p>
             </div>
 
@@ -157,23 +157,24 @@ export default function WaitlistModal({
             >
               <div className="waitlist-field">
                 <label htmlFor="waitlist-name">
-                  Name
+                  <span>Name</span>
                 </label>
 
                 <input
                   id="waitlist-name"
                   type="text"
-                  placeholder="Your name"
+                  placeholder="e.g. Alex Sharma"
                   value={name}
                   onChange={(event) =>
                     setName(event.target.value)
                   }
+                  autoComplete="name"
                 />
               </div>
 
               <div className="waitlist-field">
                 <label htmlFor="waitlist-email">
-                  Email
+                  <span>Email</span>
                 </label>
 
                 <input
@@ -184,12 +185,13 @@ export default function WaitlistModal({
                   onChange={(event) =>
                     setEmail(event.target.value)
                   }
+                  autoComplete="email"
                 />
               </div>
 
               <div className="waitlist-field">
                 <label htmlFor="waitlist-type">
-                  I am a
+                  <span>I am a</span>
                 </label>
 
                 <select
@@ -215,14 +217,14 @@ export default function WaitlistModal({
 
               <div className="waitlist-field">
                 <label htmlFor="waitlist-college">
-                  College / University
-                  <span>Optional</span>
+                  <span>College / University</span>
+                  <span className="waitlist-optional-tag">Optional</span>
                 </label>
 
                 <input
                   id="waitlist-college"
                   type="text"
-                  placeholder="Your college"
+                  placeholder="e.g. BITS Pilani, IIT Bombay..."
                   value={college}
                   onChange={(event) =>
                     setCollege(event.target.value)
@@ -231,9 +233,9 @@ export default function WaitlistModal({
               </div>
 
               {error && (
-                <p className="waitlist-error">
-                  {error}
-                </p>
+                <div className="waitlist-error" role="alert">
+                  <span>{error}</span>
+                </div>
               )}
 
               <button
@@ -241,44 +243,53 @@ export default function WaitlistModal({
                 className="waitlist-submit"
                 disabled={loading}
               >
-                {loading ? "Joining..." : "Join the waitlist"}
-                <ArrowRight size={17} />
+                {loading ? (
+                  <>
+                    <Loader2 size={16} className="waitlist-spinner" />
+                    <span>Joining waitlist...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Join the waitlist</span>
+                    <ArrowRight size={16} className="waitlist-arrow" />
+                  </>
+                )}
               </button>
 
-              <p className="waitlist-note">
-                No spam. Just updates when
-                Spectakles is ready.
-              </p>
+              <div className="waitlist-note">
+                <ShieldCheck size={13} className="waitlist-note-icon" />
+                <span>No spam, ever. Only an invite when your room is ready.</span>
+              </div>
             </form>
           </>
         ) : (
           <div className="waitlist-success">
-            <div className="success-icon">
-              <Check size={28} />
+            <div className="success-icon-wrapper">
+              <div className="success-icon">
+                <Check size={26} strokeWidth={2.6} />
+              </div>
             </div>
 
-            <p className="waitlist-eyebrow">
-              YOU&apos;RE IN
-            </p>
+            <div className="waitlist-eyebrow-badge success-badge">
+              <span className="waitlist-pulse-dot" />
+              <span>You&apos;re On The List</span>
+            </div>
 
-            <h2>
-              Welcome to
-              <span> Spectakles.</span>
+            <h2 id="waitlist-heading">
+              Get ready to
+              <span> speak up.</span>
             </h2>
 
             <p>
-              You&apos;re officially on the
-              waitlist. We&apos;ll let you know
-              when it&apos;s time to step into
-              the room.
+              You&apos;re officially in line. We&apos;ll ping you the second rooms open for your campus.
             </p>
 
             <button
               className="waitlist-submit"
               onClick={handleClose}
             >
-              Sounds good
-              <ArrowRight size={17} />
+              <span>Done</span>
+              <ArrowRight size={16} className="waitlist-arrow" />
             </button>
           </div>
         )}

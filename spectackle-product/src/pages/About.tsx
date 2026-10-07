@@ -13,47 +13,47 @@ import { trackClick } from "../lib/firebase";
 
 const values = [
   {
-    icon: Heart,
-    title: "Students first, always",
-    body: "Every decision starts with: does this help a student find their voice? If not, we don't build it.",
-  },
-  {
     icon: Lightbulb,
     title: "Practice over theory",
-    body: "You don't learn to swim by reading about it. Spectakles is the pool — shallow end first, deep end when you're ready.",
+    body: "You don't get better at GDs by reading tips. You get better by speaking under pressure.",
   },
   {
     icon: Target,
-    title: "Measurable warmth",
-    body: "Feedback should feel human and be useful. Data without empathy is just noise.",
+    title: "Silence isn't safe",
+    body: "In a placement GD, staying quiet gets you eliminated. We train active participation.",
+  },
+  {
+    icon: Heart,
+    title: "Real feedback, zero fluff",
+    body: "Generic advice like 'be confident' doesn't work. We track exact pacing, fillers, and interventions.",
   },
   {
     icon: Users,
-    title: "Every voice matters",
-    body: "The quietest student in the room often has the most to say. We build for them.",
+    title: "Every voice counts",
+    body: "Good thoughts mean nothing if they stay in your head. Spectakles helps you say them out loud.",
   },
 ];
 
 const timeline = [
   {
     year: "01",
-    title: "The Observation",
-    body: "We sat through too many group discussions where the same three students dominated the conversation, while the rest stayed silent out of fear of judgment.",
+    title: "The GD Problem",
+    body: "Brilliant students fail placement round 1 simply because louder candidates hijack the room.",
   },
   {
     year: "02",
-    title: "The Insight",
-    body: "We realized that communication confidence isn't an innate personality trait—it’s a trainable skill. It just requires a safe, low-stakes environment to practice in without consequence.",
+    title: "The Realization",
+    body: "Speaking up isn't personality. It's a muscle that gets sharper every time you jump in.",
   },
   {
     year: "03",
-    title: "The Solution",
-    body: "We set out to build Spectakles: an AI-moderated platform that removes the social anxiety of peer judgment, allowing students to practice speaking up and structuring their thoughts.",
+    title: "The Sparring Room",
+    body: "We built Spectakles: autonomous AI personas that interrupt, debate, and force you to speak.",
   },
   {
     year: "04",
-    title: "The Vision",
-    body: "Our goal is simple: ensure that no student enters the workforce without the confidence to articulate their ideas clearly and command a room.",
+    title: "The Outcome",
+    body: "Walk into your next placement GD with zero hesitation and total control of your voice.",
   },
 ];
 
@@ -67,18 +67,16 @@ export default function About() {
         <div className="page-hero-copy">
           <div className="announcement">
             <Sparkles size={15} />
-            Our story
+            Why we built Spectakles
           </div>
 
           <h1>
-            We built Spectakles because <em>silence</em> isn't a personality
-            trait.
+            Because <em>silence</em> doesn&apos;t get you placed.
           </h1>
 
           <p>
-            Too many students have something to say and nowhere safe to
-            practice saying it. We're here to change that — one round at a
-            time.
+            You knew the answer. You just didn&apos;t say it. Spectakles exists
+            so you never freeze in a GD again.
           </p>
         </div>
 
@@ -88,16 +86,16 @@ export default function About() {
               <Heart size={18} />
             </div>
 
-            <p className="eyebrow">Our mission</p>
+            <p className="eyebrow">The Mission</p>
 
             <h2>
-              Make practice feel less like pressure and more like{" "}
-              <span>play.</span>
+              Turn hesitation into{" "}
+              <span>conviction.</span>
             </h2>
 
             <p>
-              Every student deserves a space to find their voice before the
-              stakes are real. Spectakles is that space.
+              Everyone has something to say. Spectakles gives you the room to
+              say it when it matters.
             </p>
           </div>
         </div>
@@ -109,7 +107,7 @@ export default function About() {
           <p className="eyebrow">What we believe</p>
 
           <h2>
-            Four things we <span>don't compromise on.</span>
+            Four rules we <span>stand by.</span>
           </h2>
         </div>
 
@@ -135,10 +133,10 @@ export default function About() {
       <section className="portal-scene timeline-section">
         <div className="section-wrap">
           <div className="section-intro centered">
-            <p className="eyebrow">Our Story</p>
+            <p className="eyebrow">The origin</p>
 
             <h2>
-              From a quiet room to <span>Spectakles.</span>
+              From hesitant silence to <span>Spectakles.</span>
             </h2>
           </div>
 
@@ -176,15 +174,14 @@ export default function About() {
             <Users size={34} />
           </div>
 
-          <p className="eyebrow">Join the mission</p>
+          <p className="eyebrow">Stop watching. Start speaking.</p>
 
           <h2>
-            Help us put a little more <em>life</em> in learning.
+            Next GD? <em>Bring it.</em>
           </h2>
 
           <p>
-            Whether you're an institution, a faculty member, or a student who
-            wants to practice — there's a round waiting for you.
+            Practice real interventions, handle pressure, and walk into placements ready.
           </p>
 
           <button

@@ -1,0 +1,247 @@
+/* =========================================================
+   SPECTAKLES WARM-THEMED EDITORIAL FOOTER
+   Matches the website's signature cream, ink & emerald palette
+========================================================= */
+
+/* =========================================================
+   SPECTAKLES EDITORIAL FOOTER
+   Matches the signature dark section palette (#20202c / ink)
+========================================================= */
+
+.spectakles-footer {
+  width: 100%;
+  background: #20202c;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+.spectakles-footer-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 88px 32px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Layout Grid ── */
+
+.footer-top-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 56px;
+  padding-bottom: 72px;
+}
+
+/* ── Brand & Copyright Column (Left) ── */
+
+.footer-brand-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 340px;
+  flex-shrink: 0;
+}
+
+.footer-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer-brand-link:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.footer-brand-logo {
+  height: 32px;
+  width: auto;
+  display: block;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-brand-link:hover .footer-brand-logo {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+
+.footer-copyright-text {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #a09ea9;
+}
+
+/* ── Right Navigation Columns (4 Columns) ── */
+
+.footer-nav-columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 48px;
+  flex: 1;
+  max-width: 700px;
+  justify-content: end;
+}
+
+.footer-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-group-heading {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.015em;
+}
+
+.footer-links-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links-list a,
+.footer-btn-link {
+  color: #b2afba;
+  font-size: 13.5px;
+  line-height: 1.4;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  font-family: inherit;
+}
+
+.footer-links-list a:hover,
+.footer-btn-link:hover {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.footer-btn-link.highlight {
+  color: var(--yellow, #fce48b);
+  font-weight: 600;
+}
+
+.footer-btn-link.highlight:hover {
+  color: #ffffff;
+}
+
+/* ── Bottom Massive Watermark Wordmark ── */
+
+.footer-watermark-wrap {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  line-height: 0.76;
+  margin-top: 10px;
+  margin-bottom: -0.04em;
+  padding: 0;
+}
+
+.footer-watermark-text {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(60px, 15.8vw, 240px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-align: center;
+  white-space: nowrap;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.015) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================================
+   DARK MODE OVERRIDES (data-theme="dark")
+========================================================= */
+
+:root[data-theme="dark"] .spectakles-footer {
+  background: #171720;
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+:root[data-theme="dark"] .footer-watermark-text {
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0.01) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: rgba(255, 255, 255, 0.04);
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+========================================================= */
+
+@media (max-width: 980px) {
+  .spectakles-footer-inner {
+    padding: 64px 28px 0;
+  }
+
+  .footer-top-grid {
+    flex-direction: column;
+    gap: 48px;
+    padding-bottom: 56px;
+  }
+
+  .footer-brand-column {
+    max-width: 100%;
+  }
+
+  .footer-nav-columns {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .spectakles-footer-inner {
+    padding: 52px 20px 0;
+  }
+
+  .footer-top-grid {
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+
+  .footer-nav-columns {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 20px;
+  }
+
+  .footer-watermark-wrap {
+    margin-top: 0;
+  }
+
+  .footer-watermark-text {
+    font-size: clamp(44px, 14.5vw, 110px);
+    letter-spacing: -0.03em;
+  }
+}
