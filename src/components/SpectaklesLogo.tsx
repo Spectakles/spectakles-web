@@ -9,8 +9,6 @@
  *   <SpectaklesLogo className="h-8 w-auto" /> // Tailwind sizing
  */
 
-import spectaklesLogoSrc from "../assets/spectakles-logo-horizontal-navbar.svg";
-
 interface SpectaklesLogoProps {
   /** CSS class(es) applied to the <img> element */
   className?: string;
@@ -30,7 +28,7 @@ export default function SpectaklesLogo({
 }: SpectaklesLogoProps) {
   return (
     <img
-      src={spectaklesLogoSrc}
+      src="/assets/spectakles-logo-horizontal-navbar.svg"
       alt={alt}
       width={width}
       height={height}

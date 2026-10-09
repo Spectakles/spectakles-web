@@ -1,5 +1,8 @@
+"use client";
+
 import {
   useLayoutEffect,
+  useEffect,
   useRef,
   type CSSProperties,
   type ReactNode,
@@ -8,9 +11,9 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import "./ScrollPortalLayout.css";
-
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type ScrollPortalLayoutProps = {
   children: ReactNode;

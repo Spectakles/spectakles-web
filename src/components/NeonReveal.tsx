@@ -1,11 +1,11 @@
+"use client";
+
 import {
   ReactNode,
   useEffect,
   useRef,
   useState,
 } from "react";
-
-import "./NeonReveal.css";
 
 type NeonRevealProps = {
   children?: ReactNode;

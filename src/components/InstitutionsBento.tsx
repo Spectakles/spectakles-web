@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react";
+"use client";
+
+import { useEffect, useRef, type ReactElement } from "react";
 import {
   ArrowUpRight,
   BarChart3,
@@ -9,7 +11,6 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import "./InstitutionsBento.css";
 
 const institutionFeatures = [
   {
@@ -232,7 +233,7 @@ function InsightsVisual() {
   );
 }
 
-const visuals: Record<string, () => JSX.Element> = {
+const visuals: Record<string, () => ReactElement> = {
   campus: CampusVisual,
   placement: PlacementVisual,
   ai: AiVisual,

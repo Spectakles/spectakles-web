@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
 import { trackEvent } from '../lib/firebase';

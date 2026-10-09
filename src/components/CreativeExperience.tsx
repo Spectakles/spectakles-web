@@ -1,7 +1,11 @@
+"use client";
+
 import {
   useLayoutEffect,
+  useEffect,
   useRef,
   useState,
+  type ReactElement,
 } from "react";
 
 import {
@@ -18,9 +22,9 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import "./CreativeExperience.css";
-
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const experiences = [
   {
@@ -370,7 +374,7 @@ function CommsVisual() {
   );
 }
 
-const visuals: Record<string, () => JSX.Element> = {
+const visuals: Record<string, () => ReactElement> = {
   discussions: DiscussionsVisual,
   interviews: InterviewsVisual,
   presentations: PresentationsVisual,

@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
-import "./SpectakleEclipseIntro.css";
 import NeonReveal from "./NeonReveal";
 import AsciiWavesBackground from "./AsciiWavesBackground";
 // import { UserRound } from "lucide-react";

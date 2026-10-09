@@ -1,14 +1,21 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
 import { getAnalytics, isSupported, logEvent, type Analytics } from "firebase/analytics";
 
+const getEnv = (key: string) => {
+  if (typeof process !== "undefined" && process.env) {
+    return process.env[`NEXT_PUBLIC_${key}`] || process.env[`VITE_${key}`];
+  }
+  return undefined;
+};
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: getEnv("FIREBASE_API_KEY"),
+  authDomain: getEnv("FIREBASE_AUTH_DOMAIN"),
+  projectId: getEnv("FIREBASE_PROJECT_ID"),
+  storageBucket: getEnv("FIREBASE_STORAGE_BUCKET"),
+  messagingSenderId: getEnv("FIREBASE_MESSAGING_SENDER_ID"),
+  appId: getEnv("FIREBASE_APP_ID"),
+  measurementId: getEnv("FIREBASE_MEASUREMENT_ID"),
 };
 
 const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.measurementId);
@@ -16,7 +23,7 @@ const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.measurement
 let app: FirebaseApp | null = null;
 let analyticsPromise: Promise<Analytics | null> = Promise.resolve(null);
 
-if (isConfigured) {
+if (typeof window !== "undefined" && isConfigured) {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     analyticsPromise = isSupported().then((supported) => {
@@ -28,7 +35,7 @@ if (isConfigured) {
   } catch (error) {
     console.warn("[Firebase] Initialization error:", error);
   }
-} else if (import.meta.env.DEV) {
+} else if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
   console.info("[Firebase Analytics] Config keys not provided in .env. Analytics calls will be safely skipped.");
 }
 
@@ -39,11 +46,11 @@ export async function trackEvent(
   eventName: string,
   eventParams?: Record<string, any>
 ): Promise<void> {
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV === "development") {
     console.debug(`[Analytics] ${eventName}`, eventParams ?? {});
   }
 
-  if (!isConfigured) return;
+  if (!isConfigured || typeof window === "undefined") return;
 
   try {
     const analytics = await analyticsPromise;
@@ -76,7 +83,7 @@ export function trackClick(
 export function trackPageView(pageTitle: string, path: string): void {
   trackEvent("page_view", {
     page_title: pageTitle,
-    page_location: window.location.href,
+    page_location: typeof window !== "undefined" ? window.location.href : "",
     page_path: path,
   });
 }
