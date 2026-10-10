@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ArrowRight,
   Heart,
@@ -7,9 +9,9 @@ import {
   Users,
 } from "lucide-react";
 
-import { useDemo } from "../components/Layout";
-import ScrollPortalLayout from "../components/ScrollPortalLayout";
-import { trackClick } from "../lib/firebase";
+import { useDemo } from "@/components/Layout";
+import ScrollPortalLayout from "@/components/ScrollPortalLayout";
+import { trackClick } from "@/lib/firebase";
 
 const values = [
   {

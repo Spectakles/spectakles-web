@@ -1,4 +1,7 @@
+"use client";
+
 import { useState } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   BarChart3,
@@ -14,16 +17,16 @@ import {
   Zap,
 } from "lucide-react";
 
-import { Link } from "react-router-dom";
-import { useDemo } from "../components/Layout";
-import SpectaklesLogo from "../components/SpectaklesLogo";
-import CreativeExperience from "../components/CreativeExperience";
-import InstitutionsBento from "../components/InstitutionsBento";
-import MagicBento from "../components/MagicBento";
-import ParallaxPills from "../components/ParallaxPills";
-import ScrollPortalLayout from "../components/ScrollPortalLayout";
-import RoundtableHero from "../components/RoundtableHero";
-import { trackClick } from "../lib/firebase";
+
+import { useDemo } from "@/components/Layout";
+import SpectaklesLogo from "@/components/SpectaklesLogo";
+import CreativeExperience from "@/components/CreativeExperience";
+import InstitutionsBento from "@/components/InstitutionsBento";
+import MagicBento from "@/components/MagicBento";
+import ParallaxPills from "@/components/ParallaxPills";
+import ScrollPortalLayout from "@/components/ScrollPortalLayout";
+import RoundtableHero from "@/components/RoundtableHero";
+import { trackClick } from "@/lib/firebase";
 
 export default function Home() {
   const openDemo = useDemo();
@@ -207,7 +210,7 @@ export default function Home() {
 
               <Link
                 className="text-link text-link-light"
-                to="/#top"
+                href="/#top"
                 onClick={() => trackClick("explore_student_journey", "student_experience_section")}
               >
                 Explore the student journey{" "}

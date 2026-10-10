@@ -1,7 +1,9 @@
+"use client";
+
 import { ArrowRight, BarChart3, Check, MessageCircle, Quote, Sparkles, TrendingUp, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useDemo } from '../components/Layout';
-import SpectaklesLogo from '../components/SpectaklesLogo';
+
+import { useDemo } from '@/components/Layout';
+import SpectaklesLogo from '@/components/SpectaklesLogo';
 
 const stats = [
   { value: 'Participation', label: 'More voices heard', sub: 'in every single session' },
@@ -172,3 +174,4 @@ export default function Impact() {
     </>
   );
 }
+

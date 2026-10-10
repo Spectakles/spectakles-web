@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import {
   ArrowRight,
@@ -5,9 +7,9 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { useDemo } from "../components/Layout";
-import ScrollPortalLayout from "../components/ScrollPortalLayout";
-import { trackClick, trackEvent } from "../lib/firebase";
+import { useDemo } from "@/components/Layout";
+import ScrollPortalLayout from "@/components/ScrollPortalLayout";
+import { trackClick, trackEvent } from "@/lib/firebase";
 
 const categories = [
   {
