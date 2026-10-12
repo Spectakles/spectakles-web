@@ -1,8 +1,8 @@
-# GroupPulse — AI Group Discussion Platform
+# Spectakles — AI Group Discussion Platform
 
 An intelligent, rubric-first AI Group Discussion (GD) simulation and assessment platform built for B.Tech campus placements (TCS, Infosys, Amazon, Microsoft, Wipro, Accenture) and MBA admissions (IIMs, Deloitte, McKinsey).
 
-GroupPulse simulates a real-time 5-candidate GD roundtable with autonomous AI personas, realistic conversational dynamics, instant "Steal the Mic" floor interventions, deterministic speech metrics computation, and automated evaluation against standard placement criteria.
+Spectakles simulates a real-time 5-candidate GD roundtable with autonomous AI personas, realistic conversational dynamics, instant "Steal the Mic" floor interventions, deterministic speech metrics computation, and automated evaluation against standard placement criteria.
 
 ---
 
