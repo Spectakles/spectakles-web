@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, KeyRound, Lock, Mail, ShieldAlert, Sparkles } from "lucide-react";
 import SpectaklesLogo from "@/components/SpectaklesLogo";
+import AdminDashboard from "@/components/admin/AdminDashboard";
 
 export default function AdminPage() {
   const [email, setEmail] = useState("");
@@ -150,8 +151,9 @@ export default function AdminPage() {
           Sign out
         </button>
       </div>
-      <div className="py-12 text-center text-gray-500">
-        <p>Admin session active. Dashboard loading...</p>
+
+      <div className="py-6">
+        <AdminDashboard onLogout={handleLogout} />
       </div>
     </div>
   );
