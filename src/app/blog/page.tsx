@@ -1,10 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Mail, Search } from "lucide-react";
 import Link from "next/link";
-import { articles, blogCategories } from "@/data/blog";
-
+import { articles as seedArticles, blogCategories, type Article } from "@/data/blog";
 
 function ArticleCard({
   slug,
@@ -16,7 +15,7 @@ function ArticleCard({
   readTime,
   image,
   imageAlt,
-}: (typeof articles)[number]) {
+}: Article) {
   return (
     <article className="blog-article-card">
       <Link
@@ -46,19 +45,46 @@ function ArticleCard({
 }
 
 export default function Blog() {
+  const [allArticles, setAllArticles] = useState<Article[]>(seedArticles);
   const [activeCategory, setActiveCategory] = useState("All");
   const [query, setQuery] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
+  useEffect(() => {
+    fetch("/api/blogs")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setAllArticles(data);
+        }
+      })
+      .catch((err) => {
+        console.warn("Could not fetch latest blogs, using seed:", err);
+      });
+  }, []);
+
+  const categories = useMemo(() => {
+    const list = ["All"];
+    blogCategories.forEach((cat) => {
+      if (!list.includes(cat)) list.push(cat);
+    });
+    allArticles.forEach((art) => {
+      if (art.category && !list.includes(art.category)) {
+        list.push(art.category);
+      }
+    });
+    return list;
+  }, [allArticles]);
+
   const normalizedQuery = query.trim().toLowerCase();
-  const filteredArticles = articles.filter((article) => {
+  const filteredArticles = allArticles.filter((article) => {
     const matchesCategory =
       activeCategory === "All" || article.category === activeCategory;
     const searchable = [
       article.title,
       article.excerpt,
       article.category,
-      ...article.tags,
+      ...(article.tags || []),
     ]
       .join(" ")
       .toLowerCase();
@@ -67,6 +93,7 @@ export default function Blog() {
       (!normalizedQuery || searchable.includes(normalizedQuery))
     );
   });
+
   const featured =
     filteredArticles.find((article) => article.featured) ?? filteredArticles[0];
   const latest = filteredArticles.filter(
@@ -110,7 +137,7 @@ export default function Blog() {
           role="group"
           aria-label="Article categories"
         >
-          {blogCategories.map((category) => (
+          {categories.map((category) => (
             <button
               key={category}
               type="button"
@@ -258,4 +285,3 @@ export default function Blog() {
     </div>
   );
 }
-
