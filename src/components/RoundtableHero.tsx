@@ -48,12 +48,13 @@ export default function RoundtableHero() {
           left: 0,
         }}
       >
-        <iframe
+        {/* /roundtable embed commented out */}
+        {/* <iframe
           src="/roundtable.html"
           title="Roundtable Live In-Session Preview"
           className="w-full h-full border-0 select-none pointer-events-auto"
           scrolling="no"
-        />
+        /> */}
       </div>
     </div>
   );
