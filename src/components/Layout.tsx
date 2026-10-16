@@ -72,10 +72,43 @@ export default function Layout({ children }: { children: ReactNode }) {
     );
   }
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    action: string
+  ) => {
+    trackClick(action, "header");
+    if (href.startsWith("/#") && pathname === "/") {
+      e.preventDefault();
+      const targetId = href.replace("/#", "");
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleMobileNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    action: string
+  ) => {
+    trackClick(action, "mobile_menu");
+    setMenuOpen(false);
+    if (href.startsWith("/#") && pathname === "/") {
+      e.preventDefault();
+      const targetId = href.replace("/#", "");
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <DemoContext.Provider value={openDemo}>
       <div className="site-shell">
-        <header className="relative section-wrap py-6 flex items-center justify-between">
+        <header className="relative z-50 section-wrap py-6 flex items-center justify-between">
           {/* Brand Logo */}
           <Link
             className="flex items-center gap-2.5 group"
@@ -91,34 +124,48 @@ export default function Layout({ children }: { children: ReactNode }) {
 
           {/* Navigation Links */}
           <nav
-            className="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold text-gray-700"
+            className="hidden md:flex items-center gap-6 lg:gap-7 text-[13.5px] font-semibold text-gray-700"
             aria-label="Main navigation"
           >
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-dark transition-colors cursor-pointer"
               href="/#how-it-works"
-              onClick={() => trackClick("nav_how_it_works", "header")}
+              onClick={(e) => handleNavClick(e, "/#how-it-works", "nav_how_it_works")}
             >
               How it works
             </Link>
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-dark transition-colors cursor-pointer"
               href="/about"
-              onClick={() => trackClick("nav_about", "header")}
+              onClick={(e) => handleNavClick(e, "/about", "nav_about")}
             >
               About
             </Link>
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-dark transition-colors cursor-pointer"
+              href="/pricing"
+              onClick={(e) => handleNavClick(e, "/pricing", "nav_pricing")}
+            >
+              Pricing
+            </Link>
+            <Link
+              className="hover:text-brand-dark transition-colors cursor-pointer"
+              href="/impact"
+              onClick={(e) => handleNavClick(e, "/impact", "nav_impact")}
+            >
+              Impact
+            </Link>
+            <Link
+              className="hover:text-brand-dark transition-colors cursor-pointer"
               href="/faq"
-              onClick={() => trackClick("nav_faq", "header")}
+              onClick={(e) => handleNavClick(e, "/faq", "nav_faq")}
             >
               FAQ
             </Link>
             <Link
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-dark transition-colors cursor-pointer"
               href="/blog"
-              onClick={() => trackClick("nav_blog", "header")}
+              onClick={(e) => handleNavClick(e, "/blog", "nav_blog")}
             >
               Blog
             </Link>
@@ -127,7 +174,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           {/* Nav Right CTA */}
           <div className="flex items-center gap-4">
             <button
-              className="hidden sm:inline-flex items-center gap-2 bg-brand-green hover:bg-[#257341] text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold shadow-sm transition-all hover:shadow hover:scale-105"
+              className="hidden sm:inline-flex items-center gap-2 bg-brand-green hover:bg-[#257341] text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold shadow-sm transition-all hover:shadow hover:scale-105 cursor-pointer"
               onClick={() => {
                 trackClick("join_waitlist", "header_button");
                 setShowDemo(true);
@@ -150,7 +197,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </button>
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden text-gray-700"
+              className="md:hidden text-gray-700 p-1 cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle navigation"
               aria-expanded={menuOpen}
@@ -161,40 +208,40 @@ export default function Layout({ children }: { children: ReactNode }) {
 
           {/* Mobile Navigation Dropdown */}
           {menuOpen && (
-            <div className="absolute top-[80px] left-0 right-0 bg-white shadow-md p-6 flex flex-col gap-4 text-center z-50 border-t border-gray-100 lg:hidden font-semibold text-gray-700">
+            <div className="absolute top-[80px] left-0 right-0 bg-white shadow-xl p-6 flex flex-col gap-4 text-center z-50 border-t border-gray-100 md:hidden font-semibold text-gray-700 rounded-2xl">
               <Link
                 href="/#how-it-works"
-                onClick={() => {
-                  trackClick("nav_how_it_works", "mobile_menu");
-                  setMenuOpen(false);
-                }}
+                onClick={(e) => handleMobileNavClick(e, "/#how-it-works", "nav_how_it_works")}
               >
                 How it works
               </Link>
               <Link
                 href="/about"
-                onClick={() => {
-                  trackClick("nav_about", "mobile_menu");
-                  setMenuOpen(false);
-                }}
+                onClick={(e) => handleMobileNavClick(e, "/about", "nav_about")}
               >
                 About
               </Link>
               <Link
+                href="/pricing"
+                onClick={(e) => handleMobileNavClick(e, "/pricing", "nav_pricing")}
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/impact"
+                onClick={(e) => handleMobileNavClick(e, "/impact", "nav_impact")}
+              >
+                Impact
+              </Link>
+              <Link
                 href="/faq"
-                onClick={() => {
-                  trackClick("nav_faq", "mobile_menu");
-                  setMenuOpen(false);
-                }}
+                onClick={(e) => handleMobileNavClick(e, "/faq", "nav_faq")}
               >
                 FAQ
               </Link>
               <Link
                 href="/blog"
-                onClick={() => {
-                  trackClick("nav_blog", "mobile_menu");
-                  setMenuOpen(false);
-                }}
+                onClick={(e) => handleMobileNavClick(e, "/blog", "nav_blog")}
               >
                 Blog
               </Link>
