@@ -67,7 +67,7 @@ export default function Home() {
           </div>
 
           <div className="hero-stage-wrap">
-            {/* <RoundtableHero /> */}
+            <RoundtableHero />
 
             <ParallaxPills
               className="hero-pill-silence"
