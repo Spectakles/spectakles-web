@@ -53,3 +53,9 @@ next-env.d.ts
 *.pem
 Thumbs.db
 ehthumbs.db
+
+# Local immutable migration reference, browsers, and browser evidence
+/.parity/
+/verification/node_modules/
+/verification/test-results/
+/verification/playwright-report/

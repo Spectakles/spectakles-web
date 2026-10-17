@@ -3,10 +3,10 @@
 > Stop rehearsing. Start speaking. Spectakles is the AI roundtable for Group Discussions. Practice real conversations, handle pressure, and get placement ready.
 
 ## Core Information
-- Website: https://spectakles.in/
+- Website: https://www.spectakles.in/
 - Mission: Helping students find their voice in group discussions and campus placement rounds through intelligent AI simulation and standard 5-parameter rubric assessment.
 
 ## Key Pages
-- [Home](https://spectakles.in/): AI group discussion simulation, rubric breakdown, and placement prep.
-- [About](https://spectakles.in/about): Mission, philosophy, and team behind Spectakles.
-- [FAQ](https://spectakles.in/faq): Common questions from students and institutions regarding the platform.
+- [Home](https://www.spectakles.in/): AI group discussion simulation, rubric breakdown, and placement prep.
+- [About](https://www.spectakles.in/about): Mission, philosophy, and team behind Spectakles.
+- [FAQ](https://www.spectakles.in/faq): Common questions from students and institutions regarding the platform.

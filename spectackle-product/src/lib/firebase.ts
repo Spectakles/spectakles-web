@@ -2,13 +2,13 @@ import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
 import { getAnalytics, isSupported, logEvent, type Analytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.measurementId);
@@ -16,7 +16,7 @@ const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.measurement
 let app: FirebaseApp | null = null;
 let analyticsPromise: Promise<Analytics | null> = Promise.resolve(null);
 
-if (isConfigured) {
+if (isConfigured && typeof window !== "undefined") {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     analyticsPromise = isSupported().then((supported) => {
@@ -28,7 +28,7 @@ if (isConfigured) {
   } catch (error) {
     console.warn("[Firebase] Initialization error:", error);
   }
-} else if (import.meta.env.DEV) {
+} else if (process.env.NODE_ENV === "development") {
   console.info("[Firebase Analytics] Config keys not provided in .env. Analytics calls will be safely skipped.");
 }
 
@@ -39,7 +39,7 @@ export async function trackEvent(
   eventName: string,
   eventParams?: Record<string, any>
 ): Promise<void> {
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV === "development") {
     console.debug(`[Analytics] ${eventName}`, eventParams ?? {});
   }
 

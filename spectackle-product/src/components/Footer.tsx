@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "./SiteLink";
 import { trackClick } from "../lib/firebase";
 import SpectaklesLogo from "./SpectaklesLogo";
-import "./Footer.css";
 
 interface FooterProps {
   onOpenWaitlist: () => void;
@@ -18,7 +19,7 @@ export default function Footer({ onOpenWaitlist }: FooterProps) {
           {/* LEFT: BRAND & COPYRIGHT */}
           <div className="footer-brand-column">
             <Link
-              to="/"
+              href="/"
               className="footer-brand-link"
               aria-label="Spectakles home"
               onClick={() => trackClick("brand_logo", "footer")}
@@ -42,32 +43,32 @@ export default function Footer({ onOpenWaitlist }: FooterProps) {
               <h4 className="footer-group-heading">Pages</h4>
               <ul className="footer-links-list">
                 <li>
-                  <Link to="/#practice" onClick={() => trackClick("nav_features", "footer")}>
+                  <Link href="/#practice" onClick={() => trackClick("nav_features", "footer")}>
                     All Features
                   </Link>
                 </li>
                 <li>
-                  <Link to="/#institutions" onClick={() => trackClick("nav_gd_reality", "footer")}>
+                  <Link href="/#institutions" onClick={() => trackClick("nav_gd_reality", "footer")}>
                     The GD Reality
                   </Link>
                 </li>
                 <li>
-                  <Link to="/#how-it-works" onClick={() => trackClick("nav_how_it_works", "footer")}>
+                  <Link href="/#how-it-works" onClick={() => trackClick("nav_how_it_works", "footer")}>
                     How It Works
                   </Link>
                 </li>
                 <li>
-                  <Link to="/pricing" onClick={() => trackClick("nav_pricing", "footer")}>
+                  <Link href="/pricing" onClick={() => trackClick("nav_pricing", "footer")}>
                     Pricing
                   </Link>
                 </li>
                 <li>
-                  <Link to="/faq" onClick={() => trackClick("nav_faq", "footer")}>
+                  <Link href="/faq" onClick={() => trackClick("nav_faq", "footer")}>
                     FAQ
                   </Link>
                 </li>
                 <li>
-                  <Link to="/about" onClick={() => trackClick("nav_about", "footer")}>
+                  <Link href="/about" onClick={() => trackClick("nav_about", "footer")}>
                     About
                   </Link>
                 </li>
@@ -126,17 +127,17 @@ export default function Footer({ onOpenWaitlist }: FooterProps) {
               <h4 className="footer-group-heading">Legal</h4>
               <ul className="footer-links-list">
                 <li>
-                  <Link to="/faq#privacy" onClick={() => trackClick("legal_privacy", "footer")}>
+                  <Link href="/faq#privacy" onClick={() => trackClick("legal_privacy", "footer")}>
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="/faq#terms" onClick={() => trackClick("legal_terms", "footer")}>
+                  <Link href="/faq#terms" onClick={() => trackClick("legal_terms", "footer")}>
                     Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link to="/faq#cookies" onClick={() => trackClick("legal_cookies", "footer")}>
+                  <Link href="/faq#cookies" onClick={() => trackClick("legal_cookies", "footer")}>
                     Cookie Policy
                   </Link>
                 </li>

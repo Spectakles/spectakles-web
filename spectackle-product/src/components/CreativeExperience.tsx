@@ -1,3 +1,6 @@
+"use client";
+
+import type { JSX } from "react";
 import {
   useCallback,
   useEffect,
@@ -22,7 +25,6 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import "./CreativeExperience.css";
 
 gsap.registerPlugin(ScrollTrigger);
 

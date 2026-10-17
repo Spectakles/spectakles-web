@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import {
   ArrowUpRight,
@@ -8,7 +10,6 @@ import {
   Target,
   Zap,
 } from "lucide-react";
-import "./MagicBento.css";
 
 type Card = {
   number: string;

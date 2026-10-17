@@ -1,0 +1,42 @@
+{
+  "commit": "0065ac0b555a1be65889f674b509e3d2e4d1145c",
+  "archiveSha256": "5d8d06403488332540fe2216081eb7d55332ca5cd01c66b9bb4c05600da405ae",
+  "sourceFileCount": 75,
+  "productionFileCount": 12,
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "osRelease": "25.5.0",
+    "playwright": "1.64.1",
+    "chromiumArgs": [
+      "--disable-gpu",
+      "--force-color-profile=srgb",
+      "--disable-lcd-text",
+      "--font-render-hinting=none",
+      "--disable-threaded-animation",
+      "--disable-threaded-scrolling"
+    ],
+    "browsers": {
+      "chromium": "156.0.8078.4",
+      "firefox": "157.0",
+      "webkit": "27.2"
+    }
+  },
+  "snapshots": {
+    "png": 502,
+    "json": 77,
+    "html": 3
+  },
+  "snapshotManifestSha256": "c9bc58d1caccf88e47ce99f3fe65f86ba61c7e18cad2b59cd5f541f6e900aa59",
+  "additionalLayoutContracts": 6,
+  "layoutManifestSha256": "f0a83d45bfa84db52209c4e25a96469eac9ec5ed8c27815cedc62cb6d986350b",
+  "acquisition": {
+    "initial": "/Users/vishesh/portfolio/Projects/Spectakles-product/spectakles-web/.parity/acquisition-initial.json",
+    "completion": "/Users/vishesh/portfolio/Projects/Spectakles-product/spectakles-web/.parity/acquisition-resume-1792171222892.json",
+    "totalCases": 85,
+    "originalPasses": 78,
+    "resumedPasses": 7,
+    "reason": "Complete acquisition after documenting original interaction limitations; original application source/build unchanged."
+  },
+  "strictRepeatability": "NOT PASSED: unchanged-original captures expose one-channel-value rasterization variance; zero tolerance retained."
+}

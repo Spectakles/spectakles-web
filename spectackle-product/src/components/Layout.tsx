@@ -1,17 +1,18 @@
+"use client";
+
 import {
   createContext,
   useContext,
   useState,
   type ReactNode,
-  useEffect,
 } from "react";
 import { ArrowRight, Menu, Moon, Sun, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "./SiteLink";
+import { usePathname } from "next/navigation";
 import WaitlistModal from "./WaitlistModal";
 import SpectaklesLogo from "./SpectaklesLogo";
 import Footer from "./Footer";
 import { trackClick } from "../lib/firebase";
-import "./FloatingNavbar.css";
 
 const navLinks = [
   { label: "How it works", to: "/#how-it-works" },
@@ -33,26 +34,10 @@ export function useDemo() {
 export default function Layout({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("Spectakles-theme") === "dark",
-  );
-  const location = useLocation();
+  const pathname = usePathname();
 
   const openDemo = (open: boolean) => setShowDemo(open);
 
-  useEffect(() => {
-    document.documentElement.dataset.theme = darkMode ? "dark" : "light";
-    localStorage.setItem("Spectakles-theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
-
-  useEffect(() => {
-    if (location.hash) {
-      const element = document.getElementById(location.hash.slice(1));
-      if (element) {
-        setTimeout(() => element.scrollIntoView({ behavior: "smooth" }), 100);
-      }
-    }
-  }, [location]);
 
   return (
     <DemoContext.Provider value={openDemo}>
@@ -63,7 +48,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             {/* Left: Brand Logo */}
             <Link
               className="navbar-brand-link"
-              to="/"
+              href="/"
               aria-label="Spectakles home"
               onClick={() => trackClick("brand_logo", "header")}
             >
@@ -78,28 +63,28 @@ export default function Layout({ children }: { children: ReactNode }) {
             <nav className="navbar-nav-links" aria-label="Desktop Navigation">
               <Link
                 className="navbar-nav-link"
-                to="/#how-it-works"
+                href="/#how-it-works"
                 onClick={() => trackClick("nav_how_it_works", "header")}
               >
                 How it works
               </Link>
               <Link
                 className="navbar-nav-link"
-                to="/#institutions"
+                href="/#institutions"
                 onClick={() => trackClick("nav_institutions", "header")}
               >
                 The GD Reality
               </Link>
               <Link
                 className="navbar-nav-link"
-                to="/about"
+                href="/about"
                 onClick={() => trackClick("nav_about", "header")}
               >
                 About
               </Link>
               <Link
                 className="navbar-nav-link"
-                to="/faq"
+                href="/faq"
                 onClick={() => trackClick("nav_faq", "header")}
               >
                 FAQ
@@ -136,7 +121,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <div className="navbar-mobile-menu">
               <Link
                 className="navbar-mobile-link"
-                to="/#how-it-works"
+                href="/#how-it-works"
                 onClick={() => {
                   trackClick("nav_how_it_works", "mobile_menu");
                   setMenuOpen(false);
@@ -146,7 +131,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Link>
               <Link
                 className="navbar-mobile-link"
-                to="/#institutions"
+                href="/#institutions"
                 onClick={() => {
                   trackClick("nav_institutions", "mobile_menu");
                   setMenuOpen(false);
@@ -156,7 +141,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Link>
               <Link
                 className="navbar-mobile-link"
-                to="/about"
+                href="/about"
                 onClick={() => {
                   trackClick("nav_about", "mobile_menu");
                   setMenuOpen(false);
@@ -166,7 +151,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Link>
               <Link
                 className="navbar-mobile-link"
-                to="/faq"
+                href="/faq"
                 onClick={() => {
                   trackClick("nav_faq", "mobile_menu");
                   setMenuOpen(false);
@@ -189,7 +174,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           )}
         </header>
 
-        <main id="top" key={location.pathname} className="site-main-content">
+        <main id="top" key={pathname} className="site-main-content">
           {children}
         </main>
 

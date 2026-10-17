@@ -1,6 +1,7 @@
+"use client";
+
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowRight, Check, Loader2, ShieldCheck, X } from "lucide-react";
-import "./WaitlistModal.css";
 import SpectaklesLogo from "./SpectaklesLogo";
 import { supabase } from "../lib/supabase";
 import { trackEvent } from "../lib/firebase";

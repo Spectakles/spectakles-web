@@ -1,0 +1,6 @@
+{
+  "archive": "/Users/vishesh/portfolio/Projects/Spectakles-product/spectakles-web/.parity/baseline-static-evidence.zip",
+  "sha256": "e584d10590a7b5e66107ca7d81f0d2156722a69d873c8bd9800ab818a28a44c4",
+  "bytes": 66498736,
+  "scope": "Original source, build variants, fonts, sealed static screenshots/contracts, and diagnostics. Large motion videos/traces remain separately under .parity/runs and reports."
+}

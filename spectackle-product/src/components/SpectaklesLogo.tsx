@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * SpectaklesLogo — official brand mark (icon only, no wordmark).
  *
@@ -9,8 +11,8 @@
  *   <SpectaklesLogo className="h-8 w-auto" /> // Tailwind sizing
  */
 
-import spectaklesLogoSrc from "../assets/spectakles-logo-horizontal-navbar.svg";
-import spectaklesLogoWhiteSrc from "../assets/spectakles-logo-horizontal-white.svg";
+const spectaklesLogoSrc = "/assets/spectakles-logo-horizontal-navbar.svg";
+const spectaklesLogoWhiteSrc = "/assets/spectakles-logo-horizontal-white.svg";
 
 interface SpectaklesLogoProps {
   /** CSS class(es) applied to the <img> element */

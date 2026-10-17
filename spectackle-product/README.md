@@ -6,8 +6,8 @@
 
 ![Platform](https://img.shields.io/badge/Platform-Web-4CAF50)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6)
-![React](https://img.shields.io/badge/React-18.3-61DAFB)
-![Vite](https://img.shields.io/badge/Vite-5.4-646CFF)
+![React](https://img.shields.io/badge/React-19-61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-16-000000)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4-38B2AC)
 
 </div>
@@ -31,7 +31,7 @@
 
 Ensure your environment meets the following requirements before getting started:
 
-- **Node.js**: `v18.0.0` or newer (LTS recommended; tested on `v26.0.0`)
+- **Node.js**: `v20.9.0` or newer (LTS recommended; tested on `v26.0.0`)
 - **npm**: `v9.0.0` or newer (tested on `v11.12.1`)
 - **Web Browser**: Modern evergreen browser (Chrome, Firefox, Safari, Edge)
 
@@ -47,7 +47,7 @@ Start the local development server with Hot Module Replacement (HMR):
 npm run dev
 ```
 
-Once running, visit [http://localhost:5173](http://localhost:5173) in your browser.
+Once running, visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Production Build
 
@@ -57,7 +57,7 @@ Compile and bundle production-optimized assets:
 npm run build
 ```
 
-The output files are generated in the `dist/` directory.
+The production build is generated in `.next/`. Run `npm start` to serve it.
 
 ### Preview Production Build
 
@@ -73,10 +73,10 @@ npm run preview
 
 | Configuration | File | Details |
 | :--- | :--- | :--- |
-| **Path Alias** | `vite.config.ts` | Uses `@/` to alias the `./src` directory |
+| **Path Alias** | `tsconfig.json` | Uses `@/` to alias the `./src` directory |
 | **CSS & Styles** | `tailwind.config.js`, `postcss.config.js` | Tailwind CSS utility classes and PostCSS autoprefixing |
-| **TypeScript** | `tsconfig.json`, `tsconfig.app.json` | Strict type checking targeting ES2020 and DOM |
-| **Linting** | `eslint.config.js` | ESLint 9 flat configuration with React hooks & refresh rules |
+| **TypeScript** | `tsconfig.json` | Strict type checking targeting ES2020 and DOM |
+| **Linting** | `eslint.config.js` | ESLint 9 flat configuration with React hooks rules |
 
 *(Note: No mandatory environment variables (`.env`) are currently required to run the client-side application)*
 
@@ -86,25 +86,30 @@ npm run preview
 
 ```
 spectackle-product/
-├── public/                 # Static assets (logos, favicon)
+├── public/                 # Original public resources and unchanged logo copies
 ├── src/
-│   ├── components/         # Shared UI components (Layout, DemoModal)
-│   ├── pages/              # Routed pages (Home, About, Impact, Pricing, FAQ)
-│   ├── App.tsx             # Route declarations and root layout
-│   ├── index.css           # Design tokens, custom styles, and Tailwind directives
-│   ├── main.tsx            # DOM entry point and React root mounting
-│   └── vite-env.d.ts       # TypeScript type declarations for Vite client
-├── eslint.config.js        # ESLint flat config
-├── index.html              # HTML shell entry point
-├── package.json            # Project dependencies, scripts, and metadata
-├── postcss.config.js       # PostCSS plugins configuration
-├── tailwind.config.js      # Tailwind CSS theme configuration
-├── tsconfig.app.json       # App-specific TypeScript compiler configuration
-├── tsconfig.json           # Root TypeScript project references
-└── vite.config.ts          # Vite build and plugin configuration
+│   ├── app/                # Next.js App Router, document head, persistent shell
+│   ├── components/         # Existing UI, animations, navigation, and waitlist
+│   ├── views/              # Existing view source, including inactive views
+│   ├── assets/             # Original source assets and roundtable HTML/CSS
+│   ├── lib/                # Supabase and Firebase integrations
+│   └── index.css           # Unchanged global styles and Tailwind directives
+├── scripts/                # Generates TypeScript exports for raw iframe assets
+├── generated/              # Generated raw asset module (ignored)
+├── next.config.ts          # Next.js configuration
+├── package.json
+├── postcss.config.js       # Unchanged PostCSS configuration
+├── tailwind.config.js      # Unchanged Tailwind theme
+└── tsconfig.json
 ```
 
 ---
+
+## Search metadata
+
+`src/lib/seo.ts` defines route-specific titles, descriptions, canonical URLs, social metadata, and structured data. The canonical origin is `https://www.spectakles.in`, matching the live domain redirect. Home, About, and FAQ export their own metadata through the App Router.
+
+Empty fallback pages retain their existing appearance and receive `noindex`; Vercel preview builds also receive `noindex`. Public robots, sitemap, and llms.txt files use the same canonical host. The square PNG icons are rendered from the original SVG artwork.
 
 ## Quality & Verification
 
@@ -118,22 +123,19 @@ npm run typecheck
 npm run lint
 ```
 
-*(Note: A dedicated unit test runner such as Vitest is not currently configured in `package.json`)*
+The migration preserves existing lint findings rather than changing unrelated component logic. `npm run lint` currently reports those findings. Browser verification tools live in the repository-level `verification/` directory; pixel comparison is deferred for the first framework conversion pass.
 
 ---
 
 ## Deployment
 
-The project compiles to a standalone Single Page Application (SPA). To deploy:
+Deploy as a Next.js application with `spectackle-product` as the project root. On Vercel, use the Next.js framework preset; `vercel.json` no longer rewrites requests to `index.html`. For a Node host, install with `npm ci`, build with `npm run build`, and serve with `npm start` (default port 3000).
 
-1. Run `npm run build` to generate the production build in `dist/`.
-2. Host the `dist/` folder on any static web host or CDN, such as:
-   - **Vercel**
-   - **Netlify**
-   - **Cloudflare Pages**
-   - **AWS S3 / CloudFront**
-3. Ensure SPA rewrite rules are enabled so all subpaths (e.g. `/impact`, `/pricing`, `/faq`) route back to `index.html`.
+The live routes remain `/`, `/about`, and `/faq`. Other paths retain the original shared shell and empty main content. Files in `src/views` do not automatically become routes.
 
+Copy `.env.example` to `.env.local` when configuring integrations. The former `VITE_*` public keys now use `NEXT_PUBLIC_*`; set them before building, as Next.js embeds public values in the browser bundle. Never put private credentials in those variables. Without configuration, the existing demo waitlist and analytics fallback remain available.
+
+The original font URLs, stylesheets, Tailwind theme, image assets, animation parameters, and copy are retained. Roundtable HTML/CSS exports regenerate automatically before development and production builds.
 ---
 
 ## Contributing

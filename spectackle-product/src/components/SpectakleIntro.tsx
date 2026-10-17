@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 import "./SpectakleIntro.css";
 
 const DESKTOP_PARTICLE_COUNT = 1100;
@@ -278,8 +280,7 @@ const STORY: StoryText[] = [
 ===================================================== */
 
 export default function SpectakleIntro() {
-  const { pathname } =
-    useLocation();
+  const pathname = usePathname();
 
   const canvasRef =
     useRef<HTMLCanvasElement>(null);

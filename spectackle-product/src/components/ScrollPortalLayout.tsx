@@ -1,3 +1,5 @@
+"use client";
+
 import {
   useEffect,
   useRef,
@@ -8,7 +10,6 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import "./ScrollPortalLayout.css";
 
 gsap.registerPlugin(ScrollTrigger);
 

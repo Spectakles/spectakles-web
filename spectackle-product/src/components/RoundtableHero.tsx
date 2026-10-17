@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import roundtableHtml from '../assets/roundtable.html?raw';
-import roundtableCss from '../assets/roundtable-compiled.css?raw';
+"use client";
+
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { roundtableHtml, roundtableCss } from '../../generated/roundtable';
 
 export default function RoundtableHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,7 +10,17 @@ export default function RoundtableHero() {
   const BASE_WIDTH = 1120;
   const BASE_HEIGHT = 860;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Use the same numeric scale as the original site. Measure before the
+    // client paint, then update directly whenever the available width changes.
+    const container = containerRef.current;
+    if (!container) return;
+    const computed = getComputedStyle(container);
+    const width = parseFloat(computed.width)
+      - parseFloat(computed.borderLeftWidth) - parseFloat(computed.borderRightWidth)
+      - parseFloat(computed.paddingLeft) - parseFloat(computed.paddingRight);
+    if (width > 0) setScale(width / BASE_WIDTH);
+
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const width = entry.contentRect.width;
@@ -19,9 +30,7 @@ export default function RoundtableHero() {
       }
     });
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    observer.observe(container);
 
     return () => observer.disconnect();
   }, []);
@@ -53,7 +62,6 @@ export default function RoundtableHero() {
       style={{
         aspectRatio: `${BASE_WIDTH} / ${BASE_HEIGHT}`,
         boxShadow: '14px 14px 0 #e8e0d3, 0 20px 40px -15px rgba(0, 0, 0, 0.35)',
-        containerType: 'inline-size',
       }}
     >
       <div
@@ -68,10 +76,13 @@ export default function RoundtableHero() {
         }}
       >
         <iframe
+          width={BASE_WIDTH}
+          height={BASE_HEIGHT}
           srcDoc={formattedHtml}
           title="Roundtable Live In-Session Preview"
           className="w-full h-full border-0 select-none pointer-events-auto"
           scrolling="no"
+          style={{ display: 'block' }}
         />
       </div>
     </div>

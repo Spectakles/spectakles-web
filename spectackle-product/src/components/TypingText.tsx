@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import "./TypingText.css";
 
 interface TypingTextProps {
   words: string[];

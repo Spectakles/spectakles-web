@@ -1,0 +1,26 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { PNG } from 'pngjs';
+import { reference, source, dist, repo, readJSON, sha256, fileInventory } from './paths.mjs';
+import { exactImageDiff } from './diff-images.mjs';
+
+const manifest = readJSON(path.join(reference, 'manifest.json'));
+assert.equal(sha256(fs.readFileSync(path.join(reference, 'source.tar'))), manifest.archiveSha256);
+for (const [file, hash] of Object.entries(manifest.sourceFiles)) assert.equal(sha256(fs.readFileSync(path.join(source, file))), hash, `Original source: ${file}`);
+assert.deepEqual(fileInventory(dist), manifest.buildFiles);
+assert.deepEqual(fileInventory(path.join(reference, 'fonts')), manifest.fontFiles);
+assert.deepEqual(fileInventory(path.join(reference, 'screenshots')), readJSON(path.join(reference, 'screenshot-hashes.json')));
+assert.deepEqual(fileInventory(path.join(reference, 'layout-contracts')), readJSON(path.join(reference, 'layout-hashes.json')));
+const variants = readJSON(path.join(reference, 'variants.json'));
+for (const [name, hashes] of Object.entries(variants.builds)) assert.deepEqual(fileInventory(path.join(reference, `${name}-dist`)), hashes);
+const bytes = fs.readFileSync(path.join(reference, 'screenshots/chromium/home-390x844-light-first-viewport.png'));
+assert.equal(exactImageDiff(bytes, bytes).pixels, 0);
+const altered = PNG.sync.read(bytes);
+altered.data[0] ^= 1;
+assert.equal(exactImageDiff(bytes, PNG.sync.write(altered)).pixels, 1, 'One-pixel, one-channel negative control must fail equality');
+const pkg = readJSON(path.join(repo, 'verification/package.json'));
+const lock = readJSON(path.join(repo, 'verification/package-lock.json'));
+assert.deepEqual(pkg.devDependencies, lock.packages[''].devDependencies);
+console.log('PASS: archive, 75 source files, builds, fonts, 582 original snapshots and six added layout contracts are intact.');
+console.log('PASS: comparator returns 0 for identical pixels and detects a one-channel change in exactly one pixel.');

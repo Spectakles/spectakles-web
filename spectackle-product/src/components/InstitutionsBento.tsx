@@ -1,3 +1,6 @@
+"use client";
+
+import type { JSX } from "react";
 import { useEffect, useRef } from "react";
 import {
   ArrowRight,
@@ -10,7 +13,6 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import "./InstitutionsBento.css";
 
 const institutionFeatures = [
   {

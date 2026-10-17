@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect, useRef } from "react";
-import "./ParallaxPills.css";
 
 type ParallaxPillProps = {
   children: React.ReactNode;
