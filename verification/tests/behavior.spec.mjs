@@ -178,3 +178,68 @@ test('hero paints its original document at standard and Retina densities', async
     }
   }
 });
+
+test('GD Reality cards keep previews, copy and actions separate on smaller screens', async ({ page }, testInfo) => {
+  await prepare(page);
+  await ready(page);
+  const cards = page.locator('[data-bento-card]');
+  for (const width of [320, 390, 594, 720, 768, 992]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (let index = 0; index < await cards.count(); index++) {
+      const card = cards.nth(index);
+      await card.scrollIntoViewIfNeeded();
+      await card.hover();
+      const problems = await card.evaluate(card => {
+        const box = element => element.getBoundingClientRect();
+        const root = box(card);
+        const blocks = ['.institution-bento-card-top', '.ib-card-background', '.institution-bento-card-content', '.institution-bento-card-cta'].map(selector => box(card.querySelector(selector)));
+        const problems = [];
+        blocks.forEach((block, i) => {
+          if (block.left < root.left || block.right > root.right + 1 || block.bottom > root.bottom + 1) problems.push(`block ${i} clipped`);
+          if (i && block.top < blocks[i - 1].bottom + 10) problems.push(`block ${i} overlaps previous block`);
+        });
+        for (const element of card.querySelectorAll('.ib-campus-stat, .ib-placement-panel, .ib-placement-badge, .ib-step-live-pill, .ib-ai-pill, .ib-ai-prompt-ticker, .ib-iv-top-row, .ib-iv-latency, .ib-disc-stage, .ib-slide, .ib-insights-stat')) {
+          const bounds = box(element);
+          if (bounds.left < root.left + 1 || bounds.right > root.right - 1 || bounds.top < blocks[0].bottom + 8 || bounds.bottom > blocks[2].top - 8) problems.push(`${element.className} clipped`);
+        }
+        return problems;
+      });
+      expect(problems, `${width}px: card ${index + 1}`).toEqual([]);
+      await expect(card.getByRole('link')).toBeVisible();
+    }
+    if (width === 320 || width === 594) {
+      await testInfo.attach(`gd-reality-${width}px`, { body: await page.locator('.institution-bento-grid').screenshot(), contentType: 'image/png' });
+    }
+  }
+});
+
+test('GD Reality cards lift smoothly from a stable hover area', async ({ page }) => {
+  await prepare(page);
+  for (const width of [1440, 594]) {
+    await page.setViewportSize({ width, height: 900 });
+    await ready(page);
+    for (const card of await page.locator('[data-bento-card]').all()) {
+      await card.evaluate(card => card.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await page.mouse.move(0, 0);
+      await expect(card).toHaveClass(/is-visible/);
+      await expect.poll(() => card.evaluate(card => new DOMMatrix(getComputedStyle(card).transform).m42)).toBe(0);
+      const slot = card.locator('..');
+      const bounds = await slot.boundingBox();
+      // The old upward lift moved this bottom-edge point outside the card,
+      // removing :hover and causing an endless enter/leave feedback loop.
+      await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height - 2);
+      const samples = await card.evaluate(async card => {
+        const samples = [];
+        for (let frame = 0; frame < 36; frame++) {
+          await new Promise(requestAnimationFrame);
+          samples.push({ y: card.getBoundingClientRect().y, hovered: card.parentElement.matches(':hover'), offset: new DOMMatrix(getComputedStyle(card).transform).m42 });
+        }
+        return samples;
+      });
+      expect(samples.every(sample => sample.hovered), `${width}px: ${await card.locator("h3").textContent()}, bounds ${JSON.stringify(bounds)}, samples ${JSON.stringify(samples.filter((sample, i) => i % 12 === 0))}`).toBe(true);
+      expect(samples.every((sample, i) => sample.offset >= -5.01 && sample.offset <= .01 && (!i || sample.offset <= samples[i - 1].offset + .01)), `${width}px: lift must not reverse or vibrate`).toBe(true);
+      await expect.poll(() => card.evaluate(card => new DOMMatrix(getComputedStyle(card).transform).m42)).toBe(-5);
+      await expect(card.getByRole('link')).toBeVisible();
+    }
+  }
+});

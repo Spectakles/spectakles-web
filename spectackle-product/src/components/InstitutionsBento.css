@@ -46,7 +46,7 @@
   transform: translateY(0);
 }
 
-.institution-bento-card:hover {
+.institution-bento-slot:hover .institution-bento-card {
   transform: translateY(-5px);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.1),
@@ -162,7 +162,7 @@
 }
 
 /* Upward shift on card hover */
-.institution-bento-card:hover .institution-bento-card-content {
+.institution-bento-slot:hover .institution-bento-card .institution-bento-card-content {
   transform: translateY(-46px);
 }
 
@@ -187,7 +187,7 @@
   opacity: 0.95;
 }
 
-.institution-bento-card:hover .ib-card-icon {
+.institution-bento-slot:hover .institution-bento-card .ib-card-icon {
   transform: scale(0.82);
   opacity: 1;
 }
@@ -248,7 +248,7 @@
     opacity 0.35s ease;
 }
 
-.institution-bento-card:hover .institution-bento-card-cta {
+.institution-bento-slot:hover .institution-bento-card .institution-bento-card-cta {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
@@ -331,7 +331,7 @@
   background: radial-gradient(circle at 65% 0%, rgba(26, 26, 36, 0.08), transparent 75%);
 }
 
-.institution-bento-card:hover .institution-bento-card-overlay {
+.institution-bento-slot:hover .institution-bento-card .institution-bento-card-overlay {
   opacity: 1;
 }
 
@@ -398,15 +398,15 @@
   transition: opacity 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-radar-ripple {
+.institution-bento-slot:hover .institution-bento-card .ib-radar-ripple {
   animation: ib-radar-expand 3.6s cubic-bezier(0.1, 0.7, 0.2, 1) infinite;
 }
 
-.institution-bento-card:hover .ib-radar-ripple.ring-2 {
+.institution-bento-slot:hover .institution-bento-card .ib-radar-ripple.ring-2 {
   animation-delay: 1.2s;
 }
 
-.institution-bento-card:hover .ib-radar-ripple.ring-3 {
+.institution-bento-slot:hover .institution-bento-card .ib-radar-ripple.ring-3 {
   animation-delay: 2.4s;
 }
 
@@ -422,7 +422,7 @@
   transition: opacity 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-campus-sweep-line {
+.institution-bento-slot:hover .institution-bento-card .ib-campus-sweep-line {
   opacity: 1;
   animation: ib-sweep-horizontal 4.8s ease-in-out infinite alternate;
 }
@@ -449,7 +449,7 @@
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-campus-dot-active {
+.institution-bento-slot:hover .institution-bento-card .ib-campus-dot-active {
   animation: ib-active-dot-throb 2.8s ease-in-out infinite alternate;
 }
 
@@ -496,7 +496,7 @@
   transition: opacity 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-campus-pulse-ring {
+.institution-bento-slot:hover .institution-bento-card .ib-campus-pulse-ring {
   animation: ib-pulse-ring 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
@@ -520,14 +520,14 @@
 .ib-campus-live-equalizer span:nth-child(3) { height: 8px; }
 .ib-campus-live-equalizer span:nth-child(4) { height: 11px; }
 
-.institution-bento-card:hover .ib-campus-live-equalizer span {
+.institution-bento-slot:hover .institution-bento-card .ib-campus-live-equalizer span {
   animation: ib-sound-bounce 1.8s ease-in-out infinite alternate;
 }
 
-.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(1) { animation-delay: 0s; }
-.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(2) { animation-delay: 0.35s; }
-.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(3) { animation-delay: 0.7s; }
-.institution-bento-card:hover .ib-campus-live-equalizer span:nth-child(4) { animation-delay: 1.05s; }
+.institution-bento-slot:hover .institution-bento-card .ib-campus-live-equalizer span:nth-child(1) { animation-delay: 0s; }
+.institution-bento-slot:hover .institution-bento-card .ib-campus-live-equalizer span:nth-child(2) { animation-delay: 0.35s; }
+.institution-bento-slot:hover .institution-bento-card .ib-campus-live-equalizer span:nth-child(3) { animation-delay: 0.7s; }
+.institution-bento-slot:hover .institution-bento-card .ib-campus-live-equalizer span:nth-child(4) { animation-delay: 1.05s; }
 
 
 /* =========================================================
@@ -580,7 +580,7 @@
   transition: transform 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-placement-live-indicator {
+.institution-bento-slot:hover .institution-bento-card .ib-placement-live-indicator {
   animation: ib-pulse 2.6s ease-in-out infinite;
 }
 
@@ -635,7 +635,7 @@
   box-shadow: 0 0 0 3px rgba(26, 26, 36, 0.1);
 }
 
-.institution-bento-card:hover .ib-placement-step.active .ib-step-dot {
+.institution-bento-slot:hover .institution-bento-card .ib-placement-step.active .ib-step-dot {
   animation: ib-active-ring 3s infinite;
 }
 
@@ -671,7 +671,7 @@
   background: #e6b82e;
 }
 
-.institution-bento-card:hover .ib-step-live-ping {
+.institution-bento-slot:hover .institution-bento-card .ib-step-live-ping {
   animation: ib-pulse 2s infinite;
 }
 
@@ -722,7 +722,7 @@
   border-radius: 4px;
 }
 
-.institution-bento-card:hover .ib-placement-bar span {
+.institution-bento-slot:hover .institution-bento-card .ib-placement-bar span {
   animation: ib-shimmer 3.8s linear infinite;
 }
 
@@ -738,7 +738,7 @@
   transition: opacity 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-placement-bar-sparkle {
+.institution-bento-slot:hover .institution-bento-card .ib-placement-bar-sparkle {
   opacity: 0.75;
   animation: ib-sparkle-sweep 3.2s ease-in-out infinite alternate;
 }
@@ -797,11 +797,11 @@
   transition: opacity 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-ai-ring {
+.institution-bento-slot:hover .institution-bento-card .ib-ai-ring {
   animation: ib-pulse-ring 3s ease-out infinite;
 }
 
-.institution-bento-card:hover .ib-ai-ring.ring-2 {
+.institution-bento-slot:hover .institution-bento-card .ib-ai-ring.ring-2 {
   animation-delay: 1.5s;
 }
 
@@ -837,14 +837,14 @@
 }
 
 /* On hover, bars dance at smooth, unhurried 2.2s pace */
-.institution-bento-card:hover .ib-ai-bar {
+.institution-bento-slot:hover .institution-bento-card .ib-ai-bar {
   animation: ib-eq-frequency 2.2s ease-in-out infinite alternate;
 }
 
-.institution-bento-card:hover .ib-ai-bar-1 { animation-delay: 0s; }
-.institution-bento-card:hover .ib-ai-bar-2 { animation-delay: 0.35s; }
-.institution-bento-card:hover .ib-ai-bar-3 { animation-delay: 0.7s; }
-.institution-bento-card:hover .ib-ai-bar-4 { animation-delay: 1.05s; }
+.institution-bento-slot:hover .institution-bento-card .ib-ai-bar-1 { animation-delay: 0s; }
+.institution-bento-slot:hover .institution-bento-card .ib-ai-bar-2 { animation-delay: 0.35s; }
+.institution-bento-slot:hover .institution-bento-card .ib-ai-bar-3 { animation-delay: 0.7s; }
+.institution-bento-slot:hover .institution-bento-card .ib-ai-bar-4 { animation-delay: 1.05s; }
 
 .ib-ai-prompt-ticker {
   display: inline-flex;
@@ -866,7 +866,7 @@
   background: #1a1a24;
 }
 
-.institution-bento-card:hover .ib-ai-ticker-dot {
+.institution-bento-slot:hover .institution-bento-card .ib-ai-ticker-dot {
   animation: ib-pulse 2s infinite;
 }
 
@@ -875,7 +875,7 @@
   opacity: 0.8;
 }
 
-.institution-bento-card:hover .ib-ai-typing-cursor {
+.institution-bento-slot:hover .institution-bento-card .ib-ai-typing-cursor {
   animation: ib-blink 1.4s infinite;
 }
 
@@ -943,7 +943,7 @@
   transition: opacity 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-iv-rec-ring {
+.institution-bento-slot:hover .institution-bento-card .ib-iv-rec-ring {
   animation: ib-pulse-ring 2.6s ease-out infinite;
 }
 
@@ -990,13 +990,13 @@
 }
 
 /* On hover, bars dance at unhurried 2.0s pace */
-.institution-bento-card:hover .ib-iv-bar {
+.institution-bento-slot:hover .institution-bento-card .ib-iv-bar {
   animation: ib-eq-frequency 2s ease-in-out infinite alternate;
 }
 
-.institution-bento-card:hover .ib-iv-bar-1 { animation-delay: 0.15s; }
-.institution-bento-card:hover .ib-iv-bar-2 { animation-delay: 0.5s; }
-.institution-bento-card:hover .ib-iv-bar-3 { animation-delay: 0.85s; }
+.institution-bento-slot:hover .institution-bento-card .ib-iv-bar-1 { animation-delay: 0.15s; }
+.institution-bento-slot:hover .institution-bento-card .ib-iv-bar-2 { animation-delay: 0.5s; }
+.institution-bento-slot:hover .institution-bento-card .ib-iv-bar-3 { animation-delay: 0.85s; }
 
 .ib-iv-clarity-badge {
   display: flex;
@@ -1074,7 +1074,7 @@
   margin-left: 0;
 }
 
-.institution-bento-card:hover .ib-disc-av {
+.institution-bento-slot:hover .institution-bento-card .ib-disc-av {
   margin-left: -2px;
 }
 
@@ -1104,11 +1104,11 @@
   transition: opacity 0.4s ease;
 }
 
-.institution-bento-card:hover .ib-disc-sound-ring {
+.institution-bento-slot:hover .institution-bento-card .ib-disc-sound-ring {
   animation: ib-pulse-ring 3s ease-out infinite;
 }
 
-.institution-bento-card:hover .ib-disc-sound-ring.ring-2 {
+.institution-bento-slot:hover .institution-bento-card .ib-disc-sound-ring.ring-2 {
   animation-delay: 1.5s;
 }
 
@@ -1134,13 +1134,13 @@
 .ib-disc-speaking-indicator span:nth-child(2) { height: 8px; }
 .ib-disc-speaking-indicator span:nth-child(3) { height: 6px; }
 
-.institution-bento-card:hover .ib-disc-speaking-indicator span {
+.institution-bento-slot:hover .institution-bento-card .ib-disc-speaking-indicator span {
   animation: ib-sound-bounce 1.6s ease-in-out infinite alternate;
 }
 
-.institution-bento-card:hover .ib-disc-speaking-indicator span:nth-child(1) { animation-delay: 0s; }
-.institution-bento-card:hover .ib-disc-speaking-indicator span:nth-child(2) { animation-delay: 0.3s; }
-.institution-bento-card:hover .ib-disc-speaking-indicator span:nth-child(3) { animation-delay: 0.6s; }
+.institution-bento-slot:hover .institution-bento-card .ib-disc-speaking-indicator span:nth-child(1) { animation-delay: 0s; }
+.institution-bento-slot:hover .institution-bento-card .ib-disc-speaking-indicator span:nth-child(2) { animation-delay: 0.3s; }
+.institution-bento-slot:hover .institution-bento-card .ib-disc-speaking-indicator span:nth-child(3) { animation-delay: 0.6s; }
 
 .ib-disc-status {
   display: flex;
@@ -1164,7 +1164,7 @@
   box-shadow: 0 0 6px #86efac;
 }
 
-.institution-bento-card:hover .ib-disc-pulse {
+.institution-bento-slot:hover .institution-bento-card .ib-disc-pulse {
   animation: ib-pulse 2.5s ease-in-out infinite;
 }
 
@@ -1202,7 +1202,7 @@
   transition: transform 0.35s ease;
 }
 
-.institution-bento-card:hover .ib-slide {
+.institution-bento-slot:hover .institution-bento-card .ib-slide {
   transform: translateY(-4px) rotate(-0.5deg);
 }
 
@@ -1220,7 +1220,7 @@
   transition: opacity 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-slide-laser-dot {
+.institution-bento-slot:hover .institution-bento-card .ib-slide-laser-dot {
   opacity: 1;
   animation: ib-laser-sweep 4s ease-in-out infinite;
 }
@@ -1284,7 +1284,7 @@
   transition: transform 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-slide-arrow {
+.institution-bento-slot:hover .institution-bento-card .ib-slide-arrow {
   animation: ib-arrow-slide 2s ease-in-out infinite alternate;
 }
 
@@ -1315,7 +1315,7 @@
   transition: width 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-slide-dot-active {
+.institution-bento-slot:hover .institution-bento-card .ib-slide-dot-active {
   animation: ib-dot-grow 2.6s ease-in-out infinite alternate;
 }
 
@@ -1334,11 +1334,11 @@
   transition: transform 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-slide-reaction-chip {
+.institution-bento-slot:hover .institution-bento-card .ib-slide-reaction-chip {
   animation: ib-chip-bob 2.4s ease-in-out infinite alternate;
 }
 
-.institution-bento-card:hover .ib-slide-reaction-chip:nth-child(2) {
+.institution-bento-slot:hover .institution-bento-card .ib-slide-reaction-chip:nth-child(2) {
   animation-delay: 1.2s;
 }
 
@@ -1415,15 +1415,15 @@
   box-shadow: 0 4px 14px rgba(26, 26, 36, 0.35);
 }
 
-.institution-bento-card:hover .ib-insights-bar {
+.institution-bento-slot:hover .institution-bento-card .ib-insights-bar {
   animation: ib-bar-pulse-strong 2.8s ease-in-out infinite alternate;
 }
 
-.institution-bento-card:hover .ib-insights-col:nth-child(1) .ib-insights-bar { animation-delay: 0s; }
-.institution-bento-card:hover .ib-insights-col:nth-child(2) .ib-insights-bar { animation-delay: 0.25s; }
-.institution-bento-card:hover .ib-insights-col:nth-child(3) .ib-insights-bar { animation-delay: 0.5s; }
-.institution-bento-card:hover .ib-insights-col:nth-child(4) .ib-insights-bar { animation-delay: 0.75s; }
-.institution-bento-card:hover .ib-insights-col:nth-child(5) .ib-insights-bar { animation-delay: 1s; }
+.institution-bento-slot:hover .institution-bento-card .ib-insights-col:nth-child(1) .ib-insights-bar { animation-delay: 0s; }
+.institution-bento-slot:hover .institution-bento-card .ib-insights-col:nth-child(2) .ib-insights-bar { animation-delay: 0.25s; }
+.institution-bento-slot:hover .institution-bento-card .ib-insights-col:nth-child(3) .ib-insights-bar { animation-delay: 0.5s; }
+.institution-bento-slot:hover .institution-bento-card .ib-insights-col:nth-child(4) .ib-insights-bar { animation-delay: 0.75s; }
+.institution-bento-slot:hover .institution-bento-card .ib-insights-col:nth-child(5) .ib-insights-bar { animation-delay: 1s; }
 
 .ib-insights-peak-star {
   position: absolute;
@@ -1435,7 +1435,7 @@
   transition: transform 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-insights-peak-star {
+.institution-bento-slot:hover .institution-bento-card .ib-insights-peak-star {
   animation: ib-star-pulse 2.2s ease-in-out infinite alternate;
 }
 
@@ -1467,7 +1467,7 @@
   transition: transform 0.3s ease;
 }
 
-.institution-bento-card:hover .ib-insights-trending-icon {
+.institution-bento-slot:hover .institution-bento-card .ib-insights-trending-icon {
   animation: ib-trend-bounce-strong 2s ease-in-out infinite alternate;
 }
 
@@ -1783,7 +1783,7 @@
     transition: none;
   }
 
-  .institution-bento-card:hover {
+  .institution-bento-slot:hover .institution-bento-card {
     transform: none;
   }
 

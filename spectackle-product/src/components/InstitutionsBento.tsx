@@ -424,8 +424,8 @@ export default function InstitutionsBento() {
           const Icon = feature.icon;
           const Visual = visuals[feature.id];
           return (
+            <div key={feature.id} className={`institution-bento-slot institution-bento-${feature.size}`}>
             <article
-              key={feature.id}
               className={`institution-bento-card institution-bento-${feature.size} institution-bento-${feature.tone} group`}
               data-bento-card
             >
@@ -464,6 +464,7 @@ export default function InstitutionsBento() {
               {/* 5. Subtle ambient hover overlay */}
               <div className="institution-bento-card-overlay" />
             </article>
+            </div>
           );
         })}
       </div>

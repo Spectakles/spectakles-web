@@ -1,0 +1,136 @@
+/* The grid slot stays still while its card lifts. Both the lift and all
+   internal hover effects follow the slot, so its edges remain interactive. */
+.institution-bento-slot {
+  min-width: 0;
+  min-height: 0;
+  overflow-anchor: none;
+}
+
+.institution-bento-slot > .institution-bento-card {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Keep the desktop artwork intact; smaller cards need real layout space for
+   their previews instead of overlapping absolutely positioned layers. */
+@media (max-width: 992px) {
+  .institution-bento-grid {
+    grid-auto-rows: auto;
+  }
+
+  .institution-bento-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    min-height: 310px;
+  }
+
+  .institution-bento-tall {
+    grid-row: span 1;
+  }
+
+  .institution-bento-card-top {
+    position: static;
+    padding: 0;
+    gap: 12px;
+    order: 0;
+  }
+
+  .ib-top-dot {
+    flex-shrink: 0;
+  }
+
+  .ib-card-background {
+    position: static;
+    order: 1;
+    min-width: 0;
+  }
+
+  .institution-bento-card .ib-visual {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .ib-visual > * {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .ib-visual-campus,
+  .ib-visual-insights {
+    align-items: center;
+  }
+
+  .ib-visual-presentations {
+    justify-content: center;
+  }
+
+  .institution-bento-card .institution-bento-card-content {
+    position: static;
+    order: 2;
+    padding: 0;
+    max-width: 100%;
+    transform: none;
+  }
+
+  .institution-bento-slot:hover .institution-bento-card .institution-bento-card-content {
+    transform: none;
+  }
+
+  .institution-bento-card .institution-bento-card-cta {
+    position: static;
+    order: 3;
+    padding: 0;
+    margin-top: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ib-card-cta-btn {
+    max-width: 100%;
+  }
+
+  .ib-cta-arrow {
+    flex-shrink: 0;
+  }
+
+  .ib-iv-top-row,
+  .ib-placement-progress-header,
+  .ib-placement-step,
+  .ib-ai-pill,
+  .ib-insights-stat,
+  .ib-disc-stage,
+  .ib-slide-header,
+  .ib-slide-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ib-step-label {
+    min-width: 100px;
+  }
+
+  .ib-step-live-pill {
+    flex-shrink: 0;
+  }
+
+  .ib-ai-prompt-ticker {
+    width: auto;
+  }
+
+  .ib-ai-prompt-ticker > span:nth-child(2),
+  .ib-card-cta-btn > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}

@@ -15,6 +15,7 @@ import '../components/ScrollPortalLayout.css';
 import '../components/TypingText.css';
 import '../components/AsciiWavesBackground.css';
 import '../index.css';
+import '../components/InstitutionsBentoResponsive.css';
 
 export const metadata = {
   ...pageMetadata('/'),
