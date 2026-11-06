@@ -1,0 +1,88 @@
+/* Content and controls use a consistent reading scale. Illustration internals
+   retain their own scale; these rules target the surrounding website copy. */
+.site-shell {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.site-shell :is(
+  .section-intro > p:not(.eyebrow),
+  .experience-copy > p:not(.eyebrow),
+  .page-hero-copy > p,
+  .value-item p,
+  .timeline-content p,
+  .about-mission-card > p:last-child,
+  .about-cta-inner > p:not(.eyebrow),
+  .cta-inner > p:not(.eyebrow),
+  .round-copy p,
+  .features-header-sub,
+  .feature-tab-desc,
+  .magic-bento-copy p,
+  .faq-answer
+) {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.site-shell :is(.ib-card-desc, .experience-list small) {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.site-shell :is(.experience-list b, .faq-question) {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.site-shell :is(
+  .navbar-nav-link, .navbar-mobile-link, .navbar-cta-button,
+  .navbar-mobile-cta, .footer-links-list a, .footer-btn-link,
+  .round-tabs button, .faq-category, .text-link, .button
+) {
+  font-size: 15px;
+}
+
+.site-shell :is(
+  .announcement, .eyebrow, .features-badge-text, .ib-top-label,
+  .magic-bento-eyebrow, .feature-tab-num, .round-tags,
+  .round-quote span, .footer-copyright-text, .footer-group-heading,
+  .result-title span:last-child, .result-status, .metric-row small,
+  .highlight-box, .progress-report > div:first-child, .progress-labels small
+) {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.site-shell .waitlist-modal {
+  overflow-y: auto;
+}
+
+.site-shell :is(.waitlist-field input, .waitlist-field select) {
+  min-height: 46px;
+  font-size: 16px;
+}
+
+.site-shell :is(.waitlist-field label, .waitlist-error, .waitlist-submit) {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.site-shell :is(.waitlist-header > p:last-child, .waitlist-success > p:not(.waitlist-eyebrow)) {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.site-shell :is(.waitlist-note, .waitlist-eyebrow-badge, .waitlist-optional-tag) {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.site-shell .waitlist-submit {
+  min-height: 46px;
+}
+
+@media (max-width: 600px) {
+  .site-shell .experience-list small { font-size: 14px; }
+  .site-shell .round-tabs { flex-wrap: wrap; }
+  .site-shell .round-tabs button { padding: 10px 12px; }
+}

@@ -8,13 +8,19 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "predev": "node scripts/prepare-gd-audio.mjs",
+    "prebuild": "node scripts/prepare-gd-audio.mjs",
+    "test:gd-room": "node --test tests/gd-room.test.mjs",
+    "test:workspace": "node --test tests/workspace-permissions.test.mjs",
+    "test:gd-audio": "node --test tests/gd-audio.test.mjs tests/gd-recording.test.mjs tests/gd-playback.test.mjs tests/gd-live.test.mjs tests/gd-final.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
     "firebase": "^12.19.0",
     "gsap": "^3.15.0",
     "lucide-react": "^0.446.0",
+    "onnxruntime-web": "1.30.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.3"

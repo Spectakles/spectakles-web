@@ -1,0 +1,15 @@
+.gd-notes-card textarea { display: block; width: 100%; min-height: 190px; resize: vertical; padding: 13px; border: 1px solid #dcded1; border-radius: 10px; color: #30352c; background: #fffef9; font: inherit; line-height: 1.6; margin-top: 16px; }
+.gd-notes-card textarea:focus { outline: 2px solid #718255; outline-offset: 2px; }
+.gd-session-actions, .gd-caption-panel { margin: 24px 0; padding: 25px; background: #fffef9; border: 1px solid #dedfd3; border-radius: 18px; }
+.gd-session-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.gd-session-actions > div { flex: 1 1 400px; }
+.gd-session-actions h2, .gd-caption-panel h2 { margin: 0 0 10px; font-size: 23px; }
+.gd-session-actions p, .gd-caption-panel > p { color: #737b68; line-height: 1.6; }
+.gd-session-actions > p { flex-basis: 100%; margin: 0; }
+.gd-session-actions .gd-start-button { margin: 0; }
+.gd-session-actions button:disabled { opacity: .5; cursor: not-allowed; }
+.gd-caption-lines { max-height: 260px; overflow: auto; line-height: 1.6; overflow-wrap: anywhere; }
+.gd-caption-lines p { margin: 10px 0; }
+.gd-disabled-controls button[aria-pressed="true"] { background: #e7ecd9; color: #425735; }
+.gd-disabled-controls button { cursor: pointer; color: #586846; background: #fffef9; }
+.gd-disabled-controls button:focus-visible { outline: 2px solid #718255; outline-offset: 2px; }
