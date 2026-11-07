@@ -1,0 +1,13 @@
+.workspace { max-width: 1000px; margin: 0 auto; padding: 36px 24px; color: #292d37; font-family: system-ui, sans-serif; }
+.workspace header { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.workspace section { margin: 24px 0; padding: 24px; background: #fffef9; border: 1px solid #dadccf; border-radius: 16px; }
+.workspace h1 { font-size: 32px; }.workspace h2 { font-size: 22px; margin-bottom: 12px; }
+.workspace label { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+.workspace input, .workspace select, .workspace textarea { padding: 10px; border: 1px solid #aab298; border-radius: 6px; background: white; color: #292d37; }
+.workspace textarea { width: 100%; font: 14px/1.5 monospace; }
+.workspace button { background: #52683f; color: white; padding: 10px 16px; border-radius: 8px; margin: 8px 8px 8px 0; }
+.workspace button:disabled { opacity: .45; cursor: not-allowed; }
+.workspace button:focus-visible, .workspace summary:focus-visible { outline: 3px solid #8da565; outline-offset: 3px; }
+.workspace ul { list-style: none; padding: 0; }.workspace li { padding: 16px 0; border-bottom: 1px solid #dadccf; }
+.workspace li strong, .workspace li span, .workspace li code { display: block; overflow-wrap: anywhere; }
+.workspace p { margin: 10px 0; line-height: 1.6; }.workspace summary { cursor: pointer; font-weight: 600; }
