@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { MicrophonePermission } from '../gd-audio/devices';
 import { responseError, usePlatform } from '../platform/context';
 import './try-now.css';
+import RunnerLiveRound from './RunnerLiveRound';
 import RunnerQueue, { readQueueEntry, reservationPath, saveQueueEntry, type QueueEntry, type Ticket } from './RunnerQueue';
 
 const PREP_SECONDS = 45;
@@ -52,8 +53,8 @@ function SignIn() {
   </>;
 }
 
-function DeviceChecks({ canRehearse, useQueue, onStart }: {
-  canRehearse: boolean;
+function DeviceChecks({ canStartRound, useQueue, onStart }: {
+  canStartRound: boolean;
   useQueue: boolean;
   onStart: (topic: string) => Promise<void>;
 }) {
@@ -109,7 +110,7 @@ function DeviceChecks({ canRehearse, useQueue, onStart }: {
   };
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!canRehearse || !headphones || !micReady || !heard || !topic.trim() || joining) return;
+    if (!canStartRound || !headphones || !micReady || !heard || !topic.trim() || joining) return;
     setJoining(true);
     setJoinError('');
     try { await onStart(topic.trim()); }
@@ -134,21 +135,27 @@ function DeviceChecks({ canRehearse, useQueue, onStart }: {
         <label className="try-now-check"><input type="checkbox" checked={heard} disabled={!played} onChange={event => setHeard(event.target.checked)} /> I heard the tone</label>
       </div>
       {speakerError && <p role="alert">{speakerError}</p>}
-      <button disabled={!canRehearse || !topic.trim() || !headphones || !micReady || !heard || joining}>
+      <button disabled={!canStartRound || !topic.trim() || !headphones || !micReady || !heard || joining}>
         {joining ? 'Joining…' : useQueue ? 'Join queue' : 'Start preparation'}
       </button>
       {joinError && <p role="alert">{joinError}</p>}
-      {!canRehearse && <p role="status">Live rounds aren’t available yet.</p>}
+      {!canStartRound && <p role="status">Live rounds aren’t available yet.</p>}
     </form>
   </>;
 }
 
-function LocalFlow({ uid, canRehearse }: { uid: string; canRehearse: boolean }) {
+function LocalFlow({ uid, canRehearse, canRunLive, onLiveDone }: {
+  uid: string;
+  canRehearse: boolean;
+  canRunLive: boolean;
+  onLiveDone: () => void;
+}) {
   const { request } = usePlatform();
-  const useQueue = canRehearse && import.meta.env.VITE_GD_TRY_NOW_QUEUE === '1';
+  const useQueue = canRunLive || (canRehearse && import.meta.env.VITE_GD_TRY_NOW_QUEUE === '1');
   const queueKey = `spectakles-try-now-queue:${uid}`;
   const [entry, setEntry] = useState(() => useQueue ? readQueueEntry(queueKey) : null);
   const [releaseError, setReleaseError] = useState('');
+  const [showLive, setShowLive] = useState(false);
   const key = `spectakles-try-now:${uid}`;
   const [draft, setDraft] = useState(() => canRehearse ? readDraft(key) : null);
   const [finished, setFinished] = useState(false);
@@ -197,11 +204,19 @@ function LocalFlow({ uid, canRehearse }: { uid: string; canRehearse: boolean }) 
     <button onClick={() => setFinished(false)}>Back to Try Now</button>
   </>;
 
+  if (entry && showLive) return <RunnerLiveRound entry={entry} onLeave={() => {
+    saveQueueEntry(queueKey, null);
+    onLiveDone();
+  }} />;
   if (entry && !draft) return <RunnerQueue entry={entry} onLeave={() => setEntry(null)} onClaim={claim => {
+    if (canRunLive) {
+      setShowLive(true);
+      return;
+    }
     setEntry(null);
     beginPrep(claim.topic, claim.roundId);
   }} />;
-  if (!draft) return <DeviceChecks canRehearse={canRehearse} useQueue={useQueue} onStart={async topic => {
+  if (!draft) return <DeviceChecks canStartRound={canRunLive || canRehearse} useQueue={useQueue} onStart={async topic => {
     if (!useQueue) {
       beginPrep(topic);
       return;
@@ -286,7 +301,8 @@ export default function TryNow() {
   } else if (current.access.attempts_remaining < 1) {
     content = <><h1>No tries remaining</h1><p>Ask the Spectakles team for another try.</p><button onClick={checkAgain}>Check again</button></>;
   } else {
-    content = <LocalFlow key={uid} uid={uid} canRehearse={canRehearse} />;
+    content = <LocalFlow key={uid} uid={uid} canRehearse={canRehearse}
+      canRunLive={platform.status?.runner_live === true} onLiveDone={checkAgain} />;
   }
 
   return <main className="try-now">
