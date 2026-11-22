@@ -1,0 +1,33 @@
+.try-now {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+  color: #242822;
+}
+
+.try-now h1 { font-size: 2rem; margin: 0 0 0.75rem; }
+.try-now p { margin: 0 0 1rem; line-height: 1.5; }
+.try-now form { display: grid; gap: 1rem; }
+.try-now label { display: grid; gap: 0.35rem; margin-bottom: 0.5rem; }
+.try-now label.try-now-check { display: flex; align-items: center; gap: 0.55rem; margin: 0; }
+.try-now input:not([type="checkbox"]), .try-now textarea {
+  padding: 0.65rem;
+  width: 100%;
+  border: 1px solid #868b83;
+  border-radius: 0.35rem;
+  background: #fff;
+}
+.try-now textarea { min-height: 9rem; resize: vertical; }
+.try-now button {
+  justify-self: start;
+  width: fit-content;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #343e30;
+  border-radius: 0.35rem;
+  background: #343e30;
+  color: #fff;
+}
+.try-now button:disabled { opacity: 0.55; }
+.try-now .try-now-sign-out { float: right; margin: 0 0 0.75rem 0.75rem; background: transparent; color: inherit; }
+.try-now .try-now-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.try-now [role="alert"] { color: #8e2424; }

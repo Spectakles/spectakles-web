@@ -26,6 +26,7 @@ const SessionReport = lazy(() => import("./pages/SessionReport"));
 const AccountHelp = lazy(() => import("./pages/AccountHelp"));
 const JoinInstitution = lazy(() => import("./pages/JoinInstitution"));
 const GD = lazy(() => import("./pages/GD"));
+const TryNow = lazy(() => import("./pages/TryNow"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -104,6 +105,9 @@ export default function App() {
             />
             <Route path="/impact" element={<Navigate to="/about" replace />} />
             <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route element={<ProductLayout runnerOnly />}>
+            <Route path="/try-now" element={<TryNow />} />
           </Route>
           <Route element={<ProductLayout />}>
             <Route path="/workspace" element={<Workspace />} />

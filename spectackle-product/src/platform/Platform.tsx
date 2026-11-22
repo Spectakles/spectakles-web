@@ -3,7 +3,7 @@ import { Context, responseError, type Profile, type Status, type Template } from
 import { getApps, initializeApp } from 'firebase/app';
 import { browserSessionPersistence, connectAuthEmulator, getAuth, onAuthStateChanged, setPersistence, type Auth, type User } from 'firebase/auth';
 
-export function PlatformProvider({ children }: { children: ReactNode }) {
+export function PlatformProvider({ children, runnerOnly = false }: { children: ReactNode; runnerOnly?: boolean }) {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState('');
   const [status, setStatus] = useState<Status | null>(null);
@@ -68,8 +68,8 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
     if (auth.currentUser.uid === value.user.uid) { setProfile(value); setError(''); }
   }, [request, auth, status]);
   useEffect(() => {
-    if (user) void reload().catch(failure => setError(failure.message));
-  }, [user, reload]);
+    if (user && !runnerOnly) void reload().catch(failure => setError(failure.message));
+  }, [user, reload, runnerOnly]);
 
   return <Context.Provider value={{ ready, error, status, auth, user, profile, selected, select, token, request, reload }}>{children}</Context.Provider>;
 }

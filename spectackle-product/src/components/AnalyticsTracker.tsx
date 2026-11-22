@@ -6,6 +6,7 @@ export default function AnalyticsTracker() {
   const location = useLocation();
 
   useEffect(() => {
+    if (location.pathname.replace(/\/+$/, "") === "/try-now") return;
     const pageTitle = document.title || "Spectakles";
     const currentPath = location.pathname + location.search + location.hash;
     trackPageView(pageTitle, currentPath);
