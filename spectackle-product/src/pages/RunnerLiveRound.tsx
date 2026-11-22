@@ -11,13 +11,42 @@ type LiveState = {
   phase: string; remaining_ms: number; prep_remaining_ms: number; intro_remaining_ms: number | null;
   panel: { id: string; name: string }[]; notice: string; receivedAt: number;
 };
-type Outcome = { outcome: string; evidence_saved: boolean };
+type Outcome = { outcome: string; evidenceSaved: boolean; evidenceGapPossible: boolean };
 const livePhases = new Set(['discussion', 'closing', 'final_minute', 'waiting']);
 
-export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry; onLeave: () => void }) {
+const notesKey = (uid: string) => `spectakles-runner-notes:${uid}`;
+
+export function clearRunnerNotes(uid: string) {
+  try { sessionStorage.removeItem(notesKey(uid)); }
+  catch { /* Browser storage is optional. */ }
+}
+
+function readNotes(uid: string, roundId: string): string {
+  try {
+    const draft = JSON.parse(sessionStorage.getItem(notesKey(uid)) || 'null') as
+      { roundId: string; notes: string; expires: number } | null;
+    if (draft?.roundId === roundId && draft.expires > Date.now()) return draft.notes;
+    clearRunnerNotes(uid);
+  } catch { /* Browser storage is optional. */ }
+  return '';
+}
+
+export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
+  entry: QueueEntry; onLeave: () => void; resuming?: boolean;
+}) {
   const platform = usePlatform();
   const [round, setRound] = useState<LiveState | null>(null);
-  const [notes, setNotes] = useState('');
+  const notesUid = platform.status?.runner_recovery ? platform.user?.uid : undefined;
+  const [notes, setNotes] = useState(() => notesUid ? readNotes(notesUid, entry.roundId) : '');
+  const updateNotes = (value: string) => {
+    setNotes(value);
+    if (!notesUid) return;
+    try {
+      sessionStorage.setItem(notesKey(notesUid), JSON.stringify({
+        roundId: entry.roundId, notes: value, expires: Date.now() + 10 * 60 * 1000,
+      }));
+    } catch { /* Notes are still available for this connection. */ }
+  };
   const [connecting, setConnecting] = useState(false);
   const [ending, setEnding] = useState(false);
   const [failure, setFailure] = useState('');
@@ -49,7 +78,7 @@ export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry;
     setFailure(message);
     setConnecting(false);
     setEnding(false);
-    setNotes('');
+    if (!notesUid) setNotes('');
   };
   const end = (reason = 'ended_by_user') => {
     if (!socket.current || stopping.current) return;
@@ -87,7 +116,11 @@ export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry;
       },
       error: () => failed(session.snapshot.message || 'Connection lost before the server confirmed the round.'),
       message: message => {
-        if (message.type === 'preparation_result') return true;
+        if (message.type === 'preparation_result' || message.type === 'evidence_stored') return true;
+        if (message.type === 'round_paused' && message.round_id === entry.roundId) {
+          failed('The discussion was interrupted. Return to Try Now to resume.');
+          return true;
+        }
         if (message.type === 'discussion_state') {
           const value = { ...message, receivedAt: performance.now() } as unknown as LiveState;
           state.current = value;
@@ -104,9 +137,11 @@ export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry;
         if (message.type === 'round_ended' && message.round_id === entry.roundId) {
           cleanup();
           if (mounted.current) {
+            if (notesUid) clearRunnerNotes(notesUid);
             setNotes('');
             setEnding(false);
-            setOutcome({ outcome: String(message.outcome), evidence_saved: message.evidence_saved === true });
+            setOutcome({ outcome: String(message.outcome), evidenceSaved: message.evidence_saved === true,
+              evidenceGapPossible: message.evidence_gap_possible === true });
           }
           return true;
         }
@@ -143,10 +178,12 @@ export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry;
   };
   const leave = async () => {
     cleanup();
+    if (resuming || (notesUid && socket.current)) { onLeave(); return; }
     try {
       const reply = await platform.request(reservationPath(entry.roundId), { method: 'DELETE' });
       // A connected socket owns settlement. The server may still be finishing it.
       if (!reply.ok && reply.status !== 409) throw new Error('Could not release the slot.');
+      if (notesUid) clearRunnerNotes(notesUid);
       onLeave();
     } catch {
       setFailure('Could not release the slot. Try again.');
@@ -163,7 +200,9 @@ export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry;
       ? 'Round ended. Coaching and scores are not available in this build.'
       : outcome.outcome === 'cancelled_before_start' ? 'Preparation cancelled.'
         : 'The round ended early.'}</p>
-    {outcome.evidence_saved && <p>Local evidence saved.</p>}
+    {outcome.evidenceGapPossible
+      ? <p>Some discussion evidence may be missing.</p>
+      : outcome.evidenceSaved && <p>Discussion evidence saved.</p>}
     <button onClick={onLeave}>Back to Try Now</button>
   </>;
   if (!round) return <>
@@ -183,7 +222,7 @@ export default function RunnerLiveRound({ entry, onLeave }: { entry: QueueEntry;
       {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}
     </p>
     <p role="status">{ending ? 'Ending…' : round.phase === 'connecting' ? 'Connecting panelists…' : round.notice || (speakerName && !prep ? `${speakerName} has the floor` : '')}</p>
-    <label>Private notes<textarea value={notes} maxLength={12000} onChange={event => setNotes(event.target.value)} /></label>
+    <label>Private notes<textarea value={notes} maxLength={12000} onChange={event => updateNotes(event.target.value)} /></label>
     {prep && <button disabled={ending} onClick={() => socket.current?.playback.sendControl({ type: 'preparation_ready' })}>Skip preparation</button>}{' '}
     <button disabled={ending} onClick={() => end()}>{prep ? 'Cancel preparation' : 'End discussion'}</button>
   </>;

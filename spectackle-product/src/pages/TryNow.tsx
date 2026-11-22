@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { MicrophonePermission } from '../gd-audio/devices';
 import { responseError, usePlatform } from '../platform/context';
 import './try-now.css';
-import RunnerLiveRound from './RunnerLiveRound';
+import RunnerLiveRound, { clearRunnerNotes } from './RunnerLiveRound';
 import RunnerQueue, { readQueueEntry, reservationPath, saveQueueEntry, type QueueEntry, type Ticket } from './RunnerQueue';
 
 const PREP_SECONDS = 45;
@@ -11,6 +11,7 @@ const DISCUSSION_SECONDS = 180;
 const PANEL = ['Arjun', 'Sahil', 'Meera', 'Nina'];
 const TOPICS = ['Should colleges ban smartphones in class?', 'Should public transport be free?', 'Can AI improve education?'];
 type Access = { approved: boolean; attempts_remaining: number };
+type Recovery = { round_id: string; topic: string; available: boolean };
 type Draft = { topic: string; notes: string; phase: 'prep' | 'discussion'; deadline: number; roundId?: string };
 
 function readDraft(key: string): Draft | null {
@@ -254,7 +255,9 @@ function LocalFlow({ uid, canRehearse, canRunLive, onLiveDone }: {
 export default function TryNow() {
   const platform = usePlatform();
   const uid = platform.user?.uid;
-  const [gate, setGate] = useState<{ uid: string; access?: Access; error?: string } | null>(null);
+  const [gate, setGate] = useState<{ uid: string; access?: Access; recovery?: Recovery | null; error?: string } | null>(null);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const recoveryEnabled = platform.status?.runner_recovery === true;
   const [retry, setRetry] = useState(0);
   const [signOutError, setSignOutError] = useState('');
   useEffect(() => {
@@ -263,17 +266,27 @@ export default function TryNow() {
     void platform.request('/api/runner/access', { signal: controller.signal }).then(async response => {
       if (!response.ok) throw await responseError(response);
       const access = await response.json() as Access;
-      if (!controller.signal.aborted) setGate({ uid, access });
+      let recovery: Recovery | null = null;
+      if (access.approved && recoveryEnabled) {
+        const reply = await platform.request('/api/runner/recovery', { signal: controller.signal });
+        if (!reply.ok) throw await responseError(reply);
+        recovery = ((await reply.json()) as { round: Recovery | null }).round;
+      }
+      if (!controller.signal.aborted) {
+        if (recovery) saveQueueEntry(`spectakles-try-now-queue:${uid}`, null);
+        else if (recoveryEnabled) clearRunnerNotes(uid);
+        setGate({ uid, access, recovery });
+      }
     }).catch(() => {
       if (!controller.signal.aborted) setGate({ uid, error: 'Could not check runner access.' });
     });
     return () => controller.abort();
-  }, [uid, platform.request, retry]);
+  }, [uid, platform.request, recoveryEnabled, retry]);
 
   const current = gate?.uid === uid ? gate : null;
   const canRehearse = import.meta.env.DEV && import.meta.env.VITE_GD_TRY_NOW_REHEARSAL === '1'
     && platform.status?.emulator === true;
-  const checkAgain = () => { setGate(null); setRetry(value => value + 1); };
+  const checkAgain = () => { setResumeOpen(false); setGate(null); setRetry(value => value + 1); };
   const leave = async () => {
     if (!uid || !platform.auth) return;
     try {
@@ -283,6 +296,8 @@ export default function TryNow() {
       if (roundId) await platform.request(reservationPath(roundId), { method: 'DELETE' }).catch(() => undefined);
       await signOut(platform.auth);
       writeDraft(draftKey, null);
+      clearRunnerNotes(uid);
+      setResumeOpen(false);
       saveQueueEntry(queueKey, null);
       setGate(null);
       setSignOutError('');
@@ -298,6 +313,17 @@ export default function TryNow() {
     content = <><p role="alert">{current.error}</p><button onClick={checkAgain}>Retry</button></>;
   } else if (!current.access?.approved) {
     content = <><h1>Approval required</h1><p>Ask the Spectakles team to approve your account.</p><button onClick={checkAgain}>Check again</button></>;
+  } else if (current.recovery) {
+    const round = current.recovery;
+    content = resumeOpen
+      ? <RunnerLiveRound key={round.round_id} entry={{ roundId: round.round_id, topic: round.topic }}
+          resuming onLeave={checkAgain} />
+      : <>
+        <h1>Resume discussion</h1><p>{round.topic}</p>
+        {round.available
+          ? <button onClick={() => setResumeOpen(true)}>Resume discussion</button>
+          : <><p role="status">The previous connection is closing.</p><button onClick={checkAgain}>Check again</button></>}
+      </>;
   } else if (current.access.attempts_remaining < 1) {
     content = <><h1>No tries remaining</h1><p>Ask the Spectakles team for another try.</p><button onClick={checkAgain}>Check again</button></>;
   } else {

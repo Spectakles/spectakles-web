@@ -6,7 +6,7 @@ export type TemplateSettings = { schema_version: number; name: string; topic: st
 export type Template = { assignment_id?: string; id: string; organization_id: string; version: number; settings: TemplateSettings; name: string; sha256: string };
 export type Organization = { id: string; name: string; role: 'owner' | 'admin' | 'trainer' | 'student' };
 export type Profile = { user: { uid: string; name: string; email: string }; organizations: Organization[]; permissions: { can_create_organization: boolean }; personal_template: TemplateSettings };
-export type Status = { enabled: boolean; project_id: string; emulator: boolean; coaching_enabled?: boolean; runner_live?: boolean };
+export type Status = { enabled: boolean; project_id: string; emulator: boolean; coaching_enabled?: boolean; runner_live?: boolean; runner_recovery?: boolean };
 type Platform = {
   ready: boolean; error: string; status: Status | null; auth: Auth | null; user: User | null;
   profile: Profile | null; selected: Template | null; select: (value: Template | null) => void;
