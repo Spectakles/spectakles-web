@@ -7,6 +7,9 @@ import playbackWorkletUrl from '../gd-audio/playback.worklet.ts?worker&url';
 import { usePlatform } from '../platform/context';
 import { reservationPath, type QueueEntry } from './RunnerQueue';
 import RunnerReview from './RunnerReview';
+import { ParticipantTile } from '../gd-room/DiscussionRoom';
+import { formatTime, type RoomPerson } from '../gd-room/room-model';
+import './gd-room.css';
 
 type LiveState = {
   phase: string; remaining_ms: number; prep_remaining_ms: number; intro_remaining_ms: number | null;
@@ -52,6 +55,9 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
   const [failure, setFailure] = useState('');
   const [outcome, setOutcome] = useState<string | null>(null);
   const [speaker, setSpeaker] = useState('');
+  const [playing, setPlaying] = useState(false);
+  const [micOn, setMicOn] = useState(false);
+  const [learnerSpeaking, setLearnerSpeaking] = useState(false);
   const [, tick] = useState(0);
   const state = useRef<LiveState | null>(null);
   const media = useRef<MicrophoneTest | null>(null);
@@ -112,13 +118,17 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
       },
       acceptInput: capturing,
       snapshot: value => {
-        if (mounted.current && value.playback.phase !== 'playing') setSpeaker('');
+        if (mounted.current) setPlaying(value.playback.phase === 'playing' && value.playback.played > 0);
       },
       error: () => failed(session.snapshot.message || 'Connection lost before the server confirmed the round.'),
       message: message => {
         if (message.type === 'preparation_result' || message.type === 'evidence_stored') return true;
         if (message.type === 'round_paused' && message.round_id === entry.roundId) {
-          failed('The discussion was interrupted. Return to Try Now to resume.');
+          const reason = message.reason;
+          const detail = reason === 'provider_error' ? 'An AI panelist lost its connection.'
+            : reason === 'microphone_stopped' ? 'The microphone stopped.'
+            : 'The discussion was interrupted.';
+          failed(`${detail} Return to Try Now to check whether the round can be resumed.`);
           return true;
         }
         if (message.type === 'discussion_state') {
@@ -152,12 +162,16 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
       workletUrl: captureWorkletUrl,
       modelUrl: new URL('gd-audio/silero_vad.onnx', window.location.origin).href,
       runtimeUrl: new URL('gd-audio/ort/', window.location.origin).href,
-      snapshot: () => undefined,
+      snapshot: value => {
+        if (!mounted.current || stopping.current) return;
+        setMicOn(value.phase === 'listening');
+        setLearnerSpeaking(value.phase === 'listening' && value.speaking);
+      },
       boundary: event => { if (capturing()) session.boundary(event); },
-      stopped: () => {
+      stopped: message => {
         if (stopping.current || !mounted.current) return;
         if (session.playback.snapshot.connection) end('microphone_stopped');
-        else failed('The microphone stopped during setup.');
+        else failed(message || 'The microphone stopped during setup.');
       },
       recording: {
         open: async () => undefined,
@@ -208,18 +222,35 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
   </>;
 
   const prep = round.phase === 'preparing';
+  const active = livePhases.has(round.phase);
   const remaining = prep ? round.prep_remaining_ms : round.remaining_ms;
-  const seconds = Math.max(0, Math.ceil((remaining - (prep || livePhases.has(round.phase) ? performance.now() - round.receivedAt : 0)) / 1000));
-  const speakerName = round.panel.find(bot => bot.id === speaker)?.name;
-  return <>
-    <h1>{prep ? 'Preparation' : 'Discussion'}</h1>
-    <p>{entry.topic}</p>
-    <p role="timer" aria-label={prep ? 'Preparation time remaining' : 'Discussion time remaining'}>
-      {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}
-    </p>
-    <p role="status">{ending ? 'Ending…' : round.phase === 'connecting' ? 'Connecting panelists…' : round.notice || (speakerName && !prep ? `${speakerName} has the floor` : '')}</p>
+  const clock = formatTime(remaining - (prep || active ? performance.now() - round.receivedAt : 0));
+  const speakerName = playing && active ? round.panel.find(bot => bot.id === speaker)?.name : undefined;
+  const tones = ['mint', 'peach', 'lavender'];
+  const participants: RoomPerson[] = [
+    ...round.panel.map((bot, index) => ({ ...bot, role: 'AI participant', color: tones[index % tones.length] })),
+    { id: 'user', name: 'You', role: 'You', color: 'yellow' },
+  ];
+  return <section className="try-now-live-room">
+    <div className="meet-topic-bar">
+      <div className="meet-topic-copy"><h1>{prep ? 'Preparation' : 'Discussion'}</h1><p>{entry.topic}</p></div>
+      <div className="meet-timer"><strong role="timer" aria-label={prep ? 'Preparation time remaining' : 'Discussion time remaining'}>{clock}</strong></div>
+    </div>
+    <p role="status">{ending ? 'Ending…' : round.phase === 'connecting' ? 'Connecting panelists…'
+      : round.notice || (speakerName ? `${speakerName} is speaking` : '')}</p>
+    {!prep && <section className="meet-stage" aria-label="Discussion participants">
+      <div className={`meet-tiles meet-tiles--${participants.length}`}>
+        {participants.map(person => {
+          const speaking = active && (person.id === 'user' ? learnerSpeaking : playing && person.id === speaker);
+          const status = speaking ? 'Speaking' : person.id === 'user' ? 'Your seat' : 'AI participant';
+          return <ParticipantTile key={person.id} person={person} speaking={speaking} status={status} micOn={micOn} />;
+        })}
+      </div>
+    </section>}
     <label>Private notes<textarea value={notes} maxLength={12000} onChange={event => updateNotes(event.target.value)} /></label>
-    {prep && <button disabled={ending} onClick={() => socket.current?.playback.sendControl({ type: 'preparation_ready' })}>Skip preparation</button>}{' '}
-    <button disabled={ending} onClick={() => end()}>{prep ? 'Cancel preparation' : 'End discussion'}</button>
-  </>;
+    <div className="try-now-actions">
+      {prep && <button disabled={ending} onClick={() => socket.current?.playback.sendControl({ type: 'preparation_ready' })}>Skip preparation</button>}
+      <button disabled={ending} onClick={() => end()}>{prep ? 'Cancel preparation' : 'End discussion'}</button>
+    </div>
+  </section>;
 }

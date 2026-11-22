@@ -18,7 +18,7 @@ type Options = {
   acquireStream?: (constraints: MediaStreamConstraints) => Promise<MediaStream>;
   snapshot: (value: MicrophoneSnapshot) => void;
   boundary: (value: Boundary) => void;
-  stopped?: () => void;
+  stopped?: (message: string) => void;
   recording?: {
     open: (device: string) => Promise<void>;
     push: (event: import('./recording').RecordingEvent) => void;
@@ -196,7 +196,7 @@ export class MicrophoneTest {
   stop(message = '', error = false): Promise<void> {
     if (this.cleanup) return this.cleanup;
     this.closed = true;
-    this.options.stopped?.();
+    this.options.stopped?.(message);
     clearInterval(this.watchdog);
     this.startupReject?.(new Error('Microphone start cancelled.'));
     this.publish({ phase: 'stopping', speaking: false, rms: 0, probability: 0, queue: 0 });

@@ -31,3 +31,9 @@
 .try-now .try-now-sign-out { float: right; margin: 0 0 0.75rem 0.75rem; background: transparent; color: inherit; }
 .try-now .try-now-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
 .try-now [role="alert"] { color: #8e2424; }
+
+.try-now:has(.try-now-live-room) { max-width: 72rem; }
+.try-now-live-room .meet-topic-bar { clear: both; }
+.try-now-live-room .meet-topic-copy { align-self: center; }
+.try-now-live-room .meet-timer { background: #242c25; color: #f4f6ec; }
+.try-now-live-room .meet-stage { margin-bottom: 1.5rem; color: #f4f6ec; }

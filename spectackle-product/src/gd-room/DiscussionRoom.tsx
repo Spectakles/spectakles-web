@@ -27,15 +27,16 @@ function SoundWave({ active = false }: { active?: boolean }) {
   return <span className={`meet-wave ${active ? 'meet-wave--active' : ''}`} aria-hidden="true"><i /><i /><i /><i /><i /></span>;
 }
 
-function ParticipantTile({ person, room }: { person: RoomPerson; room: RoomProps }) {
-  const speaking = isSpeaking(person, room.microphone.snapshot, room.live, room.state);
+export function ParticipantTile({ person, speaking, status, micOn }: {
+  person: RoomPerson; speaking: boolean; status: string; micOn: boolean;
+}) {
   const human = person.id === 'user';
   const [portraitFailed, setPortraitFailed] = useState(false);
   const portrait = !human && !portraitFailed ? portraitFor(person.id) : undefined;
-  return <article className={`meet-tile meet-tone--${person.color} ${speaking ? 'meet-tile--speaking' : ''} ${portrait ? 'meet-tile--portrait' : ''}`} aria-label={`${person.name}${human ? ' (you)' : ''}: ${personStatus(person, room.microphone.snapshot, room.live, room.state)}`}>
+  return <article className={`meet-tile meet-tone--${person.color} ${speaking ? 'meet-tile--speaking' : ''} ${portrait ? 'meet-tile--portrait' : ''}`} aria-label={`${person.name}${human ? ' (you)' : ''}: ${status}`}>
     {portrait && <img className="meet-portrait" src={portrait} alt="" decoding="async" onError={() => setPortraitFailed(true)} />}
     <div className="meet-tile-top"><span className="meet-person-kind">{!human && <><Sparkles size={13} /> AI</>}</span>
-      <span className={`meet-tile-audio ${speaking ? 'meet-tile-audio--speaking' : ''}`} aria-hidden="true">{speaking ? <SoundWave active /> : human && room.microphone.snapshot.phase !== 'listening' ? <MicOff size={15} /> : <Mic size={15} />}</span>
+      <span className={`meet-tile-audio ${speaking ? 'meet-tile-audio--speaking' : ''}`} aria-hidden="true">{speaking ? <SoundWave active /> : human && !micOn ? <MicOff size={15} /> : <Mic size={15} />}</span>
     </div>
     <div className="meet-avatar-wrap"><div className="meet-avatar" aria-hidden="true">{initials(person.name)}</div>
     </div>
@@ -199,7 +200,10 @@ export default function DiscussionRoom(room: RoomProps) {
             {room.live.sessionUrl && <div className="meet-record-download"><ApiDownload path={room.live.sessionUrl} name="discussion.json">Download discussion record</ApiDownload></div>}
           </div> : <>
             <div className="meet-stage-status" role="status"><span className={`meet-status-dot ${busy ? 'meet-status-dot--live' : ''}`} /><span>{currentSpeaker ? `${currentSpeaker.id === 'user' ? 'You are' : `${currentSpeaker.name} is`} speaking` : phaseLabels[phase]}</span></div>
-            <div className={`meet-tiles meet-tiles--${room.participants.length}`}>{room.participants.map(person => <ParticipantTile key={person.id} person={person} room={room} />)}</div>
+            <div className={`meet-tiles meet-tiles--${room.participants.length}`}>{room.participants.map(person => <ParticipantTile key={person.id} person={person}
+              speaking={isSpeaking(person, microphone.snapshot, room.live, state)}
+              status={personStatus(person, microphone.snapshot, room.live, state)}
+              micOn={microphone.snapshot.phase === 'listening'} />)}</div>
             {['starting', 'connecting', 'ending'].includes(phase) && <div className="meet-stage-progress" role="status"><span className="meet-loader" />{phaseLabels[phase]}…</div>}
           </>}
 
