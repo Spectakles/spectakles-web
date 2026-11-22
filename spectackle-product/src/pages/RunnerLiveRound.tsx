@@ -6,12 +6,12 @@ import captureWorkletUrl from '../gd-audio/capture.worklet.ts?worker&url';
 import playbackWorkletUrl from '../gd-audio/playback.worklet.ts?worker&url';
 import { usePlatform } from '../platform/context';
 import { reservationPath, type QueueEntry } from './RunnerQueue';
+import RunnerReview from './RunnerReview';
 
 type LiveState = {
   phase: string; remaining_ms: number; prep_remaining_ms: number; intro_remaining_ms: number | null;
   panel: { id: string; name: string }[]; notice: string; receivedAt: number;
 };
-type Outcome = { outcome: string; evidenceSaved: boolean; evidenceGapPossible: boolean };
 const livePhases = new Set(['discussion', 'closing', 'final_minute', 'waiting']);
 
 const notesKey = (uid: string) => `spectakles-runner-notes:${uid}`;
@@ -50,7 +50,7 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
   const [connecting, setConnecting] = useState(false);
   const [ending, setEnding] = useState(false);
   const [failure, setFailure] = useState('');
-  const [outcome, setOutcome] = useState<Outcome | null>(null);
+  const [outcome, setOutcome] = useState<string | null>(null);
   const [speaker, setSpeaker] = useState('');
   const [, tick] = useState(0);
   const state = useRef<LiveState | null>(null);
@@ -140,8 +140,7 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
             if (notesUid) clearRunnerNotes(notesUid);
             setNotes('');
             setEnding(false);
-            setOutcome({ outcome: String(message.outcome), evidenceSaved: message.evidence_saved === true,
-              evidenceGapPossible: message.evidence_gap_possible === true });
+            setOutcome(String(message.outcome));
           }
           return true;
         }
@@ -195,14 +194,11 @@ export default function RunnerLiveRound({ entry, onLeave, resuming = false }: {
     <button onClick={() => void leave()}>Back to Try Now</button>
   </>;
   if (outcome) return <>
-    <h1>{outcome.outcome === 'completed' ? 'Evaluation' : 'Discussion ended'}</h1>
-    <p role="status">{outcome.outcome === 'completed'
-      ? 'Round ended. Coaching and scores are not available in this build.'
-      : outcome.outcome === 'cancelled_before_start' ? 'Preparation cancelled.'
-        : 'The round ended early.'}</p>
-    {outcome.evidenceGapPossible
-      ? <p>Some discussion evidence may be missing.</p>
-      : outcome.evidenceSaved && <p>Discussion evidence saved.</p>}
+    <h1>{outcome === 'completed' ? 'Evaluation' : 'Discussion ended'}</h1>
+    {outcome === 'completed' && platform.status?.runner_recovery
+      ? <RunnerReview roundId={entry.roundId} />
+      : <p role="status">{outcome === 'completed' ? 'Round ended.'
+          : outcome === 'cancelled_before_start' ? 'Preparation cancelled.' : 'The round ended early.'}</p>}
     <button onClick={onLeave}>Back to Try Now</button>
   </>;
   if (!round) return <>

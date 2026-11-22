@@ -4,13 +4,14 @@ import { MicrophonePermission } from '../gd-audio/devices';
 import { responseError, usePlatform } from '../platform/context';
 import './try-now.css';
 import RunnerLiveRound, { clearRunnerNotes } from './RunnerLiveRound';
+import RunnerReview from './RunnerReview';
 import RunnerQueue, { readQueueEntry, reservationPath, saveQueueEntry, type QueueEntry, type Ticket } from './RunnerQueue';
 
 const PREP_SECONDS = 45;
 const DISCUSSION_SECONDS = 180;
 const PANEL = ['Arjun', 'Sahil', 'Meera', 'Nina'];
 const TOPICS = ['Should colleges ban smartphones in class?', 'Should public transport be free?', 'Can AI improve education?'];
-type Access = { approved: boolean; attempts_remaining: number };
+type Access = { approved: boolean; attempts_remaining: number; has_review?: boolean };
 type Recovery = { round_id: string; topic: string; available: boolean };
 type Draft = { topic: string; notes: string; phase: 'prep' | 'discussion'; deadline: number; roundId?: string };
 
@@ -145,11 +146,12 @@ function DeviceChecks({ canStartRound, useQueue, onStart }: {
   </>;
 }
 
-function LocalFlow({ uid, canRehearse, canRunLive, onLiveDone }: {
+function LocalFlow({ uid, canRehearse, canRunLive, onLiveDone, onReview }: {
   uid: string;
   canRehearse: boolean;
   canRunLive: boolean;
   onLiveDone: () => void;
+  onReview?: () => void;
 }) {
   const { request } = usePlatform();
   const useQueue = canRunLive || (canRehearse && import.meta.env.VITE_GD_TRY_NOW_QUEUE === '1');
@@ -217,7 +219,9 @@ function LocalFlow({ uid, canRehearse, canRunLive, onLiveDone }: {
     setEntry(null);
     beginPrep(claim.topic, claim.roundId);
   }} />;
-  if (!draft) return <DeviceChecks canStartRound={canRunLive || canRehearse} useQueue={useQueue} onStart={async topic => {
+  if (!draft) return <>
+    {onReview && <button onClick={onReview}>View latest review</button>}
+    <DeviceChecks canStartRound={canRunLive || canRehearse} useQueue={useQueue} onStart={async topic => {
     if (!useQueue) {
       beginPrep(topic);
       return;
@@ -227,7 +231,7 @@ function LocalFlow({ uid, canRehearse, canRunLive, onLiveDone }: {
     const ticket = await reply.json() as Ticket;
     if (ticket.status === 'idle') throw new Error('Could not join the queue. Try again.');
     setEntry({ topic, roundId: ticket.round_id });
-  }} />;
+  }} /></>;
 
   const prep = draft.phase === 'prep';
   return <>
@@ -257,6 +261,7 @@ export default function TryNow() {
   const uid = platform.user?.uid;
   const [gate, setGate] = useState<{ uid: string; access?: Access; recovery?: Recovery | null; error?: string } | null>(null);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
   const recoveryEnabled = platform.status?.runner_recovery === true;
   const [retry, setRetry] = useState(0);
   const [signOutError, setSignOutError] = useState('');
@@ -298,6 +303,7 @@ export default function TryNow() {
       writeDraft(draftKey, null);
       clearRunnerNotes(uid);
       setResumeOpen(false);
+      setReviewOpen(false);
       saveQueueEntry(queueKey, null);
       setGate(null);
       setSignOutError('');
@@ -313,6 +319,8 @@ export default function TryNow() {
     content = <><p role="alert">{current.error}</p><button onClick={checkAgain}>Retry</button></>;
   } else if (!current.access?.approved) {
     content = <><h1>Approval required</h1><p>Ask the Spectakles team to approve your account.</p><button onClick={checkAgain}>Check again</button></>;
+  } else if (reviewOpen && current.access.has_review) {
+    content = <><h1>Evaluation</h1><RunnerReview /><button onClick={() => setReviewOpen(false)}>Back to Try Now</button></>;
   } else if (current.recovery) {
     const round = current.recovery;
     content = resumeOpen
@@ -325,10 +333,12 @@ export default function TryNow() {
           : <><p role="status">The previous connection is closing.</p><button onClick={checkAgain}>Check again</button></>}
       </>;
   } else if (current.access.attempts_remaining < 1) {
-    content = <><h1>No tries remaining</h1><p>Ask the Spectakles team for another try.</p><button onClick={checkAgain}>Check again</button></>;
+    content = <><h1>No tries remaining</h1><p>Ask the Spectakles team for another try.</p><button onClick={checkAgain}>Check again</button>
+      {current.access.has_review && <button onClick={() => setReviewOpen(true)}>View latest review</button>}</>;
   } else {
     content = <LocalFlow key={uid} uid={uid} canRehearse={canRehearse}
-      canRunLive={platform.status?.runner_live === true} onLiveDone={checkAgain} />;
+      canRunLive={platform.status?.runner_live === true} onLiveDone={checkAgain}
+      onReview={current.access.has_review ? () => setReviewOpen(true) : undefined} />;
   }
 
   return <main className="try-now">

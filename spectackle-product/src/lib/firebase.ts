@@ -1,5 +1,5 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
-import { getAnalytics, isSupported, logEvent, type Analytics } from "firebase/analytics";
+import { initializeAnalytics, isSupported, logEvent, setAnalyticsCollectionEnabled, type Analytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,74 +11,55 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+const marketingPages = new Set(["/", "/experience", "/institutions", "/contact", "/about", "/faq", "/pricing"]);
 const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.measurementId);
-
 let app: FirebaseApp | null = null;
-let analyticsPromise: Promise<Analytics | null> = Promise.resolve(null);
+let analyticsPromise: Promise<Analytics | null> | undefined;
 
-if (isConfigured) {
+async function initializeMarketingAnalytics(): Promise<Analytics | null> {
+  if (!isConfigured || !marketingPages.has(window.location.pathname)) return null;
+  if (!await isSupported() || !marketingPages.has(window.location.pathname)) return null;
   try {
-    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-    analyticsPromise = isSupported().then((supported) => {
-      if (supported && app) {
-        return getAnalytics(app);
-      }
-      return null;
-    });
-  } catch (error) {
-    console.warn("[Firebase] Initialization error:", error);
+    app = getApps().find(candidate => candidate.name === "[DEFAULT]") ?? initializeApp(firebaseConfig);
+    return initializeAnalytics(app, { config: { send_page_view: false,
+      page_location: window.location.origin + window.location.pathname, page_referrer: "" } });
+  } catch {
+    return null;
   }
-} else if (import.meta.env.DEV) {
-  console.info("[Firebase Analytics] Config keys not provided in .env. Analytics calls will be safely skipped.");
 }
 
-/**
- * Logs a custom event to Firebase Analytics.
- */
-export async function trackEvent(
-  eventName: string,
-  eventParams?: Record<string, any>
-): Promise<void> {
-  if (import.meta.env.DEV) {
-    console.debug(`[Analytics] ${eventName}`, eventParams ?? {});
-  }
+async function marketingAnalytics() {
+  analyticsPromise ??= initializeMarketingAnalytics();
+  const analytics = await analyticsPromise;
+  if (!analytics) analyticsPromise = undefined;
+  return analytics;
+}
 
-  if (!isConfigured) return;
-
+export async function trackEvent(eventName: string, eventParams?: Record<string, unknown>): Promise<void> {
+  if (!marketingPages.has(window.location.pathname)) return;
   try {
-    const analytics = await analyticsPromise;
-    if (analytics) {
-      logEvent(analytics, eventName, eventParams);
+    const analytics = await marketingAnalytics();
+    if (analytics && marketingPages.has(window.location.pathname)) {
+      logEvent(analytics, eventName, { ...eventParams, page_location: window.location.origin + window.location.pathname,
+        page_referrer: "" });
     }
-  } catch (err) {
-    console.warn(`[Firebase Analytics] Failed to log event "${eventName}":`, err);
+  } catch {
+    // Analytics failures must not interrupt the page.
   }
 }
 
-/**
- * Tracks custom button and link click interactions.
- */
-export function trackClick(
-  buttonName: string,
-  location: string,
-  extraParams?: Record<string, any>
-): void {
-  trackEvent("custom_click", {
-    button_name: buttonName,
-    click_location: location,
-    ...extraParams,
-  });
+export function trackClick(buttonName: string, location: string, extraParams?: Record<string, unknown>): void {
+  void trackEvent("custom_click", { button_name: buttonName, click_location: location, ...extraParams });
 }
 
-/**
- * Tracks page view transitions across routes.
- */
 export function trackPageView(pageTitle: string, path: string): void {
-  trackEvent("page_view", {
-    page_title: pageTitle,
-    page_location: window.location.href,
-    page_path: path,
-  });
+  const enabled = marketingPages.has(path);
+  const active = enabled ? marketingAnalytics() : analyticsPromise;
+  void active?.then(analytics => {
+    if (!analytics || path !== window.location.pathname) return;
+    setAnalyticsCollectionEnabled(analytics, enabled);
+    if (enabled) void trackEvent("page_view", { page_title: pageTitle, page_path: path });
+  }).catch(() => undefined);
 }
 
 export { app, analyticsPromise };
