@@ -1,15 +1,16 @@
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { MicrophonePermission } from '../gd-audio/devices';
 import { responseError, usePlatform } from '../platform/context';
 import './try-now.css';
+import RunnerQueue, { readQueueEntry, reservationPath, saveQueueEntry, type QueueEntry, type Ticket } from './RunnerQueue';
 
 const PREP_SECONDS = 45;
 const DISCUSSION_SECONDS = 180;
 const PANEL = ['Arjun', 'Sahil', 'Meera', 'Nina'];
 const TOPICS = ['Should colleges ban smartphones in class?', 'Should public transport be free?', 'Can AI improve education?'];
 type Access = { approved: boolean; attempts_remaining: number };
-type Draft = { topic: string; notes: string; phase: 'prep' | 'discussion'; deadline: number };
+type Draft = { topic: string; notes: string; phase: 'prep' | 'discussion'; deadline: number; roundId?: string };
 
 function readDraft(key: string): Draft | null {
   try {
@@ -51,8 +52,14 @@ function SignIn() {
   </>;
 }
 
-function DeviceChecks({ canRehearse, onStart }: { canRehearse: boolean; onStart: (topic: string) => void }) {
+function DeviceChecks({ canRehearse, useQueue, onStart }: {
+  canRehearse: boolean;
+  useQueue: boolean;
+  onStart: (topic: string) => Promise<void>;
+}) {
   const [topic, setTopic] = useState('');
+  const [joining, setJoining] = useState(false);
+  const [joinError, setJoinError] = useState('');
   const [headphones, setHeadphones] = useState(false);
   const [micReady, setMicReady] = useState(false);
   const [played, setPlayed] = useState(false);
@@ -100,10 +107,19 @@ function DeviceChecks({ canRehearse, onStart }: { canRehearse: boolean; onStart:
       setSpeakerError('Could not play the test tone. Check your audio output and try again.');
     }
   };
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!canRehearse || !headphones || !micReady || !heard || !topic.trim() || joining) return;
+    setJoining(true);
+    setJoinError('');
+    try { await onStart(topic.trim()); }
+    catch (failure) { setJoinError(failure instanceof Error ? failure.message : 'Could not join the queue. Try again.'); }
+    finally { setJoining(false); }
+  };
   return <>
     <h1>Try Now</h1>
     <p>Four AI panelists · 3 minutes · English</p>
-    <form onSubmit={event => { event.preventDefault(); if (canRehearse && headphones && micReady && heard && topic.trim()) onStart(topic.trim()); }}>
+    <form onSubmit={event => void submit(event)}>
       <label>Discussion topic<input list="try-now-topics" required maxLength={500} value={topic} onChange={event => setTopic(event.target.value)} /></label>
       <datalist id="try-now-topics">{TOPICS.map(value => <option key={value} value={value} />)}</datalist>
       <p>In a live round, Spectakles records your discussion for coaching. This microphone check saves no audio.</p>
@@ -118,19 +134,41 @@ function DeviceChecks({ canRehearse, onStart }: { canRehearse: boolean; onStart:
         <label className="try-now-check"><input type="checkbox" checked={heard} disabled={!played} onChange={event => setHeard(event.target.checked)} /> I heard the tone</label>
       </div>
       {speakerError && <p role="alert">{speakerError}</p>}
-      <button disabled={!canRehearse || !topic.trim() || !headphones || !micReady || !heard}>Start preparation</button>
+      <button disabled={!canRehearse || !topic.trim() || !headphones || !micReady || !heard || joining}>
+        {joining ? 'Joining…' : useQueue ? 'Join queue' : 'Start preparation'}
+      </button>
+      {joinError && <p role="alert">{joinError}</p>}
       {!canRehearse && <p role="status">Live rounds aren’t available yet.</p>}
     </form>
   </>;
 }
 
 function LocalFlow({ uid, canRehearse }: { uid: string; canRehearse: boolean }) {
+  const { request } = usePlatform();
+  const useQueue = canRehearse && import.meta.env.VITE_GD_TRY_NOW_QUEUE === '1';
+  const queueKey = `spectakles-try-now-queue:${uid}`;
+  const [entry, setEntry] = useState(() => useQueue ? readQueueEntry(queueKey) : null);
+  const [releaseError, setReleaseError] = useState('');
   const key = `spectakles-try-now:${uid}`;
   const [draft, setDraft] = useState(() => canRehearse ? readDraft(key) : null);
   const [finished, setFinished] = useState(false);
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => { if (canRehearse) writeDraft(key, draft); }, [canRehearse, key, draft]);
+  useEffect(() => { if (useQueue) saveQueueEntry(queueKey, entry); }, [useQueue, queueKey, entry]);
+  const roundId = draft?.roundId;
+  const finish = useCallback(() => {
+    setDraft(null);
+    setFinished(true);
+    setReleaseError('');
+    if (roundId) void request(reservationPath(roundId), { method: 'DELETE' }).then(reply => {
+      if (!reply.ok) throw new Error('Release failed');
+    }).catch(() => setReleaseError('The reserved slot could not be released immediately. It will expire automatically.'));
+  }, [request, roundId]);
+  const beginPrep = (topic: string, id?: string) => {
+    setSeconds(PREP_SECONDS);
+    setDraft({ topic, notes: '', phase: 'prep', deadline: Date.now() + PREP_SECONDS * 1000, roundId: id });
+  };
   const deadline = draft?.deadline;
   const phase = draft?.phase;
   useEffect(() => {
@@ -144,24 +182,35 @@ function LocalFlow({ uid, canRehearse }: { uid: string; canRehearse: boolean }) 
           ? { ...current, phase: 'discussion', deadline: Date.now() + DISCUSSION_SECONDS * 1000 }
           : current);
       } else {
-        setDraft(null);
-        setFinished(true);
+        finish();
       }
     };
     tick();
     const interval = window.setInterval(tick, 250);
     return () => window.clearInterval(interval);
-  }, [deadline, phase]);
+  }, [deadline, phase, finish]);
 
   if (finished) return <>
     <h1>Evaluation</h1>
     <p>Rehearsal complete. A live round will show your summary, scores, and coaching here.</p>
+    {releaseError && <p role="alert">{releaseError}</p>}
     <button onClick={() => setFinished(false)}>Back to Try Now</button>
   </>;
 
-  if (!draft) return <DeviceChecks canRehearse={canRehearse} onStart={topic => {
-    setSeconds(PREP_SECONDS);
-    setDraft({ topic, notes: '', phase: 'prep', deadline: Date.now() + PREP_SECONDS * 1000 });
+  if (entry && !draft) return <RunnerQueue entry={entry} onLeave={() => setEntry(null)} onClaim={claim => {
+    setEntry(null);
+    beginPrep(claim.topic, claim.roundId);
+  }} />;
+  if (!draft) return <DeviceChecks canRehearse={canRehearse} useQueue={useQueue} onStart={async topic => {
+    if (!useQueue) {
+      beginPrep(topic);
+      return;
+    }
+    const reply = await request('/api/runner/queue', { method: 'POST' });
+    if (!reply.ok) throw await responseError(reply);
+    const ticket = await reply.json() as Ticket;
+    if (ticket.status === 'idle') throw new Error('Could not join the queue. Try again.');
+    setEntry({ topic, roundId: ticket.round_id });
   }} />;
 
   const prep = draft.phase === 'prep';
@@ -181,8 +230,7 @@ function LocalFlow({ uid, canRehearse }: { uid: string; canRehearse: boolean }) 
         setSeconds(DISCUSSION_SECONDS);
         setDraft({ ...draft, phase: 'discussion', deadline: Date.now() + DISCUSSION_SECONDS * 1000 });
       } else {
-        setDraft(null);
-        setFinished(true);
+        finish();
       }
     }}>{prep ? 'Skip preparation' : 'End discussion'}</button>
   </>;
@@ -214,8 +262,13 @@ export default function TryNow() {
   const leave = async () => {
     if (!uid || !platform.auth) return;
     try {
+      const draftKey = `spectakles-try-now:${uid}`;
+      const queueKey = `spectakles-try-now-queue:${uid}`;
+      const roundId = readDraft(draftKey)?.roundId ?? readQueueEntry(queueKey)?.roundId;
+      if (roundId) await platform.request(reservationPath(roundId), { method: 'DELETE' }).catch(() => undefined);
       await signOut(platform.auth);
-      writeDraft(`spectakles-try-now:${uid}`, null);
+      writeDraft(draftKey, null);
+      saveQueueEntry(queueKey, null);
       setGate(null);
       setSignOutError('');
     } catch { setSignOutError('Could not sign out. Please try again.'); }
