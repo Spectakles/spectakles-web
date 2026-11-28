@@ -5,6 +5,7 @@ import { useDiscussion } from '../gd-audio/useDiscussion';
 import { useMicrophoneTest } from '../gd-audio/useMicrophoneTest';
 import { HumanCaptions, type RecognitionConstructor } from '../gd-audio/captions';
 import DiscussionRoom from '../gd-room/DiscussionRoom';
+import PreGDStepper from '../gd-room/PreGDStepper';
 import { displayRole, formatTime, type ConnectionStatus } from '../gd-room/room-model';
 import './gd-room.css';
 
@@ -79,7 +80,7 @@ export default function GD({ acquireStream, recognitionCreate }: {
   const audioRef = useRef({ microphone, discussion });
   audioRef.current = { microphone, discussion };
 
-  useEffect(() => { if (!inRoom) { setNotes(''); setHumanCaption(''); } }, [inRoom]);
+  useEffect(() => { if (!inRoom) { setHumanCaption(''); } }, [inRoom]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setTick(value => value + 1), 250);
@@ -112,12 +113,32 @@ export default function GD({ acquireStream, recognitionCreate }: {
   const canStart = ['idle', 'ended', 'error'].includes(phase) && ['idle', 'error'].includes(microphone.snapshot.phase)
     && !microphone.permission.busy && status === 'online';
   const start = () => {
-    // Keep the entry route compatible with existing workspace links.
-    if (!inRoom) { navigate('/gd/dev'); return; }
-    if (!canStart) return;
-    setNotes(''); setHumanCaption('');
+    if (!canStart) {
+      if (!inRoom) navigate('/gd/dev');
+      return;
+    }
+    setHumanCaption('');
+    if (!inRoom) navigate('/gd/dev');
     discussion.start(async () => await microphone.start());
   };
+
+  if (!inRoom) {
+    return (
+      <PreGDStepper
+        participants={participants}
+        topic={topic}
+        notes={notes}
+        onNotes={setNotes}
+        microphone={microphone}
+        status={status}
+        canStart={canStart}
+        onStartGD={start}
+        onLeave={() => navigate(platform.status?.enabled ? '/workspace' : '/')}
+        preparationSeconds={prepSeconds}
+        durationSeconds={durationSeconds}
+      />
+    );
+  }
 
   return <DiscussionRoom participants={participants} topic={topic} state={discussion.state} live={discussion.live}
     microphone={microphone} status={status} clock={clock} preparationSeconds={prepSeconds} durationSeconds={durationSeconds}

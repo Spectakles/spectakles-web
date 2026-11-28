@@ -189,7 +189,7 @@ export default function SessionReport() {
             <article className="portal-card">
               <MessageCircle />
               <strong>{facts.utterance_count}</strong>
-              <span>Recorded contributions</span>
+              <span>Contributions</span>
             </article>
             <article className="portal-card">
               <Clock3 />
@@ -198,12 +198,12 @@ export default function SessionReport() {
                   ? "Unavailable"
                   : `${facts.vad_voiced_seconds.toFixed(1)} s`}
               </strong>
-              <span>VAD-detected voiced time</span>
+              <span>Speaking Time</span>
             </article>
             <article className="portal-card">
               <FileText />
               <strong>{facts.user_transcript_turns}</strong>
-              <span>Human transcript turns</span>
+              <span>Speaking Turns</span>
             </article>
           </div>
           <section className="portal-card">
@@ -249,10 +249,6 @@ export default function SessionReport() {
                     </article>
                   ))}
                 </div>
-                <p className="portal-help">
-                  Developmental feedback, not a placement decision or validated
-                  proficiency score.
-                </p>
               </>
             ) : (
               <>
@@ -289,8 +285,7 @@ export default function SessionReport() {
               ))}
             </ul>
             <p className="portal-help">
-              Speech files include short VAD padding. Transcription may contain
-              errors. Private preparation notes are excluded.
+              Review your contributions and transcript records below.
             </p>
           </section>
           <div className="portal-columns">

@@ -11,6 +11,8 @@ import type { useMicrophoneTest } from '../gd-audio/useMicrophoneTest';
 import type { DiscussionState } from '../gd-audio/useDiscussion';
 import type { LiveSnapshot } from '../gd-audio/live';
 import { formatTime, isRoundActive, isSpeaking, personStatus, phaseLabels, type ConnectionStatus, type RoomPerson } from './room-model';
+import PreGDStepper from './PreGDStepper';
+import PostGDScreen from './PostGDScreen';
 
 type Drawer = 'notes' | 'people' | 'settings' | null;
 type RoomProps = {
@@ -19,6 +21,7 @@ type RoomProps = {
   preparationSeconds: number; durationSeconds: number; notes: string; onNotes: (value: string) => void;
   captionsOn: boolean; onCaptions: () => void; captionStatus: string; humanCaption: string;
   canStart: boolean; onStart: () => void; onReady: () => void; onEnd: () => void; onLeave: () => void;
+  onOpenStepper?: () => void;
 };
 
 function initials(name: string) { return name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase() || '?'; }
@@ -60,6 +63,7 @@ function DeviceSettings({ room }: { room: RoomProps }) {
       {!mic.deviceList.hasLabels && <button type="button" className="meet-inline-action" onClick={() => { void mic.allowDevices(); }}>Find microphones <ChevronRight size={14} /></button>}
       <button type="button" className="meet-refresh" aria-label="Refresh microphones" title="Refresh microphones" disabled={mic.deviceList.loading} onClick={mic.refreshDevices}><RefreshCw size={15} className={mic.deviceList.loading ? 'meet-spin' : ''} /></button>
     </div>}
+    {!locked && room.onOpenStepper && <button type="button" className="meet-inline-action" style={{ marginTop: 10 }} onClick={room.onOpenStepper}>Run Hardware & Audio Check <ChevronRight size={14} /></button>}
     {mic.permission.busy && <p role="status">Waiting for microphone permission…</p>}
     {(mic.permission.error || mic.deviceList.error || missing) && <p className="meet-field-error" role="alert">{mic.permission.error || mic.deviceList.error || 'Your selected microphone is no longer available. Refresh the list or choose another input.'}</p>}
     <div className="meet-device-output"><Headphones size={17} /><div><strong>Speaker output</strong><p>Uses your system output.</p></div></div>
@@ -82,6 +86,7 @@ export default function DiscussionRoom(room: RoomProps) {
   const preparing = phase === 'preparing';
   const finished = phase === 'ended' || phase === 'error';
   const idle = phase === 'idle';
+  const [forceShowStepper, setForceShowStepper] = useState(false);
   const [drawer, setDrawer] = useState<Drawer>('settings');
   const [confirmation, setConfirmation] = useState<'end' | 'leave' | null>(null);
   const [leaveAfterEnd, setLeaveAfterEnd] = useState(false);
@@ -168,6 +173,47 @@ export default function DiscussionRoom(room: RoomProps) {
   const lowTime = ['closing', 'final_minute', 'expired'].includes(phase);
   const hasCaptions = state.transcript.length > 0 || !!room.humanCaption;
 
+  if (forceShowStepper && !preparing && !busy) {
+    return (
+      <PreGDStepper
+        participants={room.participants}
+        topic={room.topic}
+        notes={room.notes}
+        onNotes={room.onNotes}
+        microphone={room.microphone}
+        status={room.status}
+        canStart={room.canStart}
+        onStartGD={() => {
+          setForceShowStepper(false);
+          room.onStart();
+        }}
+        onLeave={() => {
+          setForceShowStepper(false);
+        }}
+        preparationSeconds={room.preparationSeconds}
+        durationSeconds={room.durationSeconds}
+      />
+    );
+  }
+
+  if (finished) {
+    return (
+      <PostGDScreen
+        topic={room.topic}
+        participants={room.participants}
+        notes={room.notes}
+        transcript={state.transcript}
+        endReason={endReason}
+        isError={phase === 'error'}
+        errorMessage={room.live.message}
+        sessionUrl={room.live.sessionUrl}
+        canStart={room.canStart}
+        onStart={room.onStart}
+        onLeave={room.onLeave}
+      />
+    );
+  }
+
   return <div className="meet-room" ref={root}>
     <header className="meet-header">
       <div className="meet-brand-group"><button type="button" className="meet-icon-button meet-back" aria-label="Back to workspace" disabled={phase === 'ending'} onClick={requestLeave}><ArrowLeft size={19} /></button>
@@ -219,7 +265,7 @@ export default function DiscussionRoom(room: RoomProps) {
           <div className="meet-panel-content">
             {drawer === 'notes' && (preparing ? <p className="meet-panel-copy">Your notes are open in the main area.</p> : <Notes room={room} />)}
             {drawer === 'people' && <ul className="meet-people-list">{room.participants.map(person => <li key={person.id} className={`meet-tone--${person.color}`}><span className="meet-small-avatar" aria-hidden="true">{initials(person.name)}</span><div><strong>{person.name}{person.id === 'user' && person.name !== 'You' ? ' (You)' : ''}</strong><small>{personStatus(person, microphone.snapshot, room.live, state)}</small></div>{isSpeaking(person, microphone.snapshot, room.live, state) && <SoundWave active />}</li>)}</ul>}
-            {drawer === 'settings' && <><DeviceSettings room={room} />
+            {drawer === 'settings' && <><DeviceSettings room={{ ...room, onOpenStepper: () => setForceShowStepper(true) }} />
               <div className="meet-round-plan"><h3>Timing</h3><div><Clock3 size={17} /><p><strong>Preparation</strong><span>{formatTime(room.preparationSeconds * 1000)}</span></p></div><div><Users size={17} /><p><strong>Discussion</strong><span>{formatTime(room.durationSeconds * 1000)}</span></p></div></div>
               <p className="meet-recording-notice"><ShieldCheck size={17} />Discussion speech is recorded for evaluation. Preparation audio is excluded.</p></>}
           </div>
