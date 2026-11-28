@@ -12,7 +12,6 @@ import type { DiscussionState } from '../gd-audio/useDiscussion';
 import type { LiveSnapshot } from '../gd-audio/live';
 import { formatTime, isRoundActive, isSpeaking, personStatus, phaseLabels, type ConnectionStatus, type RoomPerson } from './room-model';
 import PreGDStepper from './PreGDStepper';
-import PostGDScreen from './PostGDScreen';
 
 type Drawer = 'notes' | 'people' | 'settings' | null;
 type RoomProps = {
@@ -192,24 +191,6 @@ export default function DiscussionRoom(room: RoomProps) {
         }}
         preparationSeconds={room.preparationSeconds}
         durationSeconds={room.durationSeconds}
-      />
-    );
-  }
-
-  if (finished) {
-    return (
-      <PostGDScreen
-        topic={room.topic}
-        participants={room.participants}
-        notes={room.notes}
-        transcript={state.transcript}
-        endReason={endReason}
-        isError={phase === 'error'}
-        errorMessage={room.live.message}
-        sessionUrl={room.live.sessionUrl}
-        canStart={room.canStart}
-        onStart={room.onStart}
-        onLeave={room.onLeave}
       />
     );
   }
